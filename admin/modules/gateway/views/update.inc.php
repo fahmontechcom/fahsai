@@ -44,6 +44,7 @@
                                     <div class="form-group">
                                         <label>ช่องทางการชำระเงิน <font color="#F00"><b>*</b></font></label>
                                         <input id="debt_payment_geteway_name" name="debt_payment_geteway_name" class="form-control" value="<?php echo $debt_payment_geteway['debt_payment_geteway_name']?>">
+                                        <p class="help-block">Example : Cash </p>
                                     </div>
                                 </div>
                                 

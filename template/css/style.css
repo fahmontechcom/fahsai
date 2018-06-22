@@ -200,9 +200,12 @@ tr:nth-child(odd) {
     margin-bottom: 45px;
 }
 
-a, a:hover {
+li .navbar-nav a,li .navbar-nav a:hover {
     color: white;
     text-decoration: none !important;
+}
+a, a:hover {
+    text-decoration: none;
 }
 .fa-pencil-square-o{
     color: blue;
@@ -241,9 +244,7 @@ li > a > span {
 
 .button-head-menu-active {
     background-color: #186ab6;
-    color: white ;
-    
-   
+    color: white !important; 
 }
 
 .button-head-menu:hover {
@@ -275,6 +276,14 @@ li > a > span {
 }
 .nav-item-style {
     margin:4px;
+}
+.help-block{
+    color:#999999;
+    text-align:left ;
+    font-size:12px;
+}
+.form-group > label{
+    font-size:12px;
 }
 
 @media only screen and (max-width: 1600px) {

@@ -71,18 +71,20 @@
                 <form role="form" method="post" onsubmit="return check();" action="index.php?content=user&action=edit" enctype="multipart/form-data">
                     <input type="hidden"  id="user_id" name="user_id" value="<?php echo $user_id ?>" />
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>username <font color="#F00"><b>*</b></font></label>
                                         <input id="user_username" name="user_username" class="form-control" value="<?php echo $user['user_username']?>">
+                                        <p class="help-block">Example : user_test </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>password <font color="#F00"><b>*</b></font></label>
                                         <input id="user_password" name="user_password" class="form-control" type="password" value="<?php echo $user['user_password']?>">
+                                        <p class="help-block">Example : 123456789 </p>
                                     </div>
                                 </div>
                                 
@@ -95,32 +97,39 @@
                                     <div class="form-group">
                                         <label>ชื่อ <font color="#F00"><b>*</b></font></label>
                                         <input id="user_firstname" name="user_firstname" class="form-control" value="<?php echo $user['user_firstname']?>">
+                                        <p class="help-block">Example : John </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>นามสกุล <font color="#F00"><b>*</b></font></label>
                                         <input id="user_lastname" name="user_lastname" class="form-control" value="<?php echo $user['user_lastname']?>">
+                                        <p class="help-block">Example : Smith </p>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- /.row (nested) -->
-
-                            <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>เบอร์โทรศัพท์ </label>
                                         <input id="user_telephone" name="user_telephone" class="form-control" value="<?php echo $user['user_telephone']?>">
+                                        <p class="help-block">Example : 099-999-9999 </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>ที่อยู่อีเมล </label>
+                                        <input id="user_email" name="user_email" class="form-control" value="<?php echo $user['user_email']?>">
+                                        <p class="help-block">Example : user@info.com </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>ที่อยู่อีเมล </label>
-                                        <input id="user_email" name="user_email" class="form-control" value="<?php echo $user['user_email']?>">
+                                        <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
+                                        <input type="text" id="user_address" name="user_address" class="form-control" value="<?php echo $user['user_address']?>">
+                                        <p class="help-block">Example : 1242/2 Mittraphab Road </p>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.row (nested) -->
+                            
                         </div>
                         <!-- /.col-lg-9 (nested) -->
 
@@ -132,15 +141,7 @@
                     
                     <!-- /.row (nested) -->
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
-                                <input type="text" id="user_address" name="user_address" class="form-control" value="<?php echo $user['user_address']?>">
-                                <p class="help-block">Example : 1242/2 Mittraphab Road Tambon Naimuang Amphoe Muang Province Nakhonratchasima 30000</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- /.row (nested) -->
 
                     

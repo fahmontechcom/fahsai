@@ -44,6 +44,7 @@
                                     <div class="form-group">
                                         <label>ชื่อสถานะหนี้ <font color="#F00"><b>*</b></font></label>
                                         <input id="debt_schedule_status_name" name="debt_schedule_status_name" class="form-control" value="<?php echo $debt_schedule_status['debt_schedule_status_name']?>">
+                                        <p class="help-block">Example : Negotiate </p>
                                     </div>
                                 </div>
                                 

@@ -59,7 +59,7 @@
                 <form role="form" method="post" onsubmit="return check();" action="index.php?content=sale&action=edit" enctype="multipart/form-data">
                     <input type="hidden"  id="sale_id" name="sale_id" value="<?php echo $sale_id ?>" />
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                             
                             <!-- /.row (nested) -->
 
@@ -69,31 +69,40 @@
                                     <div class="form-group">
                                         <label>ชื่อ <font color="#F00"><b>*</b></font></label>
                                         <input id="sale_firstname" name="sale_firstname" class="form-control" value="<?php echo $sale['sale_firstname']?>">
+                                        <p class="help-block">Example : John </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>นามสกุล <font color="#F00"><b>*</b></font></label>
                                         <input id="sale_lastname" name="sale_lastname" class="form-control" value="<?php echo $sale['sale_lastname']?>">
+                                        <p class="help-block">Example : Smith </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>เบอร์โทรศัพท์ </label>
+                                        <input id="sale_telephone" name="sale_telephone" class="form-control" value="<?php echo $sale['sale_telephone']?>">
+                                        <p class="help-block">Example : 099-999-9999 </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>ที่อยู่อีเมล </label>
+                                        <input id="sale_email" name="sale_email" class="form-control" value="<?php echo $sale['sale_email']?>">
+                                        <p class="help-block">Example : user@info.com </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
+                                        <input type="text" id="sale_address" name="sale_address" class="form-control" value="<?php echo $sale['sale_address']?>">
+                                        <p class="help-block">Example : 1242/2 Mittraphab Road </p>
                                     </div>
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
 
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>เบอร์โทรศัพท์ </label>
-                                        <input id="sale_telephone" name="sale_telephone" class="form-control" value="<?php echo $sale['sale_telephone']?>">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>ที่อยู่อีเมล </label>
-                                        <input id="sale_email" name="sale_email" class="form-control" value="<?php echo $sale['sale_email']?>">
-                                    </div>
-                                </div>
-                            </div>
                             <!-- /.row (nested) -->
                         </div>
                         <!-- /.col-lg-9 (nested) -->
@@ -106,15 +115,7 @@
                     
                     <!-- /.row (nested) -->
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
-                                <input type="text" id="sale_address" name="sale_address" class="form-control" value="<?php echo $sale['sale_address']?>">
-                                <p class="help-block">Example : 1242/2 Mittraphab Road Tambon Naimuang Amphoe Muang Province Nakhonratchasima 30000</p>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <!-- /.row (nested) -->
 
                     

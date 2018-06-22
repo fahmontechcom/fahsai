@@ -59,7 +59,7 @@
             <div class="panel-body">
                 <form role="form" method="post" onsubmit="return check();" action="index.php?content=sale&action=add" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-12">
                             
                             <!-- /.row (nested) -->
 
@@ -68,31 +68,39 @@
                                     <div class="form-group">
                                         <label>ชื่อ <font color="#F00"><b>*</b></font></label>
                                         <input id="sale_firstname" name="sale_firstname" class="form-control">
+                                        <p class="help-block">Example : John </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>นามสกุล <font color="#F00"><b>*</b></font></label>
                                         <input id="sale_lastname" name="sale_lastname" class="form-control">
+                                        <p class="help-block">Example : Smith </p>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- /.row (nested) -->
-
-                            <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>เบอร์โทรศัพท์ </label>
                                         <input id="sale_telephone" name="sale_telephone" class="form-control">
+                                        <p class="help-block">Example : 099-999-9999 </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>ที่อยู่อีเมล <font color="#F00"><b>*</b></font></label>
+                                        <input id="sale_email" name="sale_email" class="form-control">
+                                        <p class="help-block">Example : user@info.com </p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>ที่อยู่อีเมล <font color="#F00"><b>*</b></font></label>
-                                        <input id="sale_email" name="sale_email" class="form-control">
+                                        <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
+                                        <input type="text" id="sale_address" name="sale_address" class="form-control">
+                                        <p class="help-block">Example : 1242/2 Mittraphab Road </p>
                                     </div>
                                 </div>
                             </div>
+                            
                             <!-- /.row (nested) -->
                         </div>
                         <!-- /.col-lg-9 (nested) -->
@@ -102,24 +110,6 @@
                     </div>
                     <!-- /.row (nested) -->
 
-                    
-                    <!-- /.row (nested) -->
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
-                                <input type="text" id="sale_address" name="sale_address" class="form-control">
-                                <p class="help-block">Example : 1242/2 Mittraphab Road Tambon Naimuang Amphoe Muang Province Nakhonratchasima 30000</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.row (nested) -->
-
-                    
-                    <!-- /.row (nested) -->
-
-                    
                     <!-- /.row (nested) -->
 
                     <div align="right">
