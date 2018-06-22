@@ -35,16 +35,16 @@
 
     function show_debt (display_id,display_td_id,customer_id) {
         window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
-        // alert('');
+        
         if(!$(display_id).is(':visible')){
-            // alert('');
+            
             $.post( "modules/debt/views/index.inc.php",{customer_id:customer_id,action:'view'}, function( data ) {
                 $(display_td_id).html(data);
                 $(display_id).toggle();
             });
 
         }else{
-            // alert('');
+            
             $(display_td_id).html('');
             $(display_id).toggle();
         }

@@ -9,7 +9,7 @@ $customer_id=$_POST['customer_id'];
 if(!isset($_POST['action'])){
     $customer = $model->getCustomerBy();
     // echo "<script>console.log(".count($customer).");</script>";
-    echo $customer_id;
+    
     require_once($path.'view.inc.php');
 
 }
@@ -79,7 +79,7 @@ else{
 
     $customer = $model->getCustomerBy();
     // echo "<script>console.log(".count($customer).");</script>";
-    echo $customer_id;
+    
     require_once($path.'view.inc.php');
 
 }
