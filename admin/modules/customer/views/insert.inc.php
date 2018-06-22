@@ -1,49 +1,37 @@
 <script>
     function check(){
         
-        var user_username = document.getElementById("user_username").value;
-        var user_password = document.getElementById("user_password").value;
-        var user_firstname = document.getElementById("user_firstname").value;
-        var user_lastname = document.getElementById("user_lastname").value;
-        var user_telephone = document.getElementById("user_telephone").value;
-        var user_email = document.getElementById("user_email").value;
-        var user_address = document.getElementById("user_address").value;
+        var sale_firstname = document.getElementById("sale_firstname").value;
+        var sale_lastname = document.getElementById("sale_lastname").value;
+        var sale_telephone = document.getElementById("sale_telephone").value;
+        var sale_email = document.getElementById("sale_email").value;
+        var sale_address = document.getElementById("sale_address").value;
         
-        user_username = $.trim(user_username);
-        user_password = $.trim(user_password);
-        user_firstname = $.trim(user_firstname);
-        user_lastname = $.trim(user_lastname);
-        user_telephone = $.trim(user_telephone);
-        user_email = $.trim(user_email);
-        user_address = $.trim(user_address);
+        sale_firstname = $.trim(sale_firstname);
+        sale_lastname = $.trim(sale_lastname);
+        sale_telephone = $.trim(sale_telephone);
+        sale_email = $.trim(sale_email);
+        sale_address = $.trim(sale_address);
         
-        if(user_username.length == 0){
-            alert("Please input user username");
-            document.getElementById("user_username").focus();
+        if(sale_firstname.length == 0){
+            alert("Please input sale firstname");
+            document.getElementById("sale_firstname").focus();
             return false;
-        }else if(user_password.length == 0){
-            alert("Please input user password");
-            document.getElementById("user_password").focus();
+        }else if(sale_lastname.length == 0){
+            alert("Please input sale lastname");
+            document.getElementById("sale_lastname").focus();
             return false;
-        }else if(user_firstname.length == 0){
-            alert("Please input user firstname");
-            document.getElementById("user_firstname").focus();
+        }else if(sale_telephone.length == 0){
+            alert("Please input sale telephone");
+            document.getElementById("sale_telephone").focus();
             return false;
-        }else if(user_lastname.length == 0){
-            alert("Please input user lastname");
-            document.getElementById("user_lastname").focus();
+        }else if(sale_email.length == 0){
+            alert("Please input sale email");
+            document.getElementById("sale_email").focus();
             return false;
-        }else if(user_telephone.length == 0){
-            alert("Please input user telephone");
-            document.getElementById("user_telephone").focus();
-            return false;
-        }else if(user_email.length == 0){
-            alert("Please input user email");
-            document.getElementById("user_email").focus();
-            return false;
-        }else if(user_address.length == 0){
-            alert("Please input user address");
-            document.getElementById("user_address").focus();
+        }else if(sale_address.length == 0){
+            alert("Please input sale address");
+            document.getElementById("sale_address").focus();
             return false;
         }else{
             return true;
@@ -69,36 +57,23 @@
         <div class="panel panel-default">
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <form role="form" method="post" onsubmit="return check();" action="index.php?content=user&action=add" enctype="multipart/form-data">
+                <form role="form" method="post" onsubmit="return check();" action="index.php?content=sale&action=add" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-9">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>username <font color="#F00"><b>*</b></font></label>
-                                        <input id="user_username" name="user_username" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group">
-                                        <label>password <font color="#F00"><b>*</b></font></label>
-                                        <input id="user_password" name="user_password" class="form-control">
-                                    </div>
-                                </div>                                
-                            </div>
+                            
                             <!-- /.row (nested) -->
 
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>ชื่อ <font color="#F00"><b>*</b></font></label>
-                                        <input id="user_firstname" name="user_firstname" class="form-control">
+                                        <input id="sale_firstname" name="sale_firstname" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>นามสกุล <font color="#F00"><b>*</b></font></label>
-                                        <input id="user_lastname" name="user_lastname" class="form-control">
+                                        <input id="sale_lastname" name="sale_lastname" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -108,13 +83,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>เบอร์โทรศัพท์ </label>
-                                        <input id="user_telephone" name="user_telephone" class="form-control">
+                                        <input id="sale_telephone" name="sale_telephone" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>ที่อยู่อีเมล <font color="#F00"><b>*</b></font></label>
-                                        <input id="user_email" name="user_email" class="form-control">
+                                        <input id="sale_email" name="sale_email" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +109,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
-                                <input type="text" id="user_address" name="user_address" class="form-control">
+                                <input type="text" id="sale_address" name="sale_address" class="form-control">
                                 <p class="help-block">Example : 1242/2 Mittraphab Road Tambon Naimuang Amphoe Muang Province Nakhonratchasima 30000</p>
                             </div>
                         </div>

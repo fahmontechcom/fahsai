@@ -28,9 +28,12 @@ $page = $_REQUEST['content'];
 		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
-		<div id="page-content-wrapper">
-			<?php require_once("views/body.inc.php"); ?>
+		<div id="page-content-wrapper" style="background-color:white;">
+			<div style="padding:15px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);">
+				<?php require_once("views/body.inc.php"); ?>
+			</div>
 		</div>
+		<?php require_once("views/footer.inc.php"); ?>
 		<!-- /#page-content-wrapper -->
 
 	<!-- </div> -->

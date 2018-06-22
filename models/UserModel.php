@@ -102,8 +102,8 @@ function insertUser($data=[]){
         $data['user_email']."','".
         $data['user_address']."')";
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-        $img_path="../img_upload/user/".$data['user_image'];
-        $ict=move_uploaded_file($data['user_image_upload'],$img_path);
+        // $img_path="../img_upload/user/".$data['user_image'];
+        // $ict=move_uploaded_file($data['user_image_upload'],$img_path);
         return true;
     }else {
         return false;

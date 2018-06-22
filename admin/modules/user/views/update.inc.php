@@ -55,7 +55,7 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h1>เเก้ไขข้อมูลผู้ดูเเลระบบ</h1>
+        <h1>เเก้ไขข้อมูลผู้ใช้งาน</h1>
     </div>
     <div class="col-lg-6" align="right">
 

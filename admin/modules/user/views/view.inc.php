@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-lg-12">
     <div>
-     <h1>ระบบจัดการผู้ดูเเลระบบ</h1>
-     <h2>เพิ่ม ลบ เเก้ไข ผู้ดูเเลระบบ</h2>
+     <h1>ระบบจัดการผู้ใช้งาน</h1>
+     <h2>เพิ่ม ลบ เเก้ไข ผู้ใช้งาน</h2>
      <div align=right>
       <a href="?content=user&action=insert">
-        <input class="button" type="submit" value="เพิ่มผู้ดูเเล">
+        <input class="button" type="submit" value="เพิ่มผู้ใช้งาน">
       </a>
     </div>
   </div>

@@ -1,15 +1,15 @@
 <script>
     function check(){
         
-        var debt_schedule_status_name = document.getElementById("debt_schedule_status_name").value;
+        var debt_payment_geteway_name = document.getElementById("debt_payment_geteway_name").value;
         
         
-        debt_schedule_status_name = $.trim(debt_schedule_status_name);
+        debt_payment_geteway_name = $.trim(debt_payment_geteway_name);
         
         
-        if(debt_schedule_status_name.length == 0){
-            alert("Please input status name");
-            document.getElementById("debt_schedule_status_name").focus();
+        if(debt_payment_geteway_name.length == 0){
+            alert("Please input gateway name");
+            document.getElementById("debt_payment_geteway_name").focus();
             return false;
         }else{
             return true;
@@ -22,7 +22,7 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <h1>เเก้ไขข้อมูลผู้ดูเเลระบบ</h1>
+        <h1>เเก้ไขข้อมูลช่องทางการชำระเงิน</h1>
     </div>
     <div class="col-lg-6" align="right">
 
@@ -35,15 +35,15 @@
         <div class="panel panel-default">
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <form role="form" method="post" onsubmit="return check();" action="index.php?content=status&action=edit" enctype="multipart/form-data">
-                    <input type="hidden"  id="debt_schedule_status_id" name="debt_schedule_status_id" value="<?php echo $debt_schedule_status_id ?>" />
+                <form role="form" method="post" onsubmit="return check();" action="index.php?content=gateway&action=edit" enctype="multipart/form-data">
+                    <input type="hidden"  id="debt_payment_geteway_id" name="debt_payment_geteway_id" value="<?php echo $debt_payment_geteway_id ?>" />
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label>ชื่อสถานะหนี้ <font color="#F00"><b>*</b></font></label>
-                                        <input id="debt_schedule_status_name" name="debt_schedule_status_name" class="form-control" value="<?php echo $debt_schedule_status['debt_schedule_status_name']?>">
+                                        <label>ช่องทางการชำระเงิน <font color="#F00"><b>*</b></font></label>
+                                        <input id="debt_payment_geteway_name" name="debt_payment_geteway_name" class="form-control" value="<?php echo $debt_payment_geteway['debt_payment_geteway_name']?>">
                                     </div>
                                 </div>
                                 

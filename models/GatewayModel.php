@@ -13,7 +13,7 @@ function getGatewayBy($name = ''){
     $sql = "SELECT *
     FROM tb_debt_payment_geteway 
     WHERE  
-    tb_debt_payment_geteway_name LIKE ('%$name%')
+    debt_payment_geteway_name LIKE ('%$name%')
     ";
     
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -29,7 +29,7 @@ function getGatewayBy($name = ''){
 function getGatewayByID($id){
     $sql = "SELECT * 
     FROM tb_debt_payment_geteway 
-    WHERE tb_debt_payment_geteway_id = '$id' 
+    WHERE debt_payment_geteway_id = '$id' 
     ";
 
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -44,8 +44,8 @@ function getGatewayByID($id){
 
 function updateGatewayByID($id,$data = []){
     $sql = " UPDATE tb_debt_payment_geteway SET 
-    tb_debt_payment_geteway_name = '".$data['tb_debt_payment_geteway_name']."' 
-    WHERE tb_debt_payment_geteway_id = $id ";
+    debt_payment_geteway_name = '".$data['debt_payment_geteway_name']."' 
+    WHERE debt_payment_geteway_id = $id ";
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
@@ -56,9 +56,9 @@ function updateGatewayByID($id,$data = []){
 
 function insertGateway($data=[]){
     $sql = " INSERT INTO tb_debt_payment_geteway(
-        tb_debt_payment_geteway_name
+        debt_payment_geteway_name
         ) VALUES ('".
-        $data['tb_debt_payment_geteway_name']."')";
+        $data['debt_payment_geteway_name']."')";
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         
         return true;
@@ -68,7 +68,7 @@ function insertGateway($data=[]){
 }
 
 function deleteGatewayByID($id){
-    $sql = " DELETE FROM tb_debt_payment_geteway WHERE tb_debt_payment_geteway_id = '$id' ";
+    $sql = " DELETE FROM tb_debt_payment_geteway WHERE debt_payment_geteway_id = '$id' ";
     mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
 }
 }
