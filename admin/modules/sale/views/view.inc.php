@@ -17,8 +17,8 @@
         <th>เบอร์โทรศัพท์</th>
         <th>อีเมล</th>
         
-        <th>เเก้ไข</th>
-        <th>ลบ</th>
+        <th>จัดการ</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -35,12 +35,11 @@
             <a href="?content=sale&action=update&id=<?php echo $sale[$i]['sale_id'];?>" style="font-size: 20px;">
               <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
             </a> 
-          </td>
-          <td>
             <a href="?content=sale&action=delete&id=<?php echo $sale[$i]['sale_id'];?>" onclick="return confirm('You want to delete sale : <?php echo $sale[$i]['name']; ?>');" style="color:red; font-size: 20px;">
               <i class="fa fa-times" aria-hidden="true"></i>
             </a>
           </td>
+          
         </tr>
         
         <?php } ?>

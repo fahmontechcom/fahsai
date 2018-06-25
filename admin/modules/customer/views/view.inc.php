@@ -154,8 +154,8 @@
                   <th>จำนวนอินวอย</th>
                   <th>มูลค่าเช็ค</th>
                   <th>มูลค่าอินวอย</th>
-                  <th>เเก้ไข</th>
-                  <th>ลบ</th>
+                  <th>จัดการ</th>
+                  
                 </tr>
             </thead>
             <tbody>
@@ -172,19 +172,18 @@
                         <td>0</td>
                         <td>0</td>
                         <td>
-                        <a href="?content=customer&action=update&id=<?php echo $customer[$i]['customer_id'];?>" style="font-size: 20px;">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
-                        </a> 
+                            <a href="?content=customer&action=update&id=<?php echo $customer[$i]['customer_id'];?>" style="font-size: 20px;">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                            </a> 
+                            
+                            <a href="?content=customer&action=delete&id=<?php echo $customer[$i]['customer_id'];?>" onclick="return confirm('You want to delete customer : <?php echo $customer[$i]['name']; ?>');" style="color:red; font-size: 20px;">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                        </td>
                         
-                        </td>
-                        <td>
-                        <a href="?content=customer&action=delete&id=<?php echo $customer[$i]['customer_id'];?>" onclick="return confirm('You want to delete customer : <?php echo $customer[$i]['name']; ?>');" style="color:red; font-size: 20px;">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                        </a>
-                        </td>
                     </tr>
                     <tr  style="display:none;" id="collapse_<?=$customer[$i]['customer_id']?>">
-                        <td colspan="10" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
+                        <td colspan="9" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
                     </tr>
                 <?php } ?>
             </tbody>

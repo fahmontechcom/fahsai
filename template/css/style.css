@@ -161,6 +161,7 @@ table {
     width: 100%;	
 }
 
+
 td {
     border: 1px solid #ECECEC;
     text-align: center;
@@ -208,7 +209,10 @@ a, a:hover {
     text-decoration: none;
 }
 .fa-pencil-square-o{
-    color: blue;
+    color: #0099ff;
+}
+td > a > .fa >{
+    margin:5px;
 }
 .button-head {
     

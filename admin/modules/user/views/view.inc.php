@@ -17,8 +17,8 @@
         <th>เบอร์โทรศัพท์</th>
         <th>ชื่อผู้ใช้งาน</th>
         
-        <th>เเก้ไข</th>
-        <th>ลบ</th>
+        <th>จัดการ</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -35,12 +35,11 @@
             <a href="?content=user&action=update&id=<?php echo $user[$i]['user_id'];?>" style="font-size: 20px;">
               <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
             </a> 
-          </td>
-          <td>
             <a href="?content=user&action=delete&id=<?php echo $user[$i]['user_id'];?>" onclick="return confirm('You want to delete user : <?php echo $user[$i]['name']; ?>');" style="color:red; font-size: 20px;">
               <i class="fa fa-times" aria-hidden="true"></i>
             </a>
           </td>
+          
         </tr>
         <?php } ?>
       </tbody>
