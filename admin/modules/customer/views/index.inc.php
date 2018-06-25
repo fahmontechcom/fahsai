@@ -63,11 +63,12 @@ else if ($_GET['action'] == 'insert'){
 
         if($customer){
             ?>
-            <script>window.location="index.php?content=customer"</script>
+                <script>window.location="index.php?content=customer"</script>
             <?php
         }else{
 
             ?>
+            
             <?php
         }
         

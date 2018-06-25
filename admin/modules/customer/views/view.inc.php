@@ -1,44 +1,49 @@
 <script>
     function check(){
-        var customer_name = document.getElementById("customer_name").value;
         
-        var customer_telephone = document.getElementById("customer_telephone").value;
-        var customer_email = document.getElementById("customer_email").value;
-        var customer_address = document.getElementById("customer_address").value;
 
-        customer_name = $.trim(customer_name);
+            var customer_name = document.getElementById("customer_name").value;
+            var customer_telephone = document.getElementById("customer_telephone").value;
+            var customer_email = document.getElementById("customer_email").value;
+            var customer_address = document.getElementById("customer_address").value;
+
+            customer_name = $.trim(customer_name);
+            customer_telephone = $.trim(customer_telephone);
+            customer_email = $.trim(customer_email);
+            customer_address = $.trim(customer_address);
+            
+            if(customer_name.length == 0){
+                alert("Please input customer customer name");
+                document.getElementById("customer_name").focus();
+                return false;
+            }else if(customer_telephone.length == 0){
+                alert("Please input customer telephone");
+                document.getElementById("customer_telephone").focus();
+                return false;
+            }else if(customer_email.length == 0){
+                alert("Please input customer email");
+                document.getElementById("customer_email").focus();
+                return false;
+            }else if(customer_address.length == 0){
+                alert("Please input customer address");
+                document.getElementById("customer_address").focus();
+                return false;
+            }else{
+                return true;
+            }
         
-        customer_telephone = $.trim(customer_telephone);
-        customer_email = $.trim(customer_email);
-        customer_address = $.trim(customer_address);
-        
-        if(customer_name.length == 0){
-            alert("Please input customer firstname");
-            document.getElementById("customer_name").focus();
-            return false;
-        }else if(customer_telephone.length == 0){
-            alert("Please input customer telephone");
-            document.getElementById("customer_telephone").focus();
-            return false;
-        }else if(customer_email.length == 0){
-            alert("Please input customer email");
-            document.getElementById("customer_email").focus();
-            return false;
-        }else if(customer_address.length == 0){
-            alert("Please input customer address");
-            document.getElementById("customer_address").focus();
-            return false;
-        }else{
-            return true;
-        }
+
     }
+    
 
     function show_debt (display_id,display_td_id,customer_id) {
         window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
         
         if(!$(display_id).is(':visible')){
             
-            $.post( "modules/debt/views/index.inc.php",{customer_id:customer_id,action:'view'}, function( data ) {
+            $.post( "modules/debt/views/index.inc.php",{customer_id:customer_id}, function( data ) {
+                $('.dd_td').html("");
+	            $('.dd_tr').hide();
                 $(display_td_id).html(data);
                 $(display_id).toggle();
             });
@@ -162,15 +167,15 @@
                 <?php 
                 for($i=0; $i < count($customer); $i++){
                 ?>
-                    <tr>
+                    <tr class="nth-child-customer">
                         <td><?php echo $i+1; ?><a href="javascript:;" onclick="show_debt('#collapse_<?=$customer[$i]['customer_id']?>','#collapse_td_<?=$customer[$i]['customer_id']?>','<?=$customer[$i]['customer_id']?>')"  style="font-size: 12px;">&nbsp;[+]</a></td>
                         <td><?php echo $customer[$i]['name']; ?></td>
                         <td><?php echo $customer[$i]['customer_telephone']; ?></td>
                         <td><?php echo $customer[$i]['customer_email']; ?></td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>#ดึงจำนวนรวม#</td>
+                        <td>#ดึงจำนวนรวม#</td>
+                        <td>#ดึงจำนวนรวม#</td>
+                        <td>#ดึงจำนวนรวม#</td>
                         <td>
                             <a href="?content=customer&action=update&id=<?php echo $customer[$i]['customer_id'];?>" style="font-size: 20px;">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
@@ -182,8 +187,8 @@
                         </td>
                         
                     </tr>
-                    <tr  style="display:none;" id="collapse_<?=$customer[$i]['customer_id']?>">
-                        <td colspan="9" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
+                    <tr class="dd_tr" style="display:none;" id="collapse_<?=$customer[$i]['customer_id']?>">
+                        <td colspan="9" class="dd_td" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
                     </tr>
                 <?php } ?>
             </tbody>

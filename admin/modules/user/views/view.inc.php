@@ -25,7 +25,7 @@
       <?php 
       for($i=0; $i < count($user); $i++){
         ?>
-        <tr>
+        <tr  class="nth-child">
           <td><?php echo $i+1; ?></td>
           <td><?php echo $user[$i]['name']; ?></td>
           <td><?php echo $user[$i]['user_telephone']; ?></td>

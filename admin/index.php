@@ -47,4 +47,12 @@ $page = $_REQUEST['content'];
 		// });
 	</script>
 </body>
+
+
+<script type="text/javascript" src="../template/date-picker/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="../template/date-picker/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="../template/date-picker/jquery-ui-sliderAccess.js"></script>
+
+
 </html> 

@@ -25,7 +25,7 @@
       <?php 
       for($i=0; $i < count($sale); $i++){
         ?>
-        <tr>
+        <tr class="nth-child">
           <td><?php echo $i+1; ?></td>
           <td><?php echo $sale[$i]['name']; ?></td>
           <td><?php echo $sale[$i]['sale_telephone']; ?></td>

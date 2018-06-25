@@ -11,9 +11,12 @@
     <!-- <link href="../template/css/simple-sidebar.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
-    <link href="../template/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../template/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+<link rel="stylesheet" media="all" type="text/css" href="../template/date-picker/jquery-ui.css" />
+<link rel="stylesheet" media="all" type="text/css" href="../template/date-picker/jquery-ui-timepicker-addon.css" />
     <!-- Main CSS -->
     <link href="../template/css/style.css" rel="stylesheet">  
 

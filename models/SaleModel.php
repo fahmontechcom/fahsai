@@ -28,6 +28,8 @@ function getSaleBy($name = '', $email = '', $mobile  = ''){
             $data[] = $row;
         }
         $result->close();
+        // echo "<script>alert('');</script>";
+        // echo $sql;
         return $data;
     }
 }

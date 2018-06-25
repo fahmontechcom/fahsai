@@ -22,7 +22,7 @@
       <?php 
       for($i=0; $i < count($debt_schedule_status); $i++){
         ?>
-        <tr>
+        <tr class="nth-child">
           <td><?php echo $i+1; ?></td>
           <td><?php echo $debt_schedule_status[$i]['debt_schedule_status_name']; ?></td>
           <td>

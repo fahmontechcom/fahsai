@@ -177,11 +177,24 @@ th {
     color: #fff;
     font-weight: normal;
 }
-
-
-tr:nth-child(odd) {
+.th-debt {
+    
+    background-color: #4c97dc;
+    
+}
+.nth-child:nth-child(odd) {
     background-color: #dddddd;
 }
+.nth-child:nth-child(event) {
+    background-color: #fff;
+}
+.nth-child-customer:nth-child(4n+1) {
+    
+    background-color: #dddddd;
+    
+}
+
+
 
 .button {
     font-family: 'Kanit-Regular'; 

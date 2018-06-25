@@ -22,7 +22,7 @@
       <?php 
       for($i=0; $i < count($debt_payment_geteway); $i++){
         ?>
-        <tr>
+        <tr class="nth-child">
           <td><?php echo $i+1; ?></td>
           <td><?php echo $debt_payment_geteway[$i]['debt_payment_geteway_name']; ?></td>
           <td>
