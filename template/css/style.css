@@ -71,6 +71,42 @@ footer {
     cursor: pointer;
 }
 
+.btn-custom-green{
+    margin:2px;
+    padding-left:7px;
+    padding-right:7px;
+    padding-top:2px;
+    padding-bottom:2px;
+    background-color: #51b72e;
+    border-color:#51b72e;
+    font-size:12px;
+    color:white;
+}
+.btn-custom-green:hover{
+    
+    background-color: #218838;
+    border-color:#1e7e34;
+    
+}
+.btn-custom-black{
+    
+    margin:2px;
+    padding-left:7px;
+    padding-right:7px;
+    padding-top:2px;
+    padding-bottom:2px;
+    background-color: #353535;
+    border-color:#353535;
+    font-size:12px;
+    color:white;
+}
+.btn-custom-black:hover{
+
+    background-color: #000;
+    border-color:#000;
+    
+}
+
 .dropdown {
     padding: 0px;
     position: relative;
@@ -158,9 +194,23 @@ footer {
 table {
     font-size:14px;
     border-collapse: collapse;
-    width: 100%;	
+    width: 100%;
+    background-color: #fff;
 }
 
+
+
+.padding-0 {
+    
+    padding: 0px;
+    
+}
+
+.margin-0 {
+    
+    margin: 0px;
+    
+}
 
 td {
     border: 1px solid #ECECEC;
@@ -185,9 +235,7 @@ th {
 .nth-child:nth-child(odd) {
     background-color: #dddddd;
 }
-.nth-child:nth-child(event) {
-    background-color: #fff;
-}
+
 .nth-child-customer:nth-child(4n+1) {
     
     background-color: #dddddd;
@@ -296,11 +344,13 @@ li > a > span {
 }
 .help-block{
     color:#999999;
-    text-align:left ;
     font-size:12px;
 }
 .form-group > label{
-    font-size:12px;
+    font-size:12px;    
+}
+.form-group{
+    text-align:left ;
 }
 
 @media only screen and (max-width: 1600px) {

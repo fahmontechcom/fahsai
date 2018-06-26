@@ -14,5 +14,8 @@
     if($page=="sale"){ 
         require_once("modules/sale/views/index.inc.php"); 
     }
+    if($page=="schedule"){ 
+        require_once("modules/schedule/views/index.inc.php"); 
+    }
     
 ?>

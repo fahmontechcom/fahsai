@@ -11,10 +11,9 @@ $model_sale = new SaleModel;
 $customer_id=$_POST['customer_id'];
 
 if(!isset($_POST['action'])){
+    
     $debt = $model->getDebtBy($customer_id);
     $sale = $model_sale->getSaleBy();
-    // echo "<script>console.log(".count($debt).");</script>";
-    
     require_once($path.'view.inc.php');
 
 }
@@ -45,12 +44,13 @@ else if ($_POST['action'] == 'insert'){
 
         $data = [];
         $data['customer_id'] = $_POST['customer_id'];
+        $data['debt_cate_id'] = $_POST['debt_cate_id'];
         $data['sale_id'] = $_POST['sale_id'];
         $data['debt_check_number'] = $_POST['debt_check_number'];
         $data['debt_invoice_number'] = $_POST['debt_invoice_number'];
         $data['debt_value'] = $_POST['debt_value'];
-        $data['debt_balance'] = $_POST['debt_balance'];
-        $data['debt_interest'] = $_POST['debt_interest'];
+        $data['debt_balance'] = $_POST['debt_value'];
+        $data['debt_interest'] = 0;
         $data['debt_date'] = $_POST['debt_date'];
         $data['debt_remark'] = $_POST['debt_remark'];
         $data['updateby'] = $user[0][0];
@@ -72,17 +72,27 @@ else if ($_POST['action'] == 'insert'){
 }else if ($_POST['action'] == 'edit'){
     
     $data = [];
-    $data['customer_name'] = $_POST['customer_name'];
-    $data['customer_telephone'] = $_POST['customer_telephone'];
-    $data['customer_email'] = $_POST['customer_email'];
-    $data['customer_address'] = $_POST['customer_address'];
+    $data['debt_cate_id'] = $_POST['debt_cate_id'];
+    $data['sale_id'] = $_POST['sale_id'];
+    $data['debt_check_number'] = $_POST['debt_check_number'];
+    $data['debt_invoice_number'] = $_POST['debt_invoice_number'];
+    $data['debt_value'] = $_POST['debt_value'];
+    $data['debt_balance'] = $_POST['debt_value'];
+    $data['debt_interest'] = 0;
+    $data['debt_date'] = $_POST['debt_date'];
+    $data['debt_remark'] = $_POST['debt_remark'];
+    $data['updateby'] = $user[0][0];
+    $data['lastupdate'] = 'NOW()';
     
-    $customer = $model->updateDebtByID($_POST['customer_id'],$data);
+    $debt = $model->updateDebtByID($_POST['customer_id'],$_POST['debt_id'],$data);
 
-    if($customer){
-        ?>
-        <script>window.location="index.php?content=customer"</script>
-        <?php
+    if($debt){
+        // echo "<script>alert('".$_POST['action']."');</script>";
+        $debt = $model->getDebtBy($customer_id);
+        $sale = $model_sale->getSaleBy();
+        // echo "<script>console.log(".count($debt).");</script>";
+        
+        require_once($path.'view.inc.php');
     }else{
 
         ?>

@@ -37,10 +37,10 @@
     
 
     function show_debt (display_id,display_td_id,customer_id) {
-        window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
+        
         
         if(!$(display_id).is(':visible')){
-            
+            window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
             $.post( "modules/debt/views/index.inc.php",{customer_id:customer_id}, function( data ) {
                 $('.dd_td').html("");
 	            $('.dd_tr').hide();
@@ -49,7 +49,7 @@
             });
 
         }else{
-            
+            window.history.replaceState("", "", "index.php?content=customer");
             $(display_td_id).html('');
             $(display_id).toggle();
         }
@@ -172,10 +172,10 @@
                         <td><?php echo $customer[$i]['name']; ?></td>
                         <td><?php echo $customer[$i]['customer_telephone']; ?></td>
                         <td><?php echo $customer[$i]['customer_email']; ?></td>
-                        <td>#ดึงจำนวนรวม#</td>
-                        <td>#ดึงจำนวนรวม#</td>
-                        <td>#ดึงจำนวนรวม#</td>
-                        <td>#ดึงจำนวนรวม#</td>
+                        <td id="display_chk_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_number']; ?></td>
+                        <td id="display_inv_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_number']; ?></td>
+                        <td id="display_chk_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_value']; ?></td>
+                        <td id="display_inv_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_value']; ?></td>
                         <td>
                             <a href="?content=customer&action=update&id=<?php echo $customer[$i]['customer_id'];?>" style="font-size: 20px;">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
@@ -188,7 +188,7 @@
                         
                     </tr>
                     <tr class="dd_tr" style="display:none;" id="collapse_<?=$customer[$i]['customer_id']?>">
-                        <td colspan="9" class="dd_td" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
+                        <td colspan="9" class="dd_td padding-0 margin-0" id="collapse_td_<?=$customer[$i]['customer_id']?>"></td>
                     </tr>
                 <?php } ?>
             </tbody>

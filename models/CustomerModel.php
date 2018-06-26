@@ -14,18 +14,87 @@ function getCustomerBy($name = '', $email = '', $mobile  = ''){
     customer_id,
     customer_name as name , 
     customer_telephone, 
-    customer_email   
-    FROM tb_customer 
-    WHERE customer_name LIKE ('%$name%') 
-    AND customer_email LIKE ('%$email%') 
-    AND customer_telephone LIKE ('%$mobile%') 
-    ORDER BY tb_customer.customer_name
+    customer_email,
+    IFNULL(( 
+        SELECT COUNT(*) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='0' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0) AS check_number, 
+    IFNULL((
+        SELECT COUNT(*) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='1' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0) AS invoice_number, 
+    FORMAT(IFNULL(( 
+        SELECT SUM(debt_value) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='0' 
+        AND customer_id = tb_cust.customer_id  
+        GROUP BY customer_id 
+    ),0),2) AS  check_value,   
+    FORMAT(IFNULL((
+        SELECT SUM(debt_value)  
+        FROM tb_debt  
+        WHERE debt_cate_id ='1' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0),2) AS invoice_value 
+    FROM tb_customer AS tb_cust
+    ORDER BY tb_cust.customer_name
     ";
-    
+    // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
+        }
+        $result->close();
+        return $data;
+    }
+}
+
+function getInvoiceNumberByCustomerID($customer_id){
+    $sql = "SELECT 
+     IFNULL(( 
+        SELECT COUNT(*) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='0' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0) AS check_number, 
+    IFNULL((
+        SELECT COUNT(*) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='1' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0) AS invoice_number, 
+    FORMAT(IFNULL(( 
+        SELECT SUM(debt_value) 
+        FROM tb_debt 
+        WHERE debt_cate_id ='0' 
+        AND customer_id = tb_cust.customer_id  
+        GROUP BY customer_id 
+    ),0),2) AS  check_value,   
+    FORMAT(IFNULL((
+        SELECT SUM(debt_value)  
+        FROM tb_debt  
+        WHERE debt_cate_id ='1' 
+        AND customer_id = tb_cust.customer_id 
+        GROUP BY customer_id 
+    ),0),2) AS invoice_value  
+    FROM tb_customer AS tb_cust  
+    WHERE customer_id = '$customer_id'
+    ";
+
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data;
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data = $row;
         }
         $result->close();
         return $data;

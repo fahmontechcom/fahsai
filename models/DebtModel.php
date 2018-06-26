@@ -6,14 +6,15 @@ class DebtModel extends BaseModel{
     function __construct(){
         $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
     } 
-function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_number = '',$point=0){
+function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_number = '',$point=2){
     $sql = "SELECT 
+    debt_cate_id,
     debt_id,
     customer_id,
     sale_id,
     debt_check_number,
     debt_invoice_number,
-    format(debt_value, $point) as debt_value,
+    debt_value,
     format(debt_balance, $point) as debt_balance,
     format(debt_interest, $point) as debt_interest,
     debt_date,
@@ -53,14 +54,21 @@ function getDebtByID($id){
     }
 }
 
-function updateDebtByID($id,$data = []){
+function updateDebtByID($customer_id,$id,$data = []){
+    
     $sql = " UPDATE tb_debt SET 
-    sale_firstname = '".$data['sale_firstname']."', 
-    sale_lastname = '".$data['sale_lastname']."', 
-    sale_telephone = '".$data['sale_telephone']."', 
-    sale_email = '".$data['sale_email']."', 
-    sale_address = '".$data['sale_address']."' 
-    WHERE sale_id = $id ";
+    debt_cate_id = '".$data['debt_cate_id']."', 
+    sale_id = '".$data['sale_id']."', 
+    debt_check_number = '".$data['debt_check_number']."', 
+    debt_invoice_number = '".$data['debt_invoice_number']."', 
+    debt_value = '".$data['debt_value']."', 
+    debt_balance = '".$data['debt_balance']."', 
+    debt_interest = '".$data['debt_interest']."', 
+    debt_date = '".$data['debt_date']."', 
+    debt_remark = '".$data['debt_remark']."', 
+    updateby = '".$data['updateby']."', 
+    lastupdate = '".$data['lastupdate']."' 
+    WHERE debt_id = $id ";
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
@@ -72,6 +80,7 @@ function updateDebtByID($id,$data = []){
 function insertDebt($data=[]){
     $sql = " INSERT INTO tb_debt(
         customer_id, 
+        debt_cate_id, 
         sale_id, 
         debt_check_number, 
         debt_invoice_number, 
@@ -84,6 +93,7 @@ function insertDebt($data=[]){
         lastupdate
         ) VALUES ('".
         $data['customer_id']."','".
+        $data['debt_cate_id']."','".
         $data['sale_id']."','".
         $data['debt_check_number']."','".
         $data['debt_invoice_number']."','".
