@@ -67,7 +67,7 @@ function updateDebtByID($customer_id,$id,$data = []){
     debt_date = '".$data['debt_date']."', 
     debt_remark = '".$data['debt_remark']."', 
     updateby = '".$data['updateby']."', 
-    lastupdate = '".$data['lastupdate']."' 
+    lastupdate = ".$data['lastupdate']." 
     WHERE debt_id = $id ";
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
@@ -102,8 +102,8 @@ function insertDebt($data=[]){
         $data['debt_interest']."','".
         $data['debt_date']."','".
         $data['debt_remark']."','".
-        $data['updateby']."','".
-        $data['lastupdate']."')";
+        $data['updateby']."',".
+        $data['lastupdate'].")";
         
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['sale_image'];

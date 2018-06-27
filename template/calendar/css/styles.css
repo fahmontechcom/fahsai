@@ -57,7 +57,8 @@ div.zabuto_calendar div.calendar-month-navigation {
 }
 
 div.zabuto_calendar .table tr.calendar-dow-header th {
-    background-color: #f0f0f0
+    background-color: #f0f0f0;
+    color: black;
 }
 
 div.zabuto_calendar tr.calendar-dow-header th,

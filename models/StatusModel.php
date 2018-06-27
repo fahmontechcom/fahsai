@@ -41,6 +41,24 @@ function getStatusByID($id){
         return $data;
     }
 }
+function getStatusByDebtID($id){
+    $sql = "SELECT DISTINCT tb_schedule.debt_schedule_id , tb_status.* 
+    FROM tb_debt_schedule_status AS tb_status INNER JOIN tb_debt_schedule AS tb_schedule ON tb_status.debt_schedule_status_id = tb_schedule.debt_schedule_status_id
+    WHERE tb_schedule.debt_id = '$id' 
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+        $result->close();
+        return $data;
+    }
+}
 
 function updateStatusByID($id,$data = []){
     $sql = " UPDATE tb_debt_schedule_status SET 

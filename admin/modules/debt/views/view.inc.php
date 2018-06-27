@@ -119,6 +119,11 @@
         window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id;
        
     }
+    function schedule_update(customer_id,debt_id,debt_schedule_id){
+        // alert(debt_id);
+        window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id+"&id="+debt_schedule_id+"&action=update";
+       
+    }
 
    
     
@@ -310,29 +315,40 @@ function getInvoiceNumber(customer_id){
                 <td><?php echo $debt[$i]['debt_invoice_number']; ?></td>
                 <td><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
                 <td><?php echo $debt[$i]['debt_balance']; ?></td>
-                <td style="text-align:left;"><button name="button" onclick=""  class="btn btn-custom-black" style="">เจรจา</button><button name="button" onclick="schedule_view(<?PHP 
-                    echo $customer_id; ?>,<?php 
-                    echo $debt[$i]['debt_id'];?>);"  class="btn btn-custom-green" style=""><i class="fa fa-plus" style=""></i></button></td>
+                <td style="text-align:left;">
+                    <?PHP for($i_status=0; $i_status < count($debt_status[$debt[$i]['debt_id']]); $i_status++){?>
+                        <button name="button" onclick="schedule_update(<?PHP 
+                            echo $customer_id; ?>,<?php 
+                            echo $debt[$i]['debt_id'];?>,<?php 
+                            echo $debt_status[$debt[$i]['debt_id']][$i_status]['debt_schedule_id'];?>);"  class="btn btn-custom-black" style="">
+                        <?php echo $debt_status[$debt[$i]['debt_id']][$i_status]['debt_schedule_status_name'];?>
+                        </button>
+                    <?PHP }?>
+                    <button name="button" onclick="schedule_view(<?PHP 
+                            echo $customer_id; ?>,<?php 
+                            echo $debt[$i]['debt_id'];?>);"  class="btn btn-custom-green" style=""><i class="fa fa-plus" style=""></i>
+                    </button>
+                </td>
             
-            <td>
-                <a href="javascript:;" onclick="debt_update('<?php 
-                    echo $customer_id; ?>','<?php 
-                    echo $debt[$i]['debt_cate_id'];?>','<?php 
-                    echo $debt[$i]['debt_id'];?>','<?php 
-                    echo $debt[$i]['debt_check_number'];?>','<?php 
-                    echo $debt[$i]['debt_invoice_number'];?>','<?php 
-                    echo $debt[$i]['debt_value'];?>','<?php 
-                    echo $debt[$i]['debt_date'];?>','<?php 
-                    echo $debt[$i]['sale_id'];?>','<?php 
-                    echo $debt[$i]['debt_remark'];?>');" style="font-size: 20px;">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
-                </a> 
-                <a href="javascript:;" onclick="debt_delete('<?php 
-                    echo $customer_id; ?>','<?php 
-                    echo $debt[$i]['debt_id'];?>');" style="color:red; font-size: 20px;">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </a>
-            </td>
+                <td>
+                    <a href="javascript:;" onclick="debt_update('<?php 
+                        echo $customer_id; ?>','<?php 
+                        echo $debt[$i]['debt_cate_id'];?>','<?php 
+                        echo $debt[$i]['debt_id'];?>','<?php 
+                        echo $debt[$i]['debt_check_number'];?>','<?php 
+                        echo $debt[$i]['debt_invoice_number'];?>','<?php 
+                        echo $debt[$i]['debt_value'];?>','<?php 
+                        echo $debt[$i]['debt_date'];?>','<?php 
+                        echo $debt[$i]['sale_id'];?>','<?php 
+                        echo $debt[$i]['debt_remark'];?>');" style="font-size: 20px;">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                    </a> 
+                    <a href="javascript:;" onclick="debt_delete('<?php 
+                        echo $customer_id; ?>','<?php 
+                        echo $debt[$i]['debt_id'];?>');" style="color:red; font-size: 20px;">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                </td>
             
             </tr>
             

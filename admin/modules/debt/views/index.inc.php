@@ -2,18 +2,36 @@
 
 require_once('../../../../models/DebtModel.php');
 require_once('../../../../models/SaleModel.php');
+require_once('../../../../models/StatusModel.php');
 
 
 $path = "";
 
 $model = new DebtModel;
 $model_sale = new SaleModel;
+$model_status = new StatusModel;
 $customer_id=$_POST['customer_id'];
 
 if(!isset($_POST['action'])){
-    
+    $debt_status = [];
     $debt = $model->getDebtBy($customer_id);
+    // echo count($debt);
+    
+    for($i=0;$i < count($debt);$i++){
+        $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+        
+        
+        if(count($data)>0){
+            $debt_status[$debt[$i]['debt_id']] = $data;
+        } 
+    }
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt_status);
+    // echo "</pre>";
+    
     $sale = $model_sale->getSaleBy();
+    
     require_once($path.'view.inc.php');
 
 }
@@ -103,11 +121,26 @@ else if ($_POST['action'] == 'insert'){
 
 }
 else{
-    // echo "<script>alert('".$_POST['action']."');</script>";
+    $debt_status = [];
     $debt = $model->getDebtBy($customer_id);
+    // echo count($debt);
+    
+    for($i=0;$i < count($debt);$i++){
+        $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+        
+        
+        if(count($data)>0){
+            $debt_status[$debt[$i]['debt_id']] = $data;
+        } 
+    }
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt_status);
+    // echo "</pre>";
+    
     $sale = $model_sale->getSaleBy();
-    // echo "<script>console.log(".count($debt).");</script>";
     
     require_once($path.'view.inc.php');
+
 }
 ?>

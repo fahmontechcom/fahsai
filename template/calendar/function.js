@@ -9,30 +9,16 @@ var initCalendar = function(){
         for (var i = 0; i <12; i++) {
             arr=calendarDate(yr,i);
             index = 0;
-            table='<div id="zabuto_calendar_68z" class="col-md-3">'+
+            table='<div id="zabuto_calendar_68z" class="col-sm-6 col-md-4 col-lg-3" style="margin-top:10px;">'+
                         '<div class="zabuto_calendar">'+
                             '<table class="table">'+
                                 '<tbody>'+
                                     '<tr class="calendar-month-header">'+
-                            '<td>'+
-                                '<div class="calendar-month-navigation" id="zabuto_calendar_68z_nav-prev">'+
-                                    '<span>'+
-                                        '<span class="glyphicon glyphicon-chevron-left">'+
-                                        '</span>'+
-                                   ' </span>'+
-                                '</div>'+
-                            '</td>'+
-                            '<td colspan="5">'+
+                            
+                            '<td colspan="7">'+
                                 '<span>'+arr_month[i]+' '+yr+'</span>'+
                             '</td>'+
-                            '<td>'+
-                                '<div class="calendar-month-navigation" id="zabuto_calendar_68z_nav-next">'+
-                                    '<span>'+
-                                        '<span class="glyphicon glyphicon-chevron-right">'+
-                                        '</span>'+
-                                    '</span>'+
-                                '</div>'+
-                            '</td>'+
+                            
                         '</tr>'+
                         '<tr class="calendar-dow-header">'+
                             '<th>Mon</th>'+

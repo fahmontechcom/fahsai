@@ -71,7 +71,7 @@ function getInvoiceNumberByScheduleID($customer_id){
 function getScheduleByID($id){
     $sql = " SELECT * 
     FROM tb_debt_schedule 
-    WHERE customer_id = '$id' 
+    WHERE debt_schedule_id = '$id' 
     ";
 
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -90,7 +90,7 @@ function updateScheduleByID($id,$data = []){
     debt_schedule_status_id = '".$data['debt_schedule_status_id']."',  
     debt_schedule_detail = '".$data['debt_schedule_detail']."', 
     debt_schedule_remark = '".$data['debt_schedule_remark']."' 
-    WHERE debt_id = $id "; 
+    WHERE debt_schedule_id = $id "; 
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
@@ -120,7 +120,7 @@ function insertSchedule($data=[]){
 }
 
 function deleteScheduleByID($id){
-    $sql = " DELETE FROM tb_debt_schedule WHERE customer_id = '$id' ";
+    $sql = " DELETE FROM tb_debt_schedule WHERE debt_schedule_id = '$id' ";
     mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
 }
 }
