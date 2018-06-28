@@ -38,22 +38,56 @@ if(!isset($_POST['action'])){
 else if ($_POST['action'] == 'insert'){
     
     ?>
-    <script>window.location="index.php?content=customer"</script>
+    <!-- <script>alert();</script> -->
+    <!-- <script>window.location="index.php?content=customer"</script> -->
     <?php
 
 }else if ($_POST['action'] == 'update'){
     $customer_id = $_POST['id'];
     $customers = $model->getDebtByID($customer_id);
-    $customer = $model->getDebtBy();
+    $debt_status = [];
+    $debt = $model->getDebtBy($customer_id);
+    // echo count($debt);
+    
+    for($i=0;$i < count($debt);$i++){
+        $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+        
+        
+        if(count($data)>0){
+            $debt_status[$debt[$i]['debt_id']] = $data;
+        } 
+    }
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt_status);
+    // echo "</pre>";
+    
+    $sale = $model_sale->getSaleBy();
+    
     require_once($path.'view.inc.php');
     
 
 }else if ($_POST['action'] == 'delete'){
     $customer = $model->deleteDebtByID($_POST['id']);
     
+    $debt_status = [];
     $debt = $model->getDebtBy($customer_id);
+    // echo count($debt);
+    
+    for($i=0;$i < count($debt);$i++){
+        $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+        
+        
+        if(count($data)>0){
+            $debt_status[$debt[$i]['debt_id']] = $data;
+        } 
+    }
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt_status);
+    // echo "</pre>";
+    
     $sale = $model_sale->getSaleBy();
-    // echo "<script>console.log(".count($debt).");</script>";
     
     require_once($path.'view.inc.php');
 
@@ -77,9 +111,24 @@ else if ($_POST['action'] == 'insert'){
         $debt = $model->insertDebt($data);
 
         if($debt){
+            $debt_status = [];
             $debt = $model->getDebtBy($customer_id);
+            // echo count($debt);
+            
+            for($i=0;$i < count($debt);$i++){
+                $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+                
+                
+                if(count($data)>0){
+                    $debt_status[$debt[$i]['debt_id']] = $data;
+                } 
+            }
+            // echo "------------end--------------";
+            // echo "<pre>";
+            // print_r($debt_status);
+            // echo "</pre>";
+            
             $sale = $model_sale->getSaleBy();
-            // echo "<script>console.log(".count($debt).");</script>";
             
             require_once($path.'view.inc.php');
         }else{
@@ -105,10 +154,24 @@ else if ($_POST['action'] == 'insert'){
     $debt = $model->updateDebtByID($_POST['customer_id'],$_POST['debt_id'],$data);
 
     if($debt){
-        // echo "<script>alert('".$_POST['action']."');</script>";
+        $debt_status = [];
         $debt = $model->getDebtBy($customer_id);
+        // echo count($debt);
+        
+        for($i=0;$i < count($debt);$i++){
+            $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
+            
+            
+            if(count($data)>0){
+                $debt_status[$debt[$i]['debt_id']] = $data;
+            } 
+        }
+        // echo "------------end--------------";
+        // echo "<pre>";
+        // print_r($debt_status);
+        // echo "</pre>";
+        
         $sale = $model_sale->getSaleBy();
-        // echo "<script>console.log(".count($debt).");</script>";
         
         require_once($path.'view.inc.php');
     }else{

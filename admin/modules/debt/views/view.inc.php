@@ -25,9 +25,9 @@
             alert("Please input debt_cate_id");
             document.getElementById("debt_cate_id").focus();
             return false;
-        }else if(debt_check_number.length == 0 && debt_invoice_number.length == 0){
-            alert("Please input check number or invoice number");
-            document.getElementById("debt_date").focus();
+        }else if(debt_invoice_number.length == 0){
+            alert("Please input invoice number");
+            document.getElementById("debt_invoice_number").focus();
             return false;
         }else if(debt_value.length == 0){
             alert("Please input value");
@@ -202,24 +202,24 @@ function getInvoiceNumber(customer_id){
                                 <label>ประเภท </label>
                                 <select id="debt_cate_id" name="debt_cate_id" class="form-control">
                                     <option value="">Select</option>
-                                    <option value="0">เลขที่เช็ค</option>
-                                    <option value="1">เลขที่อินวอย</option>
+                                    <option value="0">อินวอย</option>
+                                    <option value="1">เช็ค</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label>เลขที่เช็ค </label>
-                                <input id="debt_check_number" name="debt_check_number" class="form-control" value="<?php echo $customers['debt_check_number']?>">
-                                <p class="help-block">Example : 1234567</p>
+                                <label>อินวอย <font color="#F00"><b>*</b></font></label>
+                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $customers['debt_invoice_number']?>">
+                                <p class="help-block">Example : INV1805004</p>
                                 
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label>เลขที่อินวอย </font></label>
-                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $customers['debt_invoice_number']?>">
-                                <p class="help-block">Example : INV1805004</p>
+                                <label>เช็ค </label>
+                                <input id="debt_check_number" name="debt_check_number" class="form-control" value="<?php echo $customers['debt_check_number']?>">
+                                <p class="help-block">Example : 1234567</p>
                                 
                             </div>
                         </div>
@@ -283,7 +283,7 @@ function getInvoiceNumber(customer_id){
                       <button name="button" onclick="debt_add('<?php echo $customer_id; ?>')"  class="btn btn-success">บันทึกข้อมูล</button>
                     </div>
                     <!-- /.row (nested) -->
-                </form>
+                
             </div>
             <!-- /.panel-body -->
         </div>
@@ -296,8 +296,8 @@ function getInvoiceNumber(customer_id){
     <thead>
         <tr>
             <th class="th-debt">ลำดับ.</th>
-            <th class="th-debt">เลขที่เช็ค</th>  
-            <th class="th-debt">เลขที่อินวอย</th>
+            <th class="th-debt">อินวอย</th>
+            <th class="th-debt">เช็ค</th>  
             <th class="th-debt">มูลค่า</th>
             <th class="th-debt">คงเหลือ</th>
             <th class="th-debt">สถานะ</th>
@@ -311,8 +311,8 @@ function getInvoiceNumber(customer_id){
             ?>
             <tr class="nth-child">
                 <td><?php echo $i+1; ?></td>
-                <td><?php echo $debt[$i]['debt_check_number']; ?></td>
                 <td><?php echo $debt[$i]['debt_invoice_number']; ?></td>
+                <td><?php echo $debt[$i]['debt_check_number']; ?></td>
                 <td><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
                 <td><?php echo $debt[$i]['debt_balance']; ?></td>
                 <td style="text-align:left;">
