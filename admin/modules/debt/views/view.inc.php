@@ -141,6 +141,12 @@
         
         
     }
+    function debt_charge(){
+        
+        alert('coming soon...');
+        
+        
+    }
 
    function debt_view(customer_id){
         $.post( "modules/debt/views/index.inc.php",
@@ -152,6 +158,10 @@
             $("#collapse_td_"+customer_id).html(data);
 
         });
+       
+    }
+   function debt_invoice(customer_id){
+        alert('coming soon...');
        
     }
 
@@ -199,7 +209,7 @@ function getInvoiceNumber(customer_id){
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label>ประเภท </label>
+                                <label>ประเภท <font color="#F00"><b>*</b></font></label>
                                 <select id="debt_cate_id" name="debt_cate_id" class="form-control">
                                     <option value="">Select</option>
                                     <option value="0">อินวอย</option>
@@ -281,6 +291,7 @@ function getInvoiceNumber(customer_id){
                     <div align="right">
                       <button type="button" onclick="debt_view('<?php echo $customer_id; ?>')" class="btn btn-primary">ล้างข้อมูล</button>
                       <button name="button" onclick="debt_add('<?php echo $customer_id; ?>')"  class="btn btn-success">บันทึกข้อมูล</button>
+                      <button name="button" onclick="debt_invoice('<?php echo $customer_id; ?>')"  class="btn btn-custom-blue">ออกใบแจ้งหนี้</button>
                     </div>
                     <!-- /.row (nested) -->
                 
@@ -331,6 +342,9 @@ function getInvoiceNumber(customer_id){
                 </td>
             
                 <td>
+                    <a href="javascript:;" onclick="debt_charge();" style="font-size: 20px;color:green;">
+                        <i class="fa fa-money" aria-hidden="true" ></i>
+                    </a> 
                     <a href="javascript:;" onclick="debt_update('<?php 
                         echo $customer_id; ?>','<?php 
                         echo $debt[$i]['debt_cate_id'];?>','<?php 

@@ -17,5 +17,8 @@
     if($page=="schedule"){ 
         require_once("modules/schedule/views/index.inc.php"); 
     }
+    if($page=="notification"){ 
+        require_once("modules/notification/views/index.inc.php"); 
+    }
     
 ?>

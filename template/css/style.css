@@ -88,6 +88,19 @@ footer {
     border-color:#1e7e34;
     
 }
+.btn-custom-blue{
+    
+    background-color: #337ab7;
+    border-color:#337ab7;
+    
+    color:white;
+}
+.btn-custom-blue:hover{
+    
+    background-color: #186ab6;
+    border-color:#186ab6;
+    
+}
 .btn-custom-black{
     
     margin:2px;
@@ -352,6 +365,87 @@ li > a > span {
 .form-group{
     text-align:left ;
 }
+/*//////////////////////////////////////////////////////////////*/
+.navbar-top-links {
+    margin-right: 0;
+}
+.navbar-top-links li {
+    display: inline-block;
+}
+
+.navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+} 
+.navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts {
+    width: 310px;
+    min-width: 0;
+}
+.nav>li>ul {
+    list-style: none;
+    padding: 0px;
+}
+
+
+.notify {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background: rgb(255, 255, 255);
+}
+
+.navbar-top-links .dropdown-menu li a {
+    padding: 3px 20px;
+    min-height: 0;
+}
+.nav>li>ul>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 24px;
+    text-decoration: none;
+    font-size: 12px;
+}
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 50px;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.divider {
+    margin: 0px !important;
+}
+.dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+.alert{
+    position: absolute;
+    background: rgb(247, 15, 15);
+    color: white;
+    font-size:12px ;
+    border-radius: 4px;
+    top:0px;
+    right:15px;
+    padding: 0px !important;
+}
+
+.notify-active{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background: rgba(148, 196, 235, 0.877);
+}
+
+a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, button.list-group-item:hover {
+    color: #555;
+    text-decoration: none;
+    background-color: #f5f5f5;
+  
+}
+a.list-group-item, button.list-group-item {
+    color: #555;
+}
 
 @media only screen and (max-width: 1600px) {
     .img-detail{
@@ -385,7 +479,9 @@ li > a > span {
         width: 120px; 
         height: auto;
     }
-    
+    /* .navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    } */
 
 }
 @media only screen and (max-width: 640px) {

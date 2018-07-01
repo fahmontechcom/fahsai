@@ -28,7 +28,7 @@
 <!--===============================================================================================-->
 <script>
     function refresh(){
-        window.location = "admin/index.php?content=user"
+        window.location = "admin/index.php?content=customer"
     }   
 
     function error(){

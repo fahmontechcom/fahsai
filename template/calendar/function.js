@@ -6,6 +6,7 @@ var initCalendar = function(){
         index,
         arr_month   = ['January','February','March','April','May','June','July','August','September','October','November','December'],
         yr          = new Date().getFullYear(),arr;
+        console.log(date_event);
         for (var i = 0; i <12; i++) {
             arr=calendarDate(yr,i);
             index = 0;
@@ -29,29 +30,81 @@ var initCalendar = function(){
                             '<th>Sat</th>'+
                             '<th>Sun</th>'+
                         '</tr>';
-
+                       
+            
             for (var j = 0; j <5; j++) {
                 tr_td+='<tr class="calendar-dow">';
                 for (var k = 0; k <7; k++) {
                     var val = date_event.filter(item => (item['date']['day'] === arr[index] && item['date']['month'] === i+1 && item['date']['year'] === yr));
                     
-                    if(val.length > 0 ){
+                    var btn_del ='';
+                    var txt_detail ='';
+                    var day_display;
+                    var month_display;
+                    var year_display;
+                    if(val.length > 0 ){                       
+                        txt_detail = val[0]['detail'];
                         
                         tr_td +='<td>'+
                                     '<div class="day">';
-
+                        
+                        btn_del ='<button type="button" onclick="set_date('+arr[index]+','+(i+1)+','+yr+',1)" class="btn btn-danger"  data-dismiss="modal">ลบ</button>';
                         val.forEach(element => {
                             tr_td += '<span class="event '+element['class']+'" title="'+element['detail']+'"></span>';
                         });
 
                                     
-                        tr_td += '<a onclick="set_date('+arr[index]+','+(i+1)+','+yr+')">'+arr[index++]+'</a></div>'+
-                                '</td>';
+                        
                     }else{
                         tr_td+='<td>'+
-                                    '<div class="day"><a onclick="set_date('+arr[index]+','+(i+1)+','+yr+')">'+arr[index++]+'</a></div>'+
-                                '</td>';
+                                    '<div class="day">';
+                        btn_del ='';
                     }
+                    // if(arr[index-1]>0){
+                    //     day_display = parseInt(arr[index-1]);
+                    //     month_display= parseInt(i+1);
+                    //     year_display = parseInt(yr);
+                    //     if((day_display.toString()).length==1){
+                    //         day_display = '0'+day_display.toString()
+                    //     }
+                    //     if((month_display.toString()).length==1){
+                    //         month_display = '0'+month_display.toString()
+                    //     }
+                        
+                    // }
+                    // console.log(day_display+'-'+month_display+'-'+year_display);
+                    tr_td += '<a  data-toggle="modal" data-target="#'+arr[index]+'-'+(i+1)+'-'+yr+'">'+arr[index++]+'</a>'+
+                                    '<div class="modal fade" id="'+arr[index-1]+'-'+(i+1)+'-'+yr+'" tabindex="-1" role="dialog" aria-labelledby="'+arr[index-1]+'-'+(i+1)+'-'+yr+'Title" aria-hidden="true">'+
+                                        '<div class="modal-dialog modal-dialog-centered" role="document">'+
+                                            '<div class="modal-content">'+
+                                                '<div class="modal-header">'+
+                                                    '<h5 class="modal-title" id="exampleModalLongTitle">เพิ่มกำหนดการ</h5>'+
+                                                    '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
+                                                    '<span aria-hidden="true">&times;</span>'+
+                                                    '</button>'+
+                                                '</div>'+
+                                                '<div class="modal-body">'+
+                                                    '<div class="col-lg-12">'+
+                                                        '<div class="form-group col-lg-4">'+
+                                                            '<label>วันที่ </label>'+
+                                                            '<input readonly id="debt_shedule_list_date" name="debt_shedule_list_date" class="form-control" value="'+arr[index-1]+'-'+(i+1)+'-'+yr+'">'+
+                                                        '</div>'+
+                                                        '<div class="form-group col-lg-12">'+
+                                                            '<label>รายละเอียด </label>'+
+                                                            '<textarea class="form-control" rows="5"  id="debt_shedule_list_detail'+arr[index-1]+'-'+(i+1)+'-'+yr+'" name="debt_shedule_list_detail'+arr[index-1]+'-'+(i+1)+'-'+yr+'" >'+txt_detail+'</textarea>'+
+                                                        '</div>'+
+                                                    '</div>'+                                                
+                                                '</div>'+
+                                                '<div class="modal-footer">'+
+                                                    '<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>'+
+                                                    '<button type="button" onclick="set_date('+arr[index-1]+','+(i+1)+','+yr+')" class="btn btn-success"  data-dismiss="modal">บันทึก</button>'+
+                                                    btn_del+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</td>';
                     
                 }
                 tr_td+='</tr>';
@@ -62,8 +115,19 @@ var initCalendar = function(){
         main_table+=table;
         tr_td='';
         table='';
+        
     }
-    div.innerHTML=''+main_table+'<div class="clear"></div>';
+    
+    div.innerHTML=''+main_table+
+    '<div class="ml-auto" style="margin:15px;">'+
+        '<button onclick="schedule_list_add();" class="btn btn-success">บันทึกข้อมูล</button>'+
+    '</div>'+
+    '<div class="clear"></div><script>$("#23-11-2018").modal("show");</script>';
+    if(modal_id!=''){
+
+        $("#"+modal_id).modal("show");
+    }
+    
 } //close initCalendar()
 
 function calendarDate(yr,i){
@@ -117,13 +181,20 @@ function select_date_type(type){
 }
 
 
-function set_date(day, month, year){
+function set_date(day, month, year,del=''){
+    
+    var debt_shedule_list_detail = document.getElementById("debt_shedule_list_detail"+day+"-"+month+"-"+year).value;
+    
     var val = date_event.filter(item => (item['date']['day'] === day && item['date']['month'] === month && item['date']['year'] === year && item['type'] === select_type));
-    if(val.length > 0){
+    if(del !=''){
         date_event = date_event.filter(item => (item['date']['day'] !== day || item['date']['month'] !== month || item['date']['year'] !== year || item['type'] !== select_type));
+    }else if(val.length > 0){
+        date_event.filter(item => {if(item['date']['day'] === day && item['date']['month'] === month && item['date']['year'] === year){
+            item['detail'] = debt_shedule_list_detail;
+        }});
     }else{
         var _class = "";
-        var _detail = "-";
+        var _detail = debt_shedule_list_detail;
         switch(select_type){
             case 0 :_class = "badge-today color-today";
             break;
@@ -145,9 +216,18 @@ function set_date(day, month, year){
             }, 
             type:select_type,
             class:_class, 
-            detail:_detail
+            detail:_detail,
+            id:'0'
+
         });
+
+        
+        
     }
+    
+    initCalendar();
+}
+function close_date(){
     
     initCalendar();
 }

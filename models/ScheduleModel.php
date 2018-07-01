@@ -111,9 +111,7 @@ function insertSchedule($data=[]){
         $data['debt_schedule_detail']."','".
         $data['debt_schedule_remark']."')";
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-        // $img_path="../img_upload/sale/".$data['customer_image'];
-        // $ict=move_uploaded_file($data['customer_image_upload'],$img_path);
-        return true;
+        return mysqli_insert_id($this->db);
     }else {
         return false;
     }

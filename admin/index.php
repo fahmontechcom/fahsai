@@ -1,16 +1,16 @@
 <?php
 session_start();
 $user = $_SESSION['user'];
-
+require_once('../models/NotificationModel.php');
 if($user == ""){
 	?>
 	<script >window.location="../index.php";</script>
 	<?PHP
 }
+$model_notification = new NotificationModel;
+$notifications = $model_notification->getNotificationBy($user[0][0]);
 
-
-
-
+$notifications_new = $model_notification->getNotificationBy($user[0][0],"1");
 $page = $_REQUEST['content'];
 // to change a session variable, just overwrite it
 ?>
