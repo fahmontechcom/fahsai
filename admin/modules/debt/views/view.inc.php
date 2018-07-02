@@ -154,7 +154,7 @@
                 action:'view'
             }, 
             function( data ) {
-            $("#modal_data_"+customer_id+"_"+debt_id).html(data);
+            $("#modal_data_"+debt_id).html(data);
 
         });
         
@@ -362,12 +362,12 @@ function getInvoiceNumber(customer_id){
                     echo $debt[$i]['debt_invoice_number'];?>','<?php 
                     echo $debt[$i]['debt_check_number'];?>','<?php 
                     echo number_format($debt[$i]['debt_value'], 2, '.', ',');?>','<?php 
-                    echo $debt[$i]['debt_remark'];?>');" data-toggle="modal" data-target="#modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>"  style="font-size: 20px;color:green;">
+                    echo $debt[$i]['debt_remark'];?>');" data-toggle="modal" data-target="#modal_<?php echo $debt[$i]['debt_id']; ?>"  style="font-size: 20px;color:green;">
                         <i class="fa fa-money" aria-hidden="true" ></i>
                     </a>
-                    <div class="modal fade" id="modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>Title" aria-hidden="true">
+                    <div class="modal fade" id="modal_<?php echo $debt[$i]['debt_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal_<?php echo $debt[$i]['debt_id']; ?>Title" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div id="modal_data_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>" class="modal-content">
+                            <div id="modal_data_<?php echo $debt[$i]['debt_id']; ?>" class="modal-content">
                                 
                             </div>
                         </div>

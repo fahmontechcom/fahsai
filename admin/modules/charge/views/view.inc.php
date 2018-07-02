@@ -2,9 +2,9 @@
 function charge_add(){
            
      
-    var debt_payment_charge_id = document.getElementById("debt_payment_charge_id_<?php echo $customer_id."_".$debt_id; ?>").value;
-    var debt_payment_charge_detail = document.getElementById("debt_payment_charge_detail_<?php echo $customer_id."_".$debt_id; ?>").value; 
-    var debt_payment_charge_amount = document.getElementById("debt_payment_charge_amount_<?php echo $customer_id."_".$debt_id; ?>").value; 
+    var debt_payment_charge_id = document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value;
+    var debt_payment_charge_detail = document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value; 
+    var debt_payment_charge_amount = document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value; 
     
     debt_payment_charge_detail = $.trim(debt_payment_charge_detail); 
     debt_payment_charge_amount = $.trim(debt_payment_charge_amount); 
@@ -12,11 +12,11 @@ function charge_add(){
 
     if(debt_payment_charge_detail.length == 0){
         alert("Please input detail");
-        document.getElementById("debt_payment_charge_detail_<?php echo $customer_id."_".$debt_id; ?>").focus();
+        document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").focus();
         return false;
     }else if(debt_payment_charge_amount.length == 0){
         alert("Please input amount");
-        document.getElementById("debt_payment_charge_amount_<?php echo $customer_id."_".$debt_id; ?>").focus();
+        document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").focus();
         return false;    
     }else if(debt_payment_charge_id.length== 0){
         
@@ -33,7 +33,7 @@ function charge_add(){
             if(data=='0'){
                 alert('ไม่สามารถบันทึกข้อมูลได้');
             }else{
-                $("#modal_data_<?php echo $customer_id."_".$debt_id; ?>").html(data);
+                $("#modal_data_<?php echo $debt_id; ?>").html(data);
             }
             // getInvoiceNumber(customer_id);
 
@@ -54,7 +54,7 @@ function charge_add(){
             if(data=='0'){
                 alert('ไม่สามารถบันทึกข้อมูลได้');
             }else{
-                $("#modal_data_<?php echo $customer_id."_".$debt_id; ?>").html(data);
+                $("#modal_data_<?php echo $debt_id; ?>").html(data);
             }
             // getInvoiceNumber(customer_id);
         });
@@ -74,7 +74,7 @@ function charge_delete(debt_payment_charge_id){
             if(data=='0'){
                 alert('ไม่สามารถลบข้อมูลได้');
             }else{
-                $("#modal_data_<?php echo $customer_id."_".$debt_id; ?>").html(data);
+                $("#modal_data_<?php echo $debt_id; ?>").html(data);
             } 
         });
     }
@@ -82,9 +82,9 @@ function charge_delete(debt_payment_charge_id){
 }
 function charge_update(debt_payment_charge_id,debt_payment_charge_detail,debt_payment_charge_amount){
         
-    document.getElementById("debt_payment_charge_id_<?php echo $customer_id."_".$debt_id; ?>").value = debt_payment_charge_id;
-    document.getElementById("debt_payment_charge_detail_<?php echo $customer_id."_".$debt_id; ?>").value = debt_payment_charge_detail;
-    document.getElementById("debt_payment_charge_amount_<?php echo $customer_id."_".$debt_id; ?>").value = debt_payment_charge_amount; 
+    document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value = debt_payment_charge_id;
+    document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value = debt_payment_charge_detail;
+    document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value = debt_payment_charge_amount; 
 }
 function charge_view(customer_id){
     $.post( "modules/charge/views/index.inc.php",
@@ -94,7 +94,7 @@ function charge_view(customer_id){
             action:'view'
         }, 
         function( data ) {
-            $("#modal_data_<?php echo $customer_id."_".$debt_id; ?>").html(data);
+            $("#modal_data_<?php echo $debt_id; ?>").html(data);
 
     });
     
@@ -142,15 +142,15 @@ function charge_view(customer_id){
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
-                    <input type="hidden" id="debt_payment_charge_id_<?php echo $customer_id."_".$debt_id; ?>" name="debt_payment_charge_id_<?php echo $customer_id."_".$debt_id; ?>" class="form-control" value="">
+                    <input type="hidden" id="debt_payment_charge_id_<?php echo $debt_id; ?>" name="debt_payment_charge_id_<?php echo $debt_id; ?>" class="form-control" value="">
                     <label>รายละเอียดค่าใช้จ่าย </label>
-                    <input  id="debt_payment_charge_detail_<?php echo $customer_id."_".$debt_id; ?>" name="debt_payment_charge_detail_<?php echo $customer_id."_".$debt_id; ?>" class="form-control" value="">
+                    <input  id="debt_payment_charge_detail_<?php echo $debt_id; ?>" name="debt_payment_charge_detail_<?php echo $debt_id; ?>" class="form-control" value="">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label>จำนวน </label>
-                    <input  type="number"  step="any" id="debt_payment_charge_amount_<?php echo $customer_id."_".$debt_id; ?>" name="debt_payment_charge_amount_<?php echo $customer_id."_".$debt_id; ?>" class="form-control" value="">
+                    <input  type="number"  step="any" id="debt_payment_charge_amount_<?php echo $debt_id; ?>" name="debt_payment_charge_amount_<?php echo $debt_id; ?>" class="form-control" value="">
                 </div>
             </div>
             

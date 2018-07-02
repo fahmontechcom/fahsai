@@ -313,7 +313,7 @@ td > a > .fa >{
 }
 
 .header-i-size {
-    font-size:16px;
+    font-size:16px !important;
 }
 li > a > span {
     font-size:14px;
