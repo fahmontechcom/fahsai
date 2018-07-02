@@ -141,9 +141,22 @@
         
         
     }
-    function debt_charge(){
-        
-        alert('coming soon...');
+    function debt_charge(customer_id,debt_id,debt_invoice_number,debt_check_number,debt_value,debt_remark){
+        // alert(debt_id);
+        $.post( "modules/charge/views/index.inc.php",
+            {
+                customer_id:customer_id,
+                debt_id:debt_id,
+                debt_invoice_number:debt_invoice_number,
+                debt_check_number:debt_check_number,
+                debt_value:debt_value,
+                debt_remark:debt_remark,
+                action:'view'
+            }, 
+            function( data ) {
+            $("#modal_data_"+customer_id+"_"+debt_id).html(data);
+
+        });
         
         
     }
@@ -205,7 +218,7 @@ function getInvoiceNumber(customer_id){
             <div class="panel-body">
                
                     <input type="hidden"  id="customer_id" name="customer_id" value="<?php echo $customer_id; ?>" />
-                    <input type="hidden"  id="debt_id" name="debt_id" value="<?php echo $customers['debt_id']?>" />
+                    <input type="hidden"  id="debt_id" name="debt_id" value="<?php echo $debts['debt_id']?>" />
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group">
@@ -220,7 +233,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>อินวอย <font color="#F00"><b>*</b></font></label>
-                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $customers['debt_invoice_number']?>">
+                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $debts['debt_invoice_number']?>">
                                 <p class="help-block">Example : INV1805004</p>
                                 
                             </div>
@@ -228,7 +241,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>เช็ค </label>
-                                <input id="debt_check_number" name="debt_check_number" class="form-control" value="<?php echo $customers['debt_check_number']?>">
+                                <input id="debt_check_number" name="debt_check_number" class="form-control" value="<?php echo $debts['debt_check_number']?>">
                                 <p class="help-block">Example : 1234567</p>
                                 
                             </div>
@@ -236,7 +249,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>มูลค่า <font color="#F00"><b>*</b></font></label>
-                                <input type="number"  step="any" id="debt_value" name="debt_value" class="form-control" value="<?php echo $customers['debt_value']?>">
+                                <input type="number"  step="any" id="debt_value" name="debt_value" class="form-control" value="<?php echo $debts['debt_value']?>">
                                 <p class="help-block">Example : 15000</p>
                                 
                             </div>
@@ -244,7 +257,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>วันที่ <font color="#F00"><b>*</b></font> </label>
-                                <input readonly type="text" id="debt_date" name="debt_date" class="form-control debt_date" value="<?php echo $customers['debt_date']?>">
+                                <input readonly type="text" id="debt_date" name="debt_date" class="form-control debt_date" value="<?php echo $debts['debt_date']?>">
                                 <p class="help-block">Example : 2018-12-31 09:00</p>
                                 
                             </div>
@@ -267,7 +280,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>หมายเหตุ</label>
-                                <input type="text" id="debt_remark" name="debt_remark" class="form-control" value="<?php echo $customers['debt_remark']?>">
+                                <input type="text" id="debt_remark" name="debt_remark" class="form-control" value="<?php echo $debts['debt_remark']?>">
                                 <p class="help-block">Example : Check failed </p>
                                 
                             </div>
@@ -292,6 +305,7 @@ function getInvoiceNumber(customer_id){
                       <button type="button" onclick="debt_view('<?php echo $customer_id; ?>')" class="btn btn-primary">ล้างข้อมูล</button>
                       <button name="button" onclick="debt_add('<?php echo $customer_id; ?>')"  class="btn btn-success">บันทึกข้อมูล</button>
                       <button name="button" onclick="debt_invoice('<?php echo $customer_id; ?>')"  class="btn btn-custom-blue">ออกใบแจ้งหนี้</button>
+                      
                     </div>
                     <!-- /.row (nested) -->
                 
@@ -342,9 +356,22 @@ function getInvoiceNumber(customer_id){
                 </td>
             
                 <td>
-                    <a href="javascript:;" onclick="debt_charge();" style="font-size: 20px;color:green;">
+                    <a href="javascript:;" onclick="debt_charge('<?php 
+                    echo $customer_id;?>','<?php 
+                    echo $debt[$i]['debt_id'];?>','<?php 
+                    echo $debt[$i]['debt_invoice_number'];?>','<?php 
+                    echo $debt[$i]['debt_check_number'];?>','<?php 
+                    echo number_format($debt[$i]['debt_value'], 2, '.', ',');?>','<?php 
+                    echo $debt[$i]['debt_remark'];?>');" data-toggle="modal" data-target="#modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>"  style="font-size: 20px;color:green;">
                         <i class="fa fa-money" aria-hidden="true" ></i>
-                    </a> 
+                    </a>
+                    <div class="modal fade" id="modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>Title" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div id="modal_data_<?php echo $customer_id."_".$debt[$i]['debt_id']; ?>" class="modal-content">
+                                
+                            </div>
+                        </div>
+                    </div>
                     <a href="javascript:;" onclick="debt_update('<?php 
                         echo $customer_id; ?>','<?php 
                         echo $debt[$i]['debt_cate_id'];?>','<?php 

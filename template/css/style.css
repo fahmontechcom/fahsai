@@ -447,6 +447,13 @@ a.list-group-item, button.list-group-item {
     color: #555;
 }
 
+.modal-dialog {
+    max-width: 1000px;
+    margin: 1.75rem auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 @media only screen and (max-width: 1600px) {
     .img-detail{
         width: 200px; 
@@ -482,6 +489,7 @@ a.list-group-item, button.list-group-item {
     /* .navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts {
         margin-left: auto;
     } */
+    
 
 }
 @media only screen and (max-width: 640px) {

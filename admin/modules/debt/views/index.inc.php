@@ -43,8 +43,8 @@ else if ($_POST['action'] == 'insert'){
     <?php
 
 }else if ($_POST['action'] == 'update'){
-    $customer_id = $_POST['id'];
-    $customers = $model->getDebtByID($customer_id);
+    $debt_id = $_POST['id'];
+    $debts = $model->getDebtByID($debt_id);
     $debt_status = [];
     $debt = $model->getDebtBy($customer_id);
     // echo count($debt);

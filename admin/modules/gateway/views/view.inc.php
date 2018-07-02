@@ -36,8 +36,8 @@
           
         </tr>
         <?php } ?>
-      </tbody>
-    </table>
+    </tbody>
+  </table>
   </div>
 </div>
 

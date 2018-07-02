@@ -41,9 +41,9 @@ function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_numb
 function getDebtByID($id){
     $sql = " SELECT * 
     FROM tb_debt 
-    WHERE sale_id = '$id' 
+    WHERE debt_id = '$id' 
     ";
-
+    // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
