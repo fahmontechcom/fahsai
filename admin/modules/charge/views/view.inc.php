@@ -5,9 +5,11 @@ function charge_add(){
     var debt_payment_charge_id = document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value;
     var debt_payment_charge_detail = document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value; 
     var debt_payment_charge_amount = document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value; 
+    var debt_payment_charge_date = document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value; 
     
     debt_payment_charge_detail = $.trim(debt_payment_charge_detail); 
     debt_payment_charge_amount = $.trim(debt_payment_charge_amount); 
+    debt_payment_charge_date = $.trim(debt_payment_charge_date); 
     
 
     if(debt_payment_charge_detail.length == 0){
@@ -18,6 +20,10 @@ function charge_add(){
         alert("Please input amount");
         document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").focus();
         return false;    
+    }else if(debt_payment_charge_date.length == 0){
+        alert("Please input date");
+        document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").focus();
+        return false;    
     }else if(debt_payment_charge_id.length== 0){
         
         // window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
@@ -27,6 +33,7 @@ function charge_add(){
                     debt_id:'<?php echo $debt_id; ?>',
                     debt_payment_charge_detail:debt_payment_charge_detail,
                     debt_payment_charge_amount:debt_payment_charge_amount,
+                    debt_payment_charge_date:debt_payment_charge_date,
                     action:'add'
                 }
             , function( data ) {
@@ -48,6 +55,7 @@ function charge_add(){
                     debt_id:'<?php echo $debt_id; ?>',
                     debt_payment_charge_detail:debt_payment_charge_detail,
                     debt_payment_charge_amount:debt_payment_charge_amount,
+                    debt_payment_charge_date:debt_payment_charge_date,
                     action:'edit'
                 }
             , function( data ) {
@@ -80,11 +88,12 @@ function charge_delete(debt_payment_charge_id){
     }
     
 }
-function charge_update(debt_payment_charge_id,debt_payment_charge_detail,debt_payment_charge_amount){
+function charge_update(debt_payment_charge_id,debt_payment_charge_detail,debt_payment_charge_amount,debt_payment_charge_date){
         
     document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value = debt_payment_charge_id;
     document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value = debt_payment_charge_detail;
     document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value = debt_payment_charge_amount; 
+    document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value = debt_payment_charge_date; 
 }
 function charge_view(customer_id){
     $.post( "modules/charge/views/index.inc.php",
@@ -99,6 +108,14 @@ function charge_view(customer_id){
     });
     
 }
+
+$(function(){
+    $(".debt_date").datetimepicker({
+        dateFormat: 'yy-mm-dd',
+        // numberOfMonths: 2,
+    });
+
+});
 </script>             
 
  <div class="modal-header">
@@ -114,6 +131,7 @@ function charge_view(customer_id){
                 <div class="form-group">
                     <label>อินวอย </label>
                     <input readonly id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $debts['debt_invoice_number'];?>">
+                    
                 </div>
             </div>
             <div class="col-md-4">
@@ -140,17 +158,27 @@ function charge_view(customer_id){
         </div>
         <hr />
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="form-group">
                     <input type="hidden" id="debt_payment_charge_id_<?php echo $debt_id; ?>" name="debt_payment_charge_id_<?php echo $debt_id; ?>" class="form-control" value="">
-                    <label>รายละเอียดค่าใช้จ่าย </label>
-                    <input  id="debt_payment_charge_detail_<?php echo $debt_id; ?>" name="debt_payment_charge_detail_<?php echo $debt_id; ?>" class="form-control" value="">
+                    <label>รายละเอียดค่าใช้จ่าย <font color="#F00"><b>*</b></font></label>
+                    <input  id="debt_payment_charge_detail_<?php echo $debt_id; ?>" name="debt_payment_charge_detail_<?php echo $debt_id; ?>" class="form-control" value=""> 
+                    <p class="help-block">Example : ค่าเดินทาง</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label>จำนวน </label>
-                    <input  type="number"  step="any" id="debt_payment_charge_amount_<?php echo $debt_id; ?>" name="debt_payment_charge_amount_<?php echo $debt_id; ?>" class="form-control" value="">
+                    <label>จำนวน <font color="#F00"><b>*</b></font></label>
+                    <input  type="number"  step="any" id="debt_payment_charge_amount_<?php echo $debt_id; ?>" name="debt_payment_charge_amount_<?php echo $debt_id; ?>" class="form-control" value=""> 
+                    <p class="help-block">Example : 5000</p>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group">
+                    <label>วันที่ <font color="#F00"><b>*</b></font> </label>
+                    <input readonly type="text" id="debt_payment_charge_date_<?php echo $debt_id; ?>" name="debt_payment_charge_date_<?php echo $debt_id; ?>" class="form-control debt_date" value="">
+                    <p class="help-block">Example : 2018-12-31 09:00</p>
+                    
                 </div>
             </div>
             
@@ -186,7 +214,8 @@ function charge_view(customer_id){
                             <a href="javascript:;" onclick="charge_update('<?php 
                                 echo $charge[$i]['debt_payment_charge_id']; ?>','<?php 
                                 echo $charge[$i]['debt_payment_charge_detail'];?>','<?php 
-                                echo $charge[$i]['debt_payment_charge_amount'];?>');" style="font-size: 20px;">
+                                echo $charge[$i]['debt_payment_charge_amount'];?>','<?php 
+                                echo $charge[$i]['debt_payment_charge_date'];?>');" style="font-size: 20px;">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
                             </a> 
                             

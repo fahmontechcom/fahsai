@@ -1,15 +1,15 @@
 <script>
     function check(){
         
-        var debt_payment_geteway_name = document.getElementById("debt_payment_geteway_name").value;
+        var debt_payment_gateway_name = document.getElementById("debt_payment_gateway_name").value;
         
         
-        debt_payment_geteway_name = $.trim(debt_payment_geteway_name);
+        debt_payment_gateway_name = $.trim(debt_payment_gateway_name);
         
         
-        if(debt_payment_geteway_name.length == 0){
+        if(debt_payment_gateway_name.length == 0){
             alert("Please input gateway name");
-            document.getElementById("debt_payment_geteway_name").focus();
+            document.getElementById("debt_payment_gateway_name").focus();
             return false;
         }else{
             return true;
@@ -36,14 +36,14 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <form role="form" method="post" onsubmit="return check();" action="index.php?content=gateway&action=edit" enctype="multipart/form-data">
-                    <input type="hidden"  id="debt_payment_geteway_id" name="debt_payment_geteway_id" value="<?php echo $debt_payment_geteway_id ?>" />
+                    <input type="hidden"  id="debt_payment_gateway_id" name="debt_payment_gateway_id" value="<?php echo $debt_payment_gateway_id ?>" />
                     <div class="row">
                         <div class="col-lg-9">
                             <div class="row">
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>ช่องทางการชำระเงิน <font color="#F00"><b>*</b></font></label>
-                                        <input id="debt_payment_geteway_name" name="debt_payment_geteway_name" class="form-control" value="<?php echo $debt_payment_geteway['debt_payment_geteway_name']?>">
+                                        <input id="debt_payment_gateway_name" name="debt_payment_gateway_name" class="form-control" value="<?php echo $debt_payment_gateway['debt_payment_gateway_name']?>">
                                         <p class="help-block">Example : Cash </p>
                                     </div>
                                 </div>

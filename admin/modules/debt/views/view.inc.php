@@ -211,7 +211,7 @@ function getInvoiceNumber(customer_id){
 
 
 </script>
-<div class="row " style="margin:0px;padding-top:10px;padding-bottom:15px;background-color:#e4f2fe;">
+<div class="row row-debt" style="">
   <div class="col-lg-12">
         <div class="panel panel-default">
             <!-- /.panel-heading -->
@@ -335,7 +335,7 @@ function getInvoiceNumber(customer_id){
         for($i=0; $i < count($debt); $i++){
             ?>
             <tr class="nth-child">
-                <td><?php echo $i+1; ?></td>
+                <td><?php echo $i+1; ?><a href="javascript:;" onclick="show_payment('#collapse_debt_<?=$debt[$i]['debt_id']?>','#collapse_debt_td_<?=$debt[$i]['debt_id']?>','<?=$customer_id?>','<?=$debt[$i]['debt_id']?>')"  style="font-size: 12px;">&nbsp;[+]</a></td>
                 <td><?php echo $debt[$i]['debt_invoice_number']; ?></td>
                 <td><?php echo $debt[$i]['debt_check_number']; ?></td>
                 <td><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
@@ -392,7 +392,9 @@ function getInvoiceNumber(customer_id){
                 </td>
             
             </tr>
-            
+            <tr class="payment_tr" style="display:none;" id="collapse_debt_<?=$debt[$i]['debt_id']?>">
+                <td colspan="9" class="payment_td padding-0 margin-0" id="collapse_debt_td_<?=$debt[$i]['debt_id']?>"></td>
+            </tr>
             <?php } ?>
         </tbody>
     </table>

@@ -30,11 +30,13 @@ class ChargeModel extends BaseModel{
         $sql = " INSERT INTO tb_debt_payment_charge(
             debt_id, 
             debt_payment_charge_detail, 
-            debt_payment_charge_amount
+            debt_payment_charge_amount,
+            debt_payment_charge_date
             ) VALUES ('".
             $data['debt_id']."','".
             $data['debt_payment_charge_detail']."','". 
-            $data['debt_payment_charge_amount']."');";
+            $data['debt_payment_charge_amount']."','". 
+            $data['debt_payment_charge_date']."');";
             // echo $sql;
         if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
             return true;
@@ -51,7 +53,8 @@ class ChargeModel extends BaseModel{
         $sql = " UPDATE tb_debt_payment_charge 
             SET debt_id = '".$data['debt_id']."', 
             debt_payment_charge_detail = '".$data['debt_payment_charge_detail']."', 
-            debt_payment_charge_amount = '".$data['debt_payment_charge_amount']."'
+            debt_payment_charge_amount = '".$data['debt_payment_charge_amount']."', 
+            debt_payment_charge_date = '".$data['debt_payment_charge_date']."'
             WHERE debt_payment_charge_id = '$id'
         ";
     //  echo $sql;

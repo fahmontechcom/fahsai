@@ -40,6 +40,7 @@ else if ($_POST['action'] == 'insert'){
     $data['debt_id'] = $_POST['debt_id'];
     $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
     $data['debt_payment_charge_amount'] = $_POST['debt_payment_charge_amount'];
+    $data['debt_payment_charge_date'] = $_POST['debt_payment_charge_date'];
     // echo "------------end--------------";
     // echo "<pre>";
     // print_r($data);
@@ -62,6 +63,7 @@ else if ($_POST['action'] == 'insert'){
     $data['debt_id'] = $_POST['debt_id'];
     $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
     $data['debt_payment_charge_amount'] = $_POST['debt_payment_charge_amount'];
+    $data['debt_payment_charge_date'] = $_POST['debt_payment_charge_date'];
     
     $check_result = $model->updateChargeByID($debt_payment_charge_id,$data);
 

@@ -245,13 +245,18 @@ th {
     background-color: #4c97dc;
     
 }
+.th-debt-payment {
+    
+    background-color: #2f2f2f;
+    
+}
 .nth-child:nth-child(odd) {
-    background-color: #dddddd;
+    background-color: #f9f9f9;
 }
 
 .nth-child-customer:nth-child(4n+1) {
     
-    background-color: #dddddd;
+    background-color: #f9f9f9;
     
 }
 
@@ -452,6 +457,25 @@ a.list-group-item, button.list-group-item {
     margin: 1.75rem auto;
     padding-right: 10px;
     padding-left: 10px;
+}
+
+.row-debt{
+    margin:0px;
+    padding-top:10px;
+    padding-bottom:15px;
+    background-color:#e4f2fe;
+}
+.row-payment{
+    margin:0px;
+    padding-top:10px;
+    padding-bottom:15px;
+    background-color:#e1e1e1;
+}
+.p-bold{
+    font-weight: bold;
+}
+.span-nomal{
+    font-weight: normal;
 }
 
 @media only screen and (max-width: 1600px) {

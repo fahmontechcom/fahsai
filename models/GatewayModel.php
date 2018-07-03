@@ -11,11 +11,11 @@ class GatewayModel extends BaseModel{
 
 function getGatewayBy($name = ''){
     $sql = "SELECT *
-    FROM tb_debt_payment_geteway 
+    FROM tb_debt_payment_gateway 
     WHERE  
-    debt_payment_geteway_name LIKE ('%$name%')
+    debt_payment_gateway_name LIKE ('%$name%')
     ";
-    
+    // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -28,8 +28,8 @@ function getGatewayBy($name = ''){
 
 function getGatewayByID($id){
     $sql = "SELECT * 
-    FROM tb_debt_payment_geteway 
-    WHERE debt_payment_geteway_id = '$id' 
+    FROM tb_debt_payment_gateway 
+    WHERE debt_payment_gateway_id = '$id' 
     ";
 
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -43,9 +43,9 @@ function getGatewayByID($id){
 }
 
 function updateGatewayByID($id,$data = []){
-    $sql = " UPDATE tb_debt_payment_geteway SET 
-    debt_payment_geteway_name = '".$data['debt_payment_geteway_name']."' 
-    WHERE debt_payment_geteway_id = $id ";
+    $sql = " UPDATE tb_debt_payment_gateway SET 
+    debt_payment_gateway_name = '".$data['debt_payment_gateway_name']."' 
+    WHERE debt_payment_gateway_id = $id ";
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
@@ -55,10 +55,10 @@ function updateGatewayByID($id,$data = []){
 }
 
 function insertGateway($data=[]){
-    $sql = " INSERT INTO tb_debt_payment_geteway(
-        debt_payment_geteway_name
+    $sql = " INSERT INTO tb_debt_payment_gateway(
+        debt_payment_gateway_name
         ) VALUES ('".
-        $data['debt_payment_geteway_name']."')";
+        $data['debt_payment_gateway_name']."')";
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         
         return true;
@@ -68,7 +68,7 @@ function insertGateway($data=[]){
 }
 
 function deleteGatewayByID($id){
-    $sql = " DELETE FROM tb_debt_payment_geteway WHERE debt_payment_geteway_id = '$id' ";
+    $sql = " DELETE FROM tb_debt_payment_gateway WHERE debt_payment_gateway_id = '$id' ";
     mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
 }
 }

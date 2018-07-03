@@ -45,23 +45,53 @@
                 $('.dd_td').html("");
 	            $('.dd_tr').hide();
                 $(display_td_id).html(data);
-                $(display_id).toggle();
+                $(display_id).toggle("slow");
+                <?PHP
+                if(isset($_GET['debt_id'])){
+                    ?>
+                    show_payment('#collapse_debt_<?PHP echo $_GET['debt_id'];?>','#collapse_debt_td_<?PHP echo $_GET['debt_id'];?>','<?PHP echo $_GET['customer_id'];?>','<?PHP echo $_GET['debt_id'];?>');
+                    <?PHP
+                }  
+                ?>
             });
 
         }else{
             window.history.replaceState("", "", "index.php?content=customer");
             $(display_td_id).html('');
-            $(display_id).toggle();
+            $(display_id).toggle("slow");
         }
     }
 
+    
+
+    
     <?PHP 
     if(isset($_GET['customer_id'])){
         ?>
-                show_debt ('#collapse_<?PHP echo $_GET['customer_id'];?>','#collapse_td_<?PHP echo $_GET['customer_id'];?>','<?PHP echo $_GET['customer_id'];?>');
-        <?PHP
+        show_debt ('#collapse_<?PHP echo $_GET['customer_id'];?>','#collapse_td_<?PHP echo $_GET['customer_id'];?>','<?PHP echo $_GET['customer_id'];?>');
+        <?PHP 
+        
     }
     ?>
+    
+    function show_payment(display_id,display_td_id,customer_id,debt_id) {        
+        
+        if(!$(display_id).is(':visible')){
+            window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"&debt_id="+debt_id+"");
+            $.post( "modules/payment/views/index.inc.php",{debt_id:debt_id}, function( data ) {
+                $('.payment_td').html("");
+                $('.payment_tr').hide();
+                $(display_td_id).html(data);
+                $(display_id).toggle();
+            });
+    
+        }else{
+            window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
+            $(display_td_id).html('');
+            $(display_id).toggle();
+        }
+    }
+    
     
 
 </script>
