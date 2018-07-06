@@ -25,6 +25,95 @@ function payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge){
     $balance = $sum-$sum_payment['debt_payment_pay'];
     require_once($path.'view.inc.php');  
 }
+function payment_cal($old_date_var,$new_date_var,$value_balance_var,$interest_balance_var,$debt_payment_pay_var,$charge_amount_balance_var,$debt_id,$gateway_id,$remark,$discount){
+        $old_date=date_create($old_date_var);//วันก่อนหน้า
+        $new_date=date_create($new_date_var);//วันที่
+        $diff=date_diff($old_date,$new_date);
+        $date_amount = intval($diff->format("%a")); 
+
+        //ดอกเบี้ย
+        $debt_value_last = $value_balance_var;
+        $interest = round(($debt_value_last*(1.25/30))/100*$date_amount,2); 
+
+        //ดอกเบี้ยยกมา
+        $interest_balance_last = $interest_balance_var;
+        $interest_sum = $interest+$interest_balance_last;
+ 
+        //ดอกเบี้ยคงเหลือ
+        $interest_balance = 0;
+        if(($interest_sum-$debt_payment_pay_var)>0){
+            $interest_balance = $interest_sum-$debt_payment_pay_var;
+            
+        }
+
+        //จ่ายดอกเบี้ย
+        $interest_pay = $interest_sum-$interest_balance; 
+
+        
+
+        //ค่าใช้จ่ายยกมา 
+        $charge_amount_last = $charge_amount_balance_var;
+        $charge_amount = 0;
+        if($charge_amount_last!=''){ 
+            $charge_amount = $charge_amount_last;
+        }
+        echo '--'.$charge_amount_balance_var.'--'; 
+        echo '--'.$charge_amount.'--'; 
+        //ค่าใช้จ่ายคงเหลือ
+        $charge_amount_balance = $charge_amount;
+
+        $charge_amount_pay= 0;
+        if($interest_balance==0&&($debt_payment_pay_var-$interest_sum)>0){
+            $charge_amount_balance = $charge_amount-($debt_payment_pay_var-$interest_sum); 
+            // echo $charge_amount_balance.' = '.$charge_amount.'-('.$debt_payment_pay_var.'-'.$interest_sum.')'; 
+            $charge_amount_pay = $charge_amount-$charge_amount_balance;   //จ่ายค่าใช้จ่าย
+        }
+
+        
+        
+
+        //เงินต้นยกมา
+        $debt_value=0;
+        if($debt_value_last!=''){ 
+            $debt_value = $debt_value_last;
+        }
+
+        //เงินต้นคงเหลือ
+        $value_balance=$debt_value; 
+        $value_pay = 0;
+        if($charge_amount_balance==0&&$value_balance!=0&&($debt_payment_pay_var-$interest_sum-$charge_amount)>0){
+            $value_balance = $value_balance - ($debt_payment_pay_var-$interest_sum-$charge_amount);
+            $value_pay = $debt_value-$value_balance;  //จ่ายเงินต้น
+        }
+        
+        
+        
+
+        $data = [];
+        $data['debt_id'] = $debt_id;
+        $data['debt_payment_gateway_id'] = $gateway_id;  
+        $data['debt_payment_pay'] = round($debt_payment_pay_var,2);
+        $data['debt_payment_remark'] = $remark;
+        $data['debt_payment_date'] = $new_date_var;
+        $data['debt_payment_date_amount'] = $date_amount;
+        $data['debt_payment_interest_cal'] = round($interest,2); 
+        $data['debt_payment_interest'] = round($interest_sum,2); 
+        $data['debt_payment_discount'] = round($discount,2); 
+        $data['debt_payment_charge_amount'] = round($charge_amount,2); 
+        $data['debt_payment_value'] = round($debt_value,2); 
+        $data['debt_payment_interest_balance'] = round($interest_balance,2); 
+        $data['debt_payment_charge_amount_balance'] = round($charge_amount_balance,2); 
+        $data['debt_payment_value_balance'] = round($value_balance,2); 
+        $data['debt_payment_interest_pay'] = round($interest_pay,2); 
+        $data['debt_payment_charge_amount_pay'] = round($charge_amount_pay,2); 
+        $data['debt_payment_value_pay'] = round($value_pay,2);
+
+        echo ' วันก่อนหน้า = '.$old_date_var.' วันที่ = '.$data['debt_payment_date'].' จำนวนเงิน = '.$data['debt_payment_pay'].' จำนวนวัน = '.$date_amount.' ดอกเบี้ย = '.$data['debt_payment_interest_cal'].' ดอกเบี้ยยกมา = '.$data['debt_payment_interest'].' ดอกเบี้ยคงเหลือ = '.$data['debt_payment_interest_balance'].' ค่าใช้จ่ายยกมา = '.$data['debt_payment_charge_amount'].' ค่าใช้จ่ายคงเหลือ = '.$data['debt_payment_charge_amount_balance'].' เงินต้นยกมา = '.$data['debt_payment_value'].' เงินต้นคงเหลือ = '.$data['debt_payment_value_balance'];
+
+        return $data;
+        
+}
+
 if(!isset($_POST['action'])){ 
     
     payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge);
@@ -46,78 +135,22 @@ else if ($_POST['action'] == 'insert'){
 
         $last_payment = $model->getLastPaymentBy($debt_id); 
 
-        //ค่าใช้จ่าย 
-        $charge = $model_charge->getSumChargeBy($debt_id);  
-
-        //จำนวนวัน
-        $old_date=date_create($last_payment['debt_payment_date']);//วันก่อนหน้า
-        $new_date=date_create($_POST['debt_payment_date']);//วันที่
-        $diff=date_diff($old_date,$new_date);
-        $date_amount = intval($diff->format("%a"));
-
-        //ดอกเบี้ย
-        $interest = round(($last_payment['debt_payment_value_balance']*(1.25/30))/100*$date_amount,2);
- 
-        //ดอกเบี้ยคงเหลือ
-        $interest_balance = 0;
-        if(($interest-$_POST['debt_payment_pay'])>0){
-            $interest_balance = $interest-$_POST['debt_payment_pay'];
-            
-        }
-
-        //จ่ายดอกเบี้ย
-        $interest_pay = $interest-$interest_balance; 
-
-        //ค่าใช้จ่ายยกมา
-        $charge_amount = 0;
-        if($charge['charge_amount']!=''){ 
-            $charge_amount = intval($charge['charge_amount']);
-        }
-
-        //ค่าใช้จ่ายคงเหลือ
-        $charge_amount_balance = 0;
-        if($interest_balance==0&&$charge_amount_balance!=0){
-            $charge_amount_balance = $charge_amount-($_POST['debt_payment_pay']-$interest);
-        }
-
-        //จ่ายค่าใช้จ่าย
-        $charge_amount_pay = $charge_amount-$charge_amount_balance; 
-
-        //เงินต้นยกมา
-        $debt_value=0;
-        if($last_payment['debt_payment_value_balance']!=''){ 
-            $debt_value = $last_payment['debt_payment_value_balance'];
-        }
-
-        //เงินต้นคงเหลือ
-        $value_balance=$debt_value; 
-        if($charge_amount_balance==0&&$value_balance!=0){
-            $value_balance = $value_balance - ($_POST['debt_payment_pay']-$interest-$charge_amount);
-        }
-
-        //จ่ายเงินต้น
-        $value_pay = $debt_value-$value_balance; 
-
-        // echo ' วันก่อนหน้า = '.$debt['debt_date'].' วันที่ = '.$_POST['debt_payment_date'].' จำนวนเงิน = '.$_POST['debt_payment_pay'].' จำนวนวัน = '.$date_amount.' ดอกเบี้ยยกมา = '.$interest.' ดอกเบี้ยคงเหลือ = '.$interest_balance.' ค่าใช้จ่ายยกมา = '.$charge_amount.' ค่าใช้จ่ายคงเหลือ = '.$charge_amount_balance.' เงินต้นยกมา = '.$debt['debt_value'].' เงินต้นคงเหลือ = '.$value_balance;
         
-        $data = [];
-        $data['debt_id'] = $_POST['debt_id'];
-        $data['debt_payment_gateway_id'] = $_POST['debt_payment_gateway_id'];
-        $data['debt_payment_pay'] = $_POST['debt_payment_pay'];
-        $data['debt_payment_remark'] = $_POST['debt_payment_remark'];
-        $data['debt_payment_date'] = $_POST['debt_payment_date'];
-        $data['debt_payment_date_amount'] = $date_amount;
-        $data['debt_payment_interest_cal'] = $interest; 
-        $data['debt_payment_interest'] = $interest; 
-        $data['debt_payment_discount'] = $_POST['debt_payment_discount']; 
-        $data['debt_payment_charge_amount'] = $charge_amount; 
-        $data['debt_payment_value'] = $debt_value; 
-        $data['debt_payment_interest_balance'] = $interest_balance; 
-        $data['debt_payment_charge_amount_balance'] = $charge_amount_balance; 
-        $data['debt_payment_value_balance'] = $value_balance; 
-        $data['debt_payment_interest_pay'] = $interest_pay; 
-        $data['debt_payment_charge_amount_pay'] = $charge_amount_pay; 
-        $data['debt_payment_value_pay'] = $value_pay; 
+        
+        $data = []; 
+        $data = payment_cal(
+            $last_payment['debt_payment_date'],
+            $_POST['debt_payment_date'],
+            $last_payment['debt_payment_value_balance'],
+            $last_payment['debt_payment_interest_balance'],
+            $_POST['debt_payment_pay'],
+            $last_payment['debt_payment_charge_amount_balance'],
+            $_POST['debt_id'],
+            $_POST['debt_payment_gateway_id'],
+            $_POST['debt_payment_remark'],
+            $_POST['debt_payment_discount']
+        );
+
         $check_result = $model->insertPayment($data);
         
         if($check_result){ 
@@ -133,75 +166,19 @@ else if ($_POST['action'] == 'insert'){
         //ค่าใช้จ่าย 
         $charge = $model_charge->getSumChargeBy($debt_id);  
 
-        //จำนวนวัน
-        $old_date=date_create($debt['debt_date']);//วันก่อนหน้า
-        $new_date=date_create($_POST['debt_payment_date']);//วันที่
-        $diff=date_diff($old_date,$new_date);
-        $date_amount = intval($diff->format("%a"));
-
-        //ดอกเบี้ย
-        $interest = round(($debt['debt_value']*(1.25/30))/100*$date_amount,2);
- 
-        //ดอกเบี้ยคงเหลือ
-        $interest_balance = 0;
-        if(($interest-$_POST['debt_payment_pay'])>0){
-            $interest_balance = $interest-$_POST['debt_payment_pay'];
-            
-        }
-
-        //จ่ายดอกเบี้ย
-        $interest_pay = $interest-$interest_balance; 
-
-        //ค่าใช้จ่ายยกมา
-        $charge_amount = 0;
-        if($charge['charge_amount']!=''){ 
-            $charge_amount = intval($charge['charge_amount']);
-        }
-
-        //ค่าใช้จ่ายคงเหลือ
-        $charge_amount_balance = 0;
-        if($interest_balance==0&&$charge_amount_balance!=0){
-            $charge_amount_balance = $charge_amount-($_POST['debt_payment_pay']-$interest);
-        }
-
-        //จ่ายค่าใช้จ่าย
-        $charge_amount_pay = $charge_amount-$charge_amount_balance; 
-
-        //เงินต้นยกมา
-        $debt_value=0;
-        if($debt['debt_value']!=''){ 
-            $debt_value = $debt['debt_value'];
-        }
-
-        //เงินต้นคงเหลือ
-        $value_balance=$debt_value; 
-        if($charge_amount_balance==0&&$value_balance!=0){
-            $value_balance = $value_balance - ($_POST['debt_payment_pay']-$interest-$charge_amount);
-        }
-
-        //จ่ายเงินต้น
-        $value_pay = $debt_value-$value_balance; 
-
-        // echo ' วันก่อนหน้า = '.$debt['debt_date'].' วันที่ = '.$_POST['debt_payment_date'].' จำนวนเงิน = '.$_POST['debt_payment_pay'].' จำนวนวัน = '.$date_amount.' ดอกเบี้ยยกมา = '.$interest.' ดอกเบี้ยคงเหลือ = '.$interest_balance.' ค่าใช้จ่ายยกมา = '.$charge_amount.' ค่าใช้จ่ายคงเหลือ = '.$charge_amount_balance.' เงินต้นยกมา = '.$debt['debt_value'].' เงินต้นคงเหลือ = '.$value_balance;
-        
         $data = [];
-        $data['debt_id'] = $_POST['debt_id'];
-        $data['debt_payment_gateway_id'] = $_POST['debt_payment_gateway_id'];
-        $data['debt_payment_pay'] = $_POST['debt_payment_pay'];
-        $data['debt_payment_remark'] = $_POST['debt_payment_remark'];
-        $data['debt_payment_date'] = $_POST['debt_payment_date'];
-        $data['debt_payment_date_amount'] = $date_amount;
-        $data['debt_payment_interest_cal'] = $interest; 
-        $data['debt_payment_interest'] = $interest; 
-        $data['debt_payment_discount'] = $_POST['debt_payment_discount']; 
-        $data['debt_payment_charge_amount'] = $charge_amount; 
-        $data['debt_payment_value'] = $debt_value; 
-        $data['debt_payment_interest_balance'] = $interest_balance; 
-        $data['debt_payment_charge_amount_balance'] = $charge_amount_balance; 
-        $data['debt_payment_value_balance'] = $value_balance; 
-        $data['debt_payment_interest_pay'] = $interest_pay; 
-        $data['debt_payment_charge_amount_pay'] = $charge_amount_pay; 
-        $data['debt_payment_value_pay'] = $value_pay; 
+        $data = payment_cal(
+            $debt['debt_date'],
+            $_POST['debt_payment_date'],
+            $debt['debt_value'],'0',
+            $_POST['debt_payment_pay'],
+            $charge['charge_amount'],
+            $_POST['debt_id'],
+            $_POST['debt_payment_gateway_id'],
+            $_POST['debt_payment_remark'],
+            $_POST['debt_payment_discount']
+        );
+
         $check_result = $model->insertPayment($data);
         
         if($check_result){ 
@@ -211,82 +188,28 @@ else if ($_POST['action'] == 'insert'){
         }  
     }
    
-}else if ($_POST['action'] == 'edit'){ 
-    $count_payment = $model->getCountPaymentByID($debt_id); 
-    if($count_payment['count_payment']>1){
-        $last_payment = $model->getPaymentByID($id); 
+}else if ($_POST['action'] == 'edit'){  
 
-        //ค่าใช้จ่าย 
-        $charge = $model_charge->getSumChargeBy($debt_id);  
+    $before_payment = $model->getBeforePaymentByID($id,$debt_id);  
+
+    if($before_payment['debt_payment_date']!=''){
+       
+        $before_payment = $model->getBeforePaymentByID($id,$debt_id);   
     
-        //จำนวนวัน
-        $old_date=date_create($last_payment['debt_payment_date']);//วันก่อนหน้า
-        $new_date=date_create($_POST['debt_payment_date']);//วันที่
-        $diff=date_diff($old_date,$new_date);
-        $date_amount = intval($diff->format("%a"));
     
-        //ดอกเบี้ย
-        $interest = round(($last_payment['debt_payment_value_balance']*(1.25/30))/100*$date_amount,2);
-    
-        //ดอกเบี้ยคงเหลือ
-        $interest_balance = 0;
-        if(($interest-$_POST['debt_payment_pay'])>0){
-            $interest_balance = $interest-$_POST['debt_payment_pay'];
-            
-        }
-    
-        //จ่ายดอกเบี้ย
-        $interest_pay = $interest-$interest_balance; 
-    
-        //ค่าใช้จ่ายยกมา
-        $charge_amount = 0;
-        if($charge['charge_amount']!=''){ 
-            $charge_amount = intval($charge['charge_amount']);
-        }
-    
-        //ค่าใช้จ่ายคงเหลือ
-        $charge_amount_balance = 0;
-        if($interest_balance==0&&$charge_amount_balance!=0){
-            $charge_amount_balance = $charge_amount-($_POST['debt_payment_pay']-$interest);
-        }
-    
-        //จ่ายค่าใช้จ่าย
-        $charge_amount_pay = $charge_amount-$charge_amount_balance; 
-    
-        //เงินต้นยกมา
-        $debt_value=0;
-        if($last_payment['debt_payment_value_balance']!=''){ 
-            $debt_value = $last_payment['debt_payment_value_balance'];
-        }
-    
-        //เงินต้นคงเหลือ
-        $value_balance=$debt_value; 
-        if($charge_amount_balance==0&&$value_balance!=0){
-            $value_balance = $value_balance - ($_POST['debt_payment_pay']-$interest-$charge_amount);
-        }
-    
-        //จ่ายเงินต้น
-        $value_pay = $debt_value-$value_balance; 
-    
-        // echo ' วันก่อนหน้า = '.$debt['debt_date'].' วันที่ = '.$_POST['debt_payment_date'].' จำนวนเงิน = '.$_POST['debt_payment_pay'].' จำนวนวัน = '.$date_amount.' ดอกเบี้ยยกมา = '.$interest.' ดอกเบี้ยคงเหลือ = '.$interest_balance.' ค่าใช้จ่ายยกมา = '.$charge_amount.' ค่าใช้จ่ายคงเหลือ = '.$charge_amount_balance.' เงินต้นยกมา = '.$debt['debt_value'].' เงินต้นคงเหลือ = '.$value_balance;
-    
-        $data = [];
-        $data['debt_payment_gateway_id'] = $_POST['debt_payment_gateway_id'];
-        $data['debt_payment_pay'] = $_POST['debt_payment_pay'];
-        $data['debt_payment_remark'] = $_POST['debt_payment_remark'];
-        $data['debt_payment_date'] = $_POST['debt_payment_date'];
-        $data['debt_payment_date_amount'] = $date_amount;
-        $data['debt_payment_interest_cal'] = $interest; 
-        $data['debt_payment_interest'] = $interest; 
-        $data['debt_payment_discount'] = $_POST['debt_payment_discount']; 
-        $data['debt_payment_charge_amount'] = $charge_amount; 
-        $data['debt_payment_value'] = $debt_value; 
-        $data['debt_payment_interest_balance'] = $interest_balance; 
-        $data['debt_payment_charge_amount_balance'] = $charge_amount_balance; 
-        $data['debt_payment_value_balance'] = $value_balance; 
-        $data['debt_payment_interest_pay'] = $interest_pay; 
-        $data['debt_payment_charge_amount_pay'] = $charge_amount_pay; 
-        $data['debt_payment_value_pay'] = $value_pay; 
+        $data = [];  
+        $data = payment_cal(
+            $before_payment['debt_payment_date'],
+            $_POST['debt_payment_date'],
+            $before_payment['debt_payment_value_balance'],
+            $before_payment['debt_payment_interest_balance'],
+            $_POST['debt_payment_pay'],
+            $before_payment['debt_payment_charge_amount_balance'],
+            $_POST['debt_id'],
+            $_POST['debt_payment_gateway_id'],
+            $_POST['debt_payment_remark'],
+            $_POST['debt_payment_discount']
+        ); 
         
         $check_result = $model->updatePaymentByID($id,$data);
     
@@ -295,79 +218,27 @@ else if ($_POST['action'] == 'insert'){
         }else{
      
         } 
-    }else{
+    }
+    else{
         
         //เงินต้น
         $debt = $model_debt->getDebtByID($debt_id); 
 
         //ค่าใช้จ่าย 
-        $charge = $model_charge->getSumChargeBy($debt_id);  
+        $charge = $model_charge->getSumChargeBy($debt_id);   
 
-        //จำนวนวัน
-        $old_date=date_create($debt['debt_date']);//วันก่อนหน้า
-        $new_date=date_create($_POST['debt_payment_date']);//วันที่
-        $diff=date_diff($old_date,$new_date);
-        $date_amount = intval($diff->format("%a"));
-
-        //ดอกเบี้ย
-        $interest = round(($debt['debt_value']*(1.25/30))/100*$date_amount,2);
- 
-        //ดอกเบี้ยคงเหลือ
-        $interest_balance = 0;
-        if(($interest-$_POST['debt_payment_pay'])>0){
-            $interest_balance = $interest-$_POST['debt_payment_pay'];
-            
-        }
-
-        //จ่ายดอกเบี้ย
-        $interest_pay = $interest-$interest_balance; 
-
-        //ค่าใช้จ่ายยกมา
-        $charge_amount = 0;
-        if($charge['charge_amount']!=''){ 
-            $charge_amount = intval($charge['charge_amount']);
-        }
-
-        //ค่าใช้จ่ายคงเหลือ
-        $charge_amount_balance = 0;
-        if($interest_balance==0&&$charge_amount_balance!=0){
-            $charge_amount_balance = $charge_amount-($_POST['debt_payment_pay']-$interest);
-        }
-
-        //จ่ายค่าใช้จ่าย
-        $charge_amount_pay = $charge_amount-$charge_amount_balance; 
-
-        //เงินต้นยกมา
-        $debt_value=0;
-        if($debt['debt_value']!=''){ 
-            $debt_value = $debt['debt_value'];
-        }
-
-        //เงินต้นคงเหลือ
-        $value_balance=$debt_value; 
-        if($charge_amount_balance==0&&$value_balance!=0){
-            $value_balance = $value_balance - ($_POST['debt_payment_pay']-$interest-$charge_amount);
-        }
-
-        //จ่ายเงินต้น
-        $value_pay = $debt_value-$value_balance; 
         $data = [];
-        $data['debt_payment_gateway_id'] = $_POST['debt_payment_gateway_id'];
-        $data['debt_payment_pay'] = $_POST['debt_payment_pay'];
-        $data['debt_payment_remark'] = $_POST['debt_payment_remark'];
-        $data['debt_payment_date'] = $_POST['debt_payment_date'];
-        $data['debt_payment_date_amount'] = $date_amount;
-        $data['debt_payment_interest_cal'] = $interest; 
-        $data['debt_payment_interest'] = $interest; 
-        $data['debt_payment_discount'] = $_POST['debt_payment_discount']; 
-        $data['debt_payment_charge_amount'] = $charge_amount; 
-        $data['debt_payment_value'] = $debt_value; 
-        $data['debt_payment_interest_balance'] = $interest_balance; 
-        $data['debt_payment_charge_amount_balance'] = $charge_amount_balance; 
-        $data['debt_payment_value_balance'] = $value_balance; 
-        $data['debt_payment_interest_pay'] = $interest_pay; 
-        $data['debt_payment_charge_amount_pay'] = $charge_amount_pay; 
-        $data['debt_payment_value_pay'] = $value_pay; 
+        $data = payment_cal(
+            $debt['debt_date'],
+            $_POST['debt_payment_date'],
+            $debt['debt_value'],'0',
+            $_POST['debt_payment_pay'],
+            $charge['charge_amount'],
+            $_POST['debt_id'],
+            $_POST['debt_payment_gateway_id'],
+            $_POST['debt_payment_remark'],
+            $_POST['debt_payment_discount']
+        ); 
         
         $check_result = $model->updatePaymentByID($id,$data);
     
