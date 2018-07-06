@@ -338,8 +338,8 @@ function getInvoiceNumber(customer_id){
                 <td><?php echo $i+1; ?><a href="javascript:;" onclick="show_payment('#collapse_debt_<?=$debt[$i]['debt_id']?>','#collapse_debt_td_<?=$debt[$i]['debt_id']?>','<?=$customer_id?>','<?=$debt[$i]['debt_id']?>')"  style="font-size: 12px;">&nbsp;[+]</a></td>
                 <td><?php echo $debt[$i]['debt_invoice_number']; ?></td>
                 <td><?php echo $debt[$i]['debt_check_number']; ?></td>
-                <td><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
-                <td><?php echo $debt[$i]['debt_balance']; ?></td>
+                <td class="align-money"><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
+                <td class="align-money"><?php echo number_format($debt[$i]['debt_balance'], 2, '.', ','); ?></td>
                 <td style="text-align:left;">
                     <?PHP for($i_status=0; $i_status < count($debt_status[$debt[$i]['debt_id']]); $i_status++){?>
                         <button name="button" onclick="schedule_update(<?PHP 

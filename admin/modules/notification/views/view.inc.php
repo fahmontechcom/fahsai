@@ -14,41 +14,7 @@
                     </span>
                 </a>
             <?}?>
-            <a style="font-size:14px;" href="index.php?app=purchase_request&amp;action=detail&amp;id=13" class="list-group-item notify">
-
-                <i class="fa fa-comment fa-fw"></i>
-                เจรจา <br>INV. INV1806001  
-                <span class="pull-right text-muted small"><em>2018-06-06 17:03:08</em>
-                </span>
-            </a>
-            <a style="font-size:14px;" href="index.php?app=purchase_request&amp;action=detail&amp;id=13" class="list-group-item notify">
-
-                <i class="fa fa-comment fa-fw"></i>
-                เจรจา <br>INV. INV1806001  
-                <span class="pull-right text-muted small"><em>2018-06-06 17:03:08</em>
-                </span>
-            </a>
-            <a style="font-size:14px;" href="index.php?app=purchase_request&amp;action=detail&amp;id=13" class="list-group-item notify">
-
-                <i class="fa fa-comment fa-fw"></i>
-                เจรจา <br>INV. INV1806001  
-                <span class="pull-right text-muted small"><em>2018-06-06 17:03:08</em>
-                </span>
-            </a>
-            <a style="font-size:14px;" href="index.php?app=purchase_request&amp;action=detail&amp;id=13" class="list-group-item notify">
-
-                <i class="fa fa-comment fa-fw"></i>
-                เจรจา <br>INV. INV1806001  
-                <span class="pull-right text-muted small"><em>2018-06-06 17:03:08</em>
-                </span>
-            </a>
-            <a style="font-size:14px;" href="index.php?app=purchase_request&amp;action=detail&amp;id=13" class="list-group-item notify">
-
-                <i class="fa fa-comment fa-fw"></i>
-                เจรจา <br>INV. INV1806001  
-                <span class="pull-right text-muted small"><em>2018-06-06 17:03:08</em>
-                </span>
-            </a>
+            
         </div>
     </div>
 </div>

@@ -21,28 +21,28 @@ function getCustomerBy($name = '', $email = '', $mobile  = ''){
         WHERE debt_cate_id ='0' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0) AS check_number, 
+    ),0) AS invoice_number, 
     IFNULL((
         SELECT COUNT(*) 
         FROM tb_debt 
         WHERE debt_cate_id ='1' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0) AS invoice_number, 
+    ),0) AS check_number , 
     FORMAT(IFNULL(( 
         SELECT SUM(debt_value) 
         FROM tb_debt 
         WHERE debt_cate_id ='0' 
         AND customer_id = tb_cust.customer_id  
         GROUP BY customer_id 
-    ),0),2) AS  check_value,   
+    ),0),2) AS invoice_value ,   
     FORMAT(IFNULL((
         SELECT SUM(debt_value)  
         FROM tb_debt  
         WHERE debt_cate_id ='1' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0),2) AS invoice_value 
+    ),0),2) AS check_value  
     FROM tb_customer AS tb_cust
     ORDER BY tb_cust.customer_name
     ";
@@ -65,28 +65,28 @@ function getInvoiceNumberByCustomerID($customer_id){
         WHERE debt_cate_id ='0' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0) AS check_number, 
+    ),0) AS invoice_number, 
     IFNULL((
         SELECT COUNT(*) 
         FROM tb_debt 
         WHERE debt_cate_id ='1' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0) AS invoice_number, 
+    ),0) AS check_number , 
     FORMAT(IFNULL(( 
         SELECT SUM(debt_value) 
         FROM tb_debt 
         WHERE debt_cate_id ='0' 
         AND customer_id = tb_cust.customer_id  
         GROUP BY customer_id 
-    ),0),2) AS  check_value,   
+    ),0),2) AS invoice_value ,   
     FORMAT(IFNULL((
         SELECT SUM(debt_value)  
         FROM tb_debt  
         WHERE debt_cate_id ='1' 
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
-    ),0),2) AS invoice_value  
+    ),0),2) AS check_value   
     FROM tb_customer AS tb_cust  
     WHERE customer_id = '$customer_id'
     ";

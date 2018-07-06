@@ -24,6 +24,22 @@ class ChargeModel extends BaseModel{
         }
 
     }
+    function getSumChargeBy($debt_id){
+        $sql = " SELECT SUM(debt_payment_charge_amount) as charge_amount 
+        FROM tb_debt_payment_charge  
+        WHERE debt_id = '$debt_id' 
+        ORDER BY debt_payment_charge_id 
+        ";
+        // echo $sql;
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+            $data = [];
+            $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
+            
+            $result->close();
+            return $data;
+        }
+
+    }
 
 
     function insertCharge($data = []){
@@ -57,7 +73,7 @@ class ChargeModel extends BaseModel{
             debt_payment_charge_date = '".$data['debt_payment_charge_date']."'
             WHERE debt_payment_charge_id = '$id'
         ";
-    //  echo $sql;
+    
         if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
            return true;
         }else {

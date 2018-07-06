@@ -209,7 +209,7 @@ $(function(){
                     <tr class="nth-child">
                         <td><?php echo $i+1; ?></td>
                         <td><?php echo $charge[$i]['debt_payment_charge_detail']; ?></td>
-                        <td><?php echo number_format($charge[$i]['debt_payment_charge_amount'], 2, '.', ','); ?></td>
+                        <td class="align-money" ><?php echo number_format($charge[$i]['debt_payment_charge_amount'], 2, '.', ','); ?></td>
                         <td>
                             <a href="javascript:;" onclick="charge_update('<?php 
                                 echo $charge[$i]['debt_payment_charge_id']; ?>','<?php 

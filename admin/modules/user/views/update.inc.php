@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label>เบอร์โทรศัพท์ </label>
+                                        <label>เบอร์โทรศัพท์ <font color="#F00"><b>*</b></font></label>
                                         <input id="user_telephone" name="user_telephone" class="form-control" value="<?php echo $user['user_telephone']?>">
                                         <p class="help-block">Example : 099-999-9999 </p>
                                     </div>

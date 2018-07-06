@@ -1,12 +1,12 @@
 @font-face {
     font-family: 'Kanit-Regular';
-    src: url('../fonts/kanit/Kanit-Regular.ttf') format('truetype');
+    src: url('../fonts/Kanit/Kanit-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 body{
-    font-family: 'Kanit-Regular'; 
+    font-family: 'Kanit-Regular';
     font-size: 12px; 
     background-color: #f3f3f3;
     
@@ -476,6 +476,9 @@ a.list-group-item, button.list-group-item {
 }
 .span-nomal{
     font-weight: normal;
+}
+.align-money{
+    text-align: right; 
 }
 
 @media only screen and (max-width: 1600px) {

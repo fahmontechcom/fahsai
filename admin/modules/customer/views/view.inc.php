@@ -1,4 +1,8 @@
 <script>
+    function customer_view(){
+        window.location="index.php?content=customer";
+    }
+
     function check(){
         
 
@@ -45,7 +49,7 @@
                 $('.dd_td').html("");
 	            $('.dd_tr').hide();
                 $(display_td_id).html(data);
-                $(display_id).toggle("slow");
+                $(display_id).toggle();
                 <?PHP
                 if(isset($_GET['debt_id'])){
                     ?>
@@ -58,7 +62,7 @@
         }else{
             window.history.replaceState("", "", "index.php?content=customer");
             $(display_td_id).html('');
-            $(display_id).toggle("slow");
+            $(display_id).toggle();
         }
     }
 
@@ -165,7 +169,7 @@
                     <!-- /.row (nested) -->
 
                     <div align="right">
-                      <button type="reset" class="btn btn-primary">ล้างข้อมูล</button>
+                      <button type="button" onclick="customer_view();" class="btn btn-primary">ล้างข้อมูล</button>
                       <button name="submit" type="submit" class="btn btn-success">บันทึกข้อมูล</button>
                     </div>
                     <!-- /.row (nested) -->
@@ -185,10 +189,10 @@
                   <th>ชื่อลูกค้า</th>  
                   <th>เบอร์โทรศัพท์</th>
                   <th>อีเมล</th>
-                  <th>จำนวนเช็ค</th>
                   <th>จำนวนอินวอย</th>
-                  <th>มูลค่าเช็ค</th>
+                  <th>จำนวนเช็ค</th>
                   <th>มูลค่าอินวอย</th>
+                  <th>มูลค่าเช็ค</th>
                   <th>จัดการ</th>
                   
                 </tr>
@@ -202,10 +206,10 @@
                         <td><?php echo $customer[$i]['name']; ?></td>
                         <td><?php echo $customer[$i]['customer_telephone']; ?></td>
                         <td><?php echo $customer[$i]['customer_email']; ?></td>
-                        <td id="display_chk_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_number']; ?></td>
                         <td id="display_inv_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_number']; ?></td>
-                        <td id="display_chk_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_value']; ?></td>
-                        <td id="display_inv_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_value']; ?></td>
+                        <td id="display_chk_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_number']; ?></td>
+                        <td class="align-money" id="display_inv_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_value']; ?></td>
+                        <td class="align-money" id="display_chk_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_value']; ?></td>
                         <td>
                             <a href="?content=customer&action=update&id=<?php echo $customer[$i]['customer_id'];?>" style="font-size: 20px;">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
