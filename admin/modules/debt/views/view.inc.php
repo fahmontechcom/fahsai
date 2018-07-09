@@ -61,7 +61,7 @@
                     alert('ไม่สามารถบันทึกข้อมูลได้');
                 }else{
                     $("#collapse_td_"+customer_id).html(data);
-                }
+                } 
                 getInvoiceNumber(customer_id);
 
             });
@@ -83,6 +83,8 @@
                 , function( data ) {
                 if(data=='0'){
                     alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else if(data=='1'){
+                    alert('ไม่สามารถแก้ไขข้อมูลได้ กรุณาลบรายการชำระเงินก่อน');
                 }else{
                     $("#collapse_td_"+customer_id).html(data);
                 }
@@ -155,7 +157,7 @@
             }, 
             function( data ) {
             $("#modal_data_"+debt_id).html(data);
-
+            $('.payment_tr').hide();
         });
         
         
@@ -181,7 +183,7 @@
 
 
 $(function(){
-    $(".debt_date").datetimepicker({
+    $(".debt_date").datepicker({
         dateFormat: 'yy-mm-dd',
         // numberOfMonths: 2,
     });
@@ -339,7 +341,13 @@ function getInvoiceNumber(customer_id){
                 <td><?php echo $debt[$i]['debt_invoice_number']; ?></td>
                 <td><?php echo $debt[$i]['debt_check_number']; ?></td>
                 <td class="align-money"><?php echo number_format($debt[$i]['debt_value'], 2, '.', ','); ?></td>
-                <td class="align-money"><?php echo number_format($debt[$i]['debt_balance'], 2, '.', ','); ?></td>
+                <td class="align-money" id="display_value_balance_<?=$debt[$i]['debt_id']?>"><?php 
+                if($value_balance[$debt[$i]['debt_id']]['debt_payment_value_balance']!=''){
+                    echo number_format($value_balance[$debt[$i]['debt_id']]['debt_payment_value_balance'], 2, '.', ',');
+                }else{
+                    echo number_format($debt[$i]['debt_value'], 2, '.', ','); 
+                } 
+                 ?></td>
                 <td style="text-align:left;">
                     <?PHP for($i_status=0; $i_status < count($debt_status[$debt[$i]['debt_id']]); $i_status++){?>
                         <button name="button" onclick="schedule_update(<?PHP 
@@ -372,7 +380,8 @@ function getInvoiceNumber(customer_id){
                             </div>
                         </div>
                     </div>
-                    <a href="javascript:;" onclick="debt_update('<?php 
+                    <a id="debt_update_<?php 
+                        echo $debt[$i]['debt_id'];?>" href="javascript:;" onclick="debt_update('<?php 
                         echo $customer_id; ?>','<?php 
                         echo $debt[$i]['debt_cate_id'];?>','<?php 
                         echo $debt[$i]['debt_id'];?>','<?php 

@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Bangkok');
 require_once('../../../../models/ChargeModel.php');
 require_once('../../../../models/SaleModel.php');
 require_once('../../../../models/StatusModel.php');
@@ -12,7 +12,6 @@ $model = new ChargeModel;
 $model_sale = new SaleModel;
 $model_status = new StatusModel;
 $model_debt = new DebtModel;
-
 $customer_id=$_POST['customer_id'];
 $debt_payment_charge_id=$_POST['id'];
 $debt_id=$_POST['debt_id'];
@@ -36,6 +35,7 @@ else if ($_POST['action'] == 'insert'){
     
 
 }else if ($_POST['action'] == 'add'){
+     
     $data = [];
     $data['debt_id'] = $_POST['debt_id'];
     $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
@@ -46,15 +46,40 @@ else if ($_POST['action'] == 'insert'){
     // print_r($data);
     // echo "</pre>";
     // echo "<script>alert('');</script>";
-    $check_result = $model->insertCharge($data);
+    $check_charge = $model->getChargeBy($debt_id); 
+    if(count($check_charge)<=0){ 
 
-    if($check_result){
-        $debts = $model_debt->getDebtByID($debt_id);
-        $charge = $model->getChargeBy($debt_id);
-        require_once($path.'view.inc.php');
+        $check_result = $model->insertCharge($data);
+
+        if($check_result){
+            $debts = $model_debt->getDebtByID($debt_id);
+            $charge = $model->getChargeBy($debt_id);
+            require_once($path.'view.inc.php');
+        }else{
+            echo '0';
+        }
+
     }else{
-        echo '0';
+        $last_charge = $model->getLastChargeBy($debt_id); 
+        $old_date=date_create($last_charge['debt_payment_charge_date']);//วันก่อนหน้า
+        $new_date=date_create($_POST['debt_payment_charge_date']);//วันที่
+        if($old_date<=$new_date){
+
+            $check_result = $model->insertCharge($data);
+
+            if($check_result){
+                $debts = $model_debt->getDebtByID($debt_id);
+                $charge = $model->getChargeBy($debt_id);
+                require_once($path.'view.inc.php');
+            }else{
+                echo '0';
+            }
+
+        }else{
+            echo '1';
+        }
     }
+    
     
     
 }else if ($_POST['action'] == 'edit'){

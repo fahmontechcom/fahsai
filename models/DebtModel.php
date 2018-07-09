@@ -114,9 +114,10 @@ function insertDebt($data=[]){
     }
 }
 
-function deleteDebtByID($id){
-    $sql = " DELETE FROM tb_debt WHERE debt_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
-}
+    function deleteDebtByID($id){
+        $sql = " DELETE FROM tb_debt WHERE debt_id = '$id' ";
+        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    }
+    
 }
 ?>

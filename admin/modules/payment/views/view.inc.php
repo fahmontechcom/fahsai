@@ -1,7 +1,7 @@
 <script>
 
 $(function(){
-    $(".date_pick").datetimepicker({
+    $(".date_pick").datepicker({
         dateFormat: 'yy-mm-dd',
         // numberOfMonths: 2,
     });
@@ -27,14 +27,14 @@ $(function(){
         debt_payment_remark = $.trim(debt_payment_remark); 
  
 
-        if(debt_payment_pay.length == 0){
-            alert("Please input amount");
-            document.getElementById("debt_payment_pay").focus();
-            return false;
-        }else if(debt_payment_date.length == 0){
+        if(debt_payment_date.length == 0){
             alert("Please input date");
             document.getElementById("debt_payment_date").focus();
             return false;       
+        }else if(debt_payment_pay.length == 0){
+            alert("Please input amount");
+            document.getElementById("debt_payment_pay").focus();
+            return false;
         }else if(debt_payment_gateway_id.length == 0){
             alert("Please input gateway");
             document.getElementById("debt_payment_gateway_id").focus();
@@ -42,7 +42,7 @@ $(function(){
         }else if(debt_payment_id.length== 0){ 
             $.post( "modules/payment/views/index.inc.php",
                     {  
-                        debt_id:'<?php echo $debt_id;?>',
+                        debt_id:'<?PHP echo $debt_id;?>',
                         debt_payment_gateway_id:debt_payment_gateway_id, 
                         debt_payment_date:debt_payment_date,  
                         debt_payment_pay:debt_payment_pay,  
@@ -53,16 +53,19 @@ $(function(){
                 , function( data ) {
                 if(data=='0'){
                     alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else if(data=='1'){
+                    alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
                 }else{
-                    $("#collapse_debt_td_<?php echo $debt_id;?>").html(data);
+                    $("#collapse_debt_td_<?PHP echo $debt_id;?>").html(data); 
                 }
                 
+                getValueBalance(<?PHP echo $debt_id;?>);
 
             });
         }else{ 
             $.post( "modules/payment/views/index.inc.php",
                     { 
-                        debt_id:'<?php echo $debt_id;?>',
+                        debt_id:'<?PHP echo $debt_id;?>',
                         id:debt_payment_id,
                         debt_payment_gateway_id:debt_payment_gateway_id, 
                         debt_payment_date:debt_payment_date, 
@@ -74,9 +77,12 @@ $(function(){
                 , function( data ) {
                 if(data=='0'){
                     alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else if(data=='1'){
+                    alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
                 }else{
-                    $("#collapse_debt_td_<?php echo $debt_id;?>").html(data);
+                    $("#collapse_debt_td_<?PHP echo $debt_id;?>").html(data); 
                 }
+                getValueBalance(<?PHP echo $debt_id;?>);
                 
             });
         }
@@ -87,17 +93,18 @@ $(function(){
         if(confirm('You want to delete this payment ?')){
             $.post( "modules/payment/views/index.inc.php",
                     {
-                        debt_id:'<?php echo $debt_id;?>',
+                        debt_id:'<?PHP echo $debt_id;?>',
                         id:debt_payment_id,
                         action:'delete'
                     }
                 , function( data ) {
+                    console.log(data);
                 if(data=='0'){
                     alert('ไม่สามารถลบข้อมูลได้');
                 }else{
-                    $("#collapse_debt_td_<?php echo $debt_id;?>").html(data);
+                    $("#collapse_debt_td_<?PHP echo $debt_id;?>").html(data);
                 }
-
+                getValueBalance(<?PHP echo $debt_id;?>);
                 
                 
  
@@ -119,14 +126,34 @@ $(function(){
     function payment_view(){
         $.post( "modules/payment/views/index.inc.php",
             {
-                debt_id:'<?php echo $debt_id;?>',
+                debt_id:'<?PHP echo $debt_id;?>',
                 action:'view'
             }, 
             function( data ) {
-            $("#collapse_debt_td_<?php echo $debt_id;?>").html(data);
-
+            $("#collapse_debt_td_<?PHP echo $debt_id;?>").html(data);
+            getValueBalance(<?PHP echo $debt_id;?>);
         });
         
+    }
+
+    function getValueBalance(debt_id){ 
+    $.post( "controllers/getValueBalance.php",
+                    {
+                        debt_id:debt_id
+                    }
+                , function( data ) {
+                    console.log(data);
+                if(data=='0'){
+                    alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else{
+                    
+                    $("#display_value_balance_"+debt_id).html(data);
+                    $("#show_balance_"+debt_id).html(data);
+                    
+                }
+                
+
+            });
     }
   
 </script>
@@ -137,7 +164,7 @@ $(function(){
             <div class="panel-body">
                 
                 <div class="col-lg-12 text-left" style="margin-top:5px;">
-                    <p class="p-bold">จำนวนหนี้&nbsp;:&nbsp;<span class="span-nomal"  id="show_debt_value"><?php echo number_format($debt['debt_value'], 2, '.', ','); ?></span>&nbsp;&nbsp;ดอกเบี้ย&nbsp;:&nbsp;<span class="span-nomal" id="show_debt_interest" ><?php echo number_format($debt['debt_interest'], 2, '.', ','); ?></span>&nbsp;&nbsp;ค่าใช้จ่าย&nbsp;:&nbsp;<span class="span-nomal" id="show_charge_amount" ><?php echo number_format($charge['debt_payment_charge_amount'], 2, '.', ','); ?></span>&nbsp;&nbsp;รวม&nbsp;:&nbsp;<span class="span-nomal" id="show_sum"><?php echo number_format($sum, 2, '.', ','); ?></span>&nbsp;&nbsp;ชำระแล้ว&nbsp;:&nbsp;<span class="span-nomal" id="show_pay"><?php echo number_format($sum_payment['debt_payment_pay'], 2, '.', ','); ?></span>&nbsp;&nbsp;คงเหลือ&nbsp;:&nbsp;<span class="span-nomal"  id="show_balance"><?php echo number_format($balance, 2, '.', ','); ?></span></p>  
+                    <p class="p-bold">จำนวนหนี้&nbsp;:&nbsp;<span class="span-nomal"  id="show_debt_value"><?PHP echo number_format($debt['debt_value'], 2, '.', ','); ?></span>&nbsp;&nbsp;ดอกเบี้ย&nbsp;:&nbsp;<span class="span-nomal" id="show_debt_interest_<?=$debt['debt_id']?>" ><?PHP echo number_format($interest,2, '.', ','); ?></span>&nbsp;&nbsp;ค่าใช้จ่าย&nbsp;:&nbsp;<span class="span-nomal" id="show_charge_amount" ><?PHP echo number_format($charge_amount, 2, '.', ','); ?></span>&nbsp;&nbsp;รวม&nbsp;:&nbsp;<span class="span-nomal" id="show_sum"><?PHP echo number_format($sum,2, '.', ','); ?></span>&nbsp;&nbsp;ชำระแล้ว&nbsp;:&nbsp;<span class="span-nomal" id="show_pay"><?PHP echo number_format($sum_payment['debt_payment_pay'], 2, '.', ','); ?></span>&nbsp;&nbsp;คงเหลือ&nbsp;:&nbsp;<span class="span-nomal"  id="show_balance_<?=$debt['debt_id']?>"><?PHP echo number_format($payment_value, 2, '.', ','); ?></span></p>  
                 </div>
                 <div class="row justify-content-md-center">
                     
@@ -157,39 +184,46 @@ $(function(){
                             </tr>
                         </thead>
                         <tbody id="tbody_debt">
-                            <?php 
+                            <?PHP 
                             for($i=0; $i < count($payment); $i++){
                                 ?>
                                 <tr class="nth-child">
-                                    <td><?php echo $payment[$i]['debt_payment_date']; ?></td>
-                                    <td class="align-money" ><?php echo number_format($payment[$i]['debt_payment_pay'], 2, '.', ','); ?></td>
-                                    <td><?php echo number_format($payment[$i]['debt_payment_value_pay'], 2, '.', ','); ?></td>
-                                    <td><?php echo number_format($payment[$i]['debt_payment_charge_amount_pay'], 2, '.', ','); ?></td>
-                                    <td><?php echo number_format(($payment[$i]['debt_payment_interest_pay']-$payment[$i]['debt_payment_discount']), 2, '.', ','); ?></td>
-                                    <td><?php echo number_format($payment[$i]['debt_payment_discount'], 2, '.', ','); ?></td>
-                                    <td><?php echo $payment[$i]['debt_payment_gateway_name']; ?></td>
+                                    <td><?PHP echo $payment[$i]['debt_payment_date']; ?></td>
+                                    <td class="align-money" ><?PHP echo number_format($payment[$i]['debt_payment_pay'], 2, '.', ','); ?></td>
+                                    <td class="align-money"><?PHP echo number_format($payment[$i]['debt_payment_value_pay'], 2, '.', ','); ?></td>
+                                    <td class="align-money"><?PHP echo number_format($payment[$i]['debt_payment_charge_amount_pay'], 2, '.', ','); ?></td>
+                                    <td class="align-money"><?PHP echo number_format(($payment[$i]['debt_payment_interest_pay']-$payment[$i]['debt_payment_discount']), 2, '.', ','); ?></td>
+                                    <td class="align-money"><?PHP echo number_format($payment[$i]['debt_payment_discount'], 2, '.', ','); ?></td>
+                                    <td><?PHP echo $payment[$i]['debt_payment_gateway_name']; ?></td>
                                     
                                 
                                     <td>
-                                        
-                                        <a href="javascript:;" onclick="payment_update('<?php  
-                                            echo $payment[$i]['debt_payment_id'];?>','<?php  
-                                            echo $payment[$i]['debt_payment_gateway_id'];?>','<?php 
-                                            echo $payment[$i]['debt_payment_date'];?>','<?php 
-                                            echo $payment[$i]['debt_payment_pay'];?>','<?php 
-                                            echo $payment[$i]['debt_payment_remark'];?>','<?php 
-                                            echo $payment[$i]['debt_payment_discount'];?>');" style="font-size: 20px;">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
-                                        </a> 
-                                        <a href="javascript:;" onclick="payment_delete('<?php  
-                                            echo $payment[$i]['debt_payment_id'];?>');" style="color:red; font-size: 20px;">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </a>
+                                    <?PHP 
+                                        if($i == count($payment)-1){
+                                            ?>
+                                            
+                                            <a href="javascript:;" onclick="payment_update('<?PHP  
+                                                echo $payment[$i]['debt_payment_id'];?>','<?PHP  
+                                                echo $payment[$i]['debt_payment_gateway_id'];?>','<?PHP 
+                                                echo $payment[$i]['debt_payment_date'];?>','<?PHP 
+                                                echo $payment[$i]['debt_payment_pay'];?>','<?PHP 
+                                                echo $payment[$i]['debt_payment_remark'];?>','<?PHP 
+                                                echo $payment[$i]['debt_payment_discount'];?>');" style="font-size: 20px;">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
+                                            </a> 
+                                            <a href="javascript:;" onclick="payment_delete('<?PHP  
+                                                echo $payment[$i]['debt_payment_id'];?>');" style="color:red; font-size: 20px;">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                            
+                                            <?PHP
+                                        }
+                                    ?>
                                     </td>
                                 
                                 </tr>
                                 
-                                <?php } ?>
+                                <?PHP } ?>
                         </tbody>
                     </table>
                     </div>
@@ -220,10 +254,10 @@ $(function(){
                                 <label>ช่องทางชำระ <font color="#F00"><b>*</b></font></label>
                                 <select id="debt_payment_gateway_id" name="debt_payment_gateway_id" class="form-control">
                                     <option value="">Select</option>
-                                    <?php 
+                                    <?PHP 
                                     for($i =  0 ; $i < count($gateway) ; $i++){
                                         ?>
-                                        <option value="<?php echo $gateway[$i]['debt_payment_gateway_id'] ?>"><?php echo $gateway[$i]['debt_payment_gateway_name'] ?></option>
+                                        <option value="<?PHP echo $gateway[$i]['debt_payment_gateway_id'] ?>"><?PHP echo $gateway[$i]['debt_payment_gateway_name'] ?></option>
                                         <?
                                     }
                                     ?>

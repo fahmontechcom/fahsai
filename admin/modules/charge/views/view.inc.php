@@ -39,6 +39,8 @@ function charge_add(){
             , function( data ) {
             if(data=='0'){
                 alert('ไม่สามารถบันทึกข้อมูลได้');
+            }else if(data=='1'){
+                alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
             }else{
                 $("#modal_data_<?php echo $debt_id; ?>").html(data);
             }
@@ -61,6 +63,8 @@ function charge_add(){
             , function( data ) {
             if(data=='0'){
                 alert('ไม่สามารถบันทึกข้อมูลได้');
+            }else if(data=='1'){
+                alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
             }else{
                 $("#modal_data_<?php echo $debt_id; ?>").html(data);
             }
@@ -110,7 +114,7 @@ function charge_view(customer_id){
 }
 
 $(function(){
-    $(".debt_date").datetimepicker({
+    $(".debt_date").datepicker({
         dateFormat: 'yy-mm-dd',
         // numberOfMonths: 2,
     });
@@ -195,7 +199,7 @@ $(function(){
             <table>
                 <thead>
                     <tr>
-                        <th>ลำดับ</th>
+                        <th>วันที่</th>
                         <th>รายละเอียดค่าใช้จ่าย</th> 
                         <th>จำนวน</th> 
                         <th style="max-width:60px;">จัดการ</th>
@@ -207,10 +211,13 @@ $(function(){
                 for($i=0; $i < count($charge); $i++){
                     ?>
                     <tr class="nth-child">
-                        <td><?php echo $i+1; ?></td>
+                        <td><?php echo $charge[$i]['debt_payment_charge_date']; ?></td>
                         <td><?php echo $charge[$i]['debt_payment_charge_detail']; ?></td>
                         <td class="align-money" ><?php echo number_format($charge[$i]['debt_payment_charge_amount'], 2, '.', ','); ?></td>
                         <td>
+                        <?PHP 
+                            if($i == count($charge)-1){
+                                ?>
                             <a href="javascript:;" onclick="charge_update('<?php 
                                 echo $charge[$i]['debt_payment_charge_id']; ?>','<?php 
                                 echo $charge[$i]['debt_payment_charge_detail'];?>','<?php 
@@ -223,6 +230,9 @@ $(function(){
                                 echo $charge[$i]['debt_payment_charge_id']; ?>');" style="color:red; font-size: 20px;">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
+                            <?PHP
+                            }
+                        ?>
                         </td>
                     
                     </tr>

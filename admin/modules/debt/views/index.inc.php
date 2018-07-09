@@ -3,6 +3,7 @@
 require_once('../../../../models/DebtModel.php');
 require_once('../../../../models/SaleModel.php');
 require_once('../../../../models/StatusModel.php');
+require_once('../../../../models/PaymentModel.php');
 
 
 $path = "";
@@ -10,16 +11,19 @@ $path = "";
 $model = new DebtModel;
 $model_sale = new SaleModel;
 $model_status = new StatusModel;
+$model_payment = new PaymentModel;
 $customer_id=$_POST['customer_id'];
 
 if(!isset($_POST['action'])){
+    
     $debt_status = [];
+    $value_balance = [];
     $debt = $model->getDebtBy($customer_id);
     // echo count($debt);
     
     for($i=0;$i < count($debt);$i++){
         $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
-        
+        $value_balance[$debt[$i]['debt_id']] = $model_payment->getLastPaymentBy($debt[$i]['debt_id']); 
         
         if(count($data)>0){
             $debt_status[$debt[$i]['debt_id']] = $data;
@@ -150,10 +154,13 @@ else if ($_POST['action'] == 'insert'){
     $data['debt_remark'] = $_POST['debt_remark'];
     $data['updateby'] = $user[0][0];
     $data['lastupdate'] = 'NOW()';
-    
-    $debt = $model->updateDebtByID($_POST['customer_id'],$_POST['debt_id'],$data);
+    $check_payment = $model_payment->getPaymentBy($_POST['debt_id']); 
+    $check_result = false;
+    if(count($check_payment)<=0){ 
+        $check_result = $model->updateDebtByID($_POST['customer_id'],$_POST['debt_id'],$data);
+    } 
 
-    if($debt){
+    if($check_result){
         $debt_status = [];
         $debt = $model->getDebtBy($customer_id);
         // echo count($debt);
@@ -175,9 +182,7 @@ else if ($_POST['action'] == 'insert'){
         
         require_once($path.'view.inc.php');
     }else{
-
-        ?>
-        <?php
+        echo '0';
     }
         
     

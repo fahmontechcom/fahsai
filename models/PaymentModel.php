@@ -42,7 +42,7 @@ function getSumPaymentBy($debt_id){
 
 }
 function getLastPaymentBy($debt_id){
-    $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id' AND debt_payment_date IN (SELECT MAX(debt_payment_date) FROM tb_debt_payment WHERE debt_id = '$debt_id' )
+    $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id' AND debt_payment_date IN (SELECT MAX(debt_payment_date) FROM tb_debt_payment WHERE debt_id = '$debt_id' ) ORDER BY debt_payment_id DESC
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -120,7 +120,10 @@ function updatePaymentByID($id,$data = []){
     debt_payment_value_balance = '".$data['debt_payment_value_balance']."', 
     debt_payment_interest_pay = '".$data['debt_payment_interest_pay']."', 
     debt_payment_charge_amount_pay = '".$data['debt_payment_charge_amount_pay']."', 
-    debt_payment_value_pay = '".$data['debt_payment_value_pay']."' 
+    debt_payment_value_pay = '".$data['debt_payment_value_pay']."', 
+    debt_payment_charge_amount_new = '".$data['debt_payment_charge_amount_new']."', 
+    debt_payment_charge_amount_new_date = '".$data['debt_payment_charge_amount_new_date']."', 
+    debt_payment_charge_amount_new_id = '".$data['debt_payment_charge_amount_new_id']."' 
     WHERE debt_payment_id = $id ";
     // echo $sql;
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
@@ -148,7 +151,10 @@ function insertPayment($data=[]){
         debt_payment_value_balance, 
         debt_payment_interest_pay,
         debt_payment_charge_amount_pay,
-        debt_payment_value_pay 
+        debt_payment_value_pay, 
+        debt_payment_charge_amount_new, 
+        debt_payment_charge_amount_new_date, 
+        debt_payment_charge_amount_new_id 
         ) VALUES ('".
         $data['debt_id']."','".
         $data['debt_payment_gateway_id']."','".
@@ -166,7 +172,10 @@ function insertPayment($data=[]){
         $data['debt_payment_value_balance']."','".
         $data['debt_payment_interest_pay']."','".
         $data['debt_payment_charge_amount_pay']."','".
-        $data['debt_payment_value_pay']."')";
+        $data['debt_payment_value_pay']."','".
+        $data['debt_payment_charge_amount_new']."','".
+        $data['debt_payment_charge_amount_new_date']."','".
+        $data['debt_payment_charge_amount_new_id']."')";
         //  echo $sql;
         if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
             // $img_path="../img_upload/sale/".$data['sale_image'];
