@@ -20,5 +20,8 @@
     if($page=="notification"){ 
         require_once("modules/notification/views/index.inc.php"); 
     }
+    if($page=="invoice"){ 
+        require_once("modules/invoice/views/index.inc.php"); 
+    }
     
 ?>

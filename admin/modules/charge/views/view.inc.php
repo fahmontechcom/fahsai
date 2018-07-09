@@ -65,6 +65,8 @@ function charge_add(){
                 alert('ไม่สามารถบันทึกข้อมูลได้');
             }else if(data=='1'){
                 alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
+            }else if(data=='2'){
+                alert('ไม่สามารถแก้ไขข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
             }else{
                 $("#modal_data_<?php echo $debt_id; ?>").html(data);
             }
@@ -85,6 +87,8 @@ function charge_delete(debt_payment_charge_id){
             , function( data ) {
             if(data=='0'){
                 alert('ไม่สามารถลบข้อมูลได้');
+            }else if(data=='2'){
+                alert('ไม่สามารถลบข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
             }else{
                 $("#modal_data_<?php echo $debt_id; ?>").html(data);
             } 

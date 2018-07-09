@@ -6,7 +6,7 @@
             <img  class="img-responsive logo"  src="../template/images/logo_fahsai.jpg" >
             <div style="color:#347ab7;margin-left:5px;">                    
                 <div>
-                    <span style="font-weight:bold;">Customer</span>                        
+                    <span style="font-weight:bold;">Credit</span>                        
                 </div>
                 <div style="margin-top:-6px;font-size:16px;">                        
                     <span >Management</span>

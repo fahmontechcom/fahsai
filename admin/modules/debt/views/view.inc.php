@@ -176,7 +176,7 @@
        
     }
    function debt_invoice(customer_id){
-        alert('coming soon...');
+        window.location="index.php?content=invoice&customer_id="+customer_id;
        
     }
 

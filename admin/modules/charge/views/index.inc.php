@@ -4,6 +4,7 @@ require_once('../../../../models/ChargeModel.php');
 require_once('../../../../models/SaleModel.php');
 require_once('../../../../models/StatusModel.php');
 require_once('../../../../models/DebtModel.php');
+require_once('../../../../models/PaymentModel.php');
 
 
 $path = "";
@@ -12,6 +13,7 @@ $model = new ChargeModel;
 $model_sale = new SaleModel;
 $model_status = new StatusModel;
 $model_debt = new DebtModel;
+$model_payment = new PaymentModel;
 $customer_id=$_POST['customer_id'];
 $debt_payment_charge_id=$_POST['id'];
 $debt_id=$_POST['debt_id'];
@@ -27,11 +29,17 @@ else if ($_POST['action'] == 'insert'){
 }else if ($_POST['action'] == 'update'){
 
 }else if ($_POST['action'] == 'delete'){
-    $check_result = $model->deleteChargeByID($debt_payment_charge_id);
-    
-    $debts = $model_debt->getDebtByID($debt_id);
-    $charge = $model->getChargeBy($debt_id);
-    require_once($path.'view.inc.php');
+
+    $check_payment = $model_payment->getCountPaymentByChargeID($debt_payment_charge_id);
+    if($check_payment['count_payment'] > 0){
+        echo '2';
+    }else{ 
+        $check_result = $model->deleteChargeByID($debt_payment_charge_id);
+        
+        $debts = $model_debt->getDebtByID($debt_id);
+        $charge = $model->getChargeBy($debt_id);
+        require_once($path.'view.inc.php');
+    } 
     
 
 }else if ($_POST['action'] == 'add'){
@@ -89,17 +97,20 @@ else if ($_POST['action'] == 'insert'){
     $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
     $data['debt_payment_charge_amount'] = $_POST['debt_payment_charge_amount'];
     $data['debt_payment_charge_date'] = $_POST['debt_payment_charge_date'];
-    
-    $check_result = $model->updateChargeByID($debt_payment_charge_id,$data);
+    $check_payment = $model_payment->getCountPaymentByChargeID($debt_payment_charge_id);
+    if($check_payment['count_payment'] > 0){
+        echo '2';
+    }else{ 
+        $check_result = $model->updateChargeByID($debt_payment_charge_id,$data);
 
-    if($check_result){
-        $debts = $model_debt->getDebtByID($debt_id);
-        $charge = $model->getChargeBy($debt_id);
-        require_once($path.'view.inc.php');
-    }else{
-        echo '0';
-    }
-        
+        if($check_result){
+            $debts = $model_debt->getDebtByID($debt_id);
+            $charge = $model->getChargeBy($debt_id);
+            require_once($path.'view.inc.php');
+        }else{
+            echo '0';
+        }
+    }  
     
 
 }

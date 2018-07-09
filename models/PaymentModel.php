@@ -70,6 +70,21 @@ function getCountPaymentByID($id){
         return $data;
     }
 }
+
+function getCountPaymentByChargeID($id){
+    $sql = " SELECT COUNT(debt_payment_id) AS count_payment 
+    FROM tb_debt_payment 
+    WHERE debt_payment_charge_amount_new_id >= '$id' 
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        
+        $result->close();
+        return $data;
+    }
+}
 function getBeforePaymentByID($id,$debt_id){
     $sql = " SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id' AND debt_payment_date < (SELECT debt_payment_date
     FROM tb_debt_payment 
