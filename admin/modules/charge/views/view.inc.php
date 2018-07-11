@@ -1,129 +1,129 @@
 <script>
-function charge_add(){
-           
-     
-    var debt_payment_charge_id = document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value;
-    var debt_payment_charge_detail = document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value; 
-    var debt_payment_charge_amount = document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value; 
-    var debt_payment_charge_date = document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value; 
-    
-    debt_payment_charge_detail = $.trim(debt_payment_charge_detail); 
-    debt_payment_charge_amount = $.trim(debt_payment_charge_amount); 
-    debt_payment_charge_date = $.trim(debt_payment_charge_date); 
-    
-
-    if(debt_payment_charge_detail.length == 0){
-        alert("Please input detail");
-        document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").focus();
-        return false;
-    }else if(debt_payment_charge_amount.length == 0){
-        alert("Please input amount");
-        document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").focus();
-        return false;    
-    }else if(debt_payment_charge_date.length == 0){
-        alert("Please input date");
-        document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").focus();
-        return false;    
-    }else if(debt_payment_charge_id.length== 0){
+    function charge_add(){
+            
         
-        // window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
-        $.post( "modules/charge/views/index.inc.php",
-                {
-                    customer_id:<?php echo $customer_id; ?>,
-                    debt_id:'<?php echo $debt_id; ?>',
-                    debt_payment_charge_detail:debt_payment_charge_detail,
-                    debt_payment_charge_amount:debt_payment_charge_amount,
-                    debt_payment_charge_date:debt_payment_charge_date,
-                    action:'add'
+        var debt_payment_charge_id = document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value;
+        var debt_payment_charge_detail = document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value; 
+        var debt_payment_charge_amount = document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value; 
+        var debt_payment_charge_date = document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value; 
+        
+        debt_payment_charge_detail = $.trim(debt_payment_charge_detail); 
+        debt_payment_charge_amount = $.trim(debt_payment_charge_amount); 
+        debt_payment_charge_date = $.trim(debt_payment_charge_date); 
+        
+
+        if(debt_payment_charge_detail.length == 0){
+            alert("Please input detail");
+            document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").focus();
+            return false;
+        }else if(debt_payment_charge_amount.length == 0){
+            alert("Please input amount");
+            document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").focus();
+            return false;    
+        }else if(debt_payment_charge_date.length == 0){
+            alert("Please input date");
+            document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").focus();
+            return false;    
+        }else if(debt_payment_charge_id.length== 0){
+            
+            // window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
+            $.post( "modules/charge/views/index.inc.php",
+                    {
+                        customer_id:<?php echo $customer_id; ?>,
+                        debt_id:'<?php echo $debt_id; ?>',
+                        debt_payment_charge_detail:debt_payment_charge_detail,
+                        debt_payment_charge_amount:debt_payment_charge_amount,
+                        debt_payment_charge_date:debt_payment_charge_date,
+                        action:'add'
+                    }
+                , function( data ) {
+                if(data=='0'){
+                    alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else if(data=='1'){
+                    alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
+                }else{
+                    $("#modal_data_<?php echo $debt_id; ?>").html(data);
                 }
-            , function( data ) {
-            if(data=='0'){
-                alert('ไม่สามารถบันทึกข้อมูลได้');
-            }else if(data=='1'){
-                alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
-            }else{
+                // getInvoiceNumber(customer_id);
+
+            });
+        }else{
+            // alert();
+            // window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
+            $.post( "modules/charge/views/index.inc.php",
+                    {
+                        id:debt_payment_charge_id,
+                        customer_id:<?php echo $customer_id; ?>,
+                        debt_id:'<?php echo $debt_id; ?>',
+                        debt_payment_charge_detail:debt_payment_charge_detail,
+                        debt_payment_charge_amount:debt_payment_charge_amount,
+                        debt_payment_charge_date:debt_payment_charge_date,
+                        action:'edit'
+                    }
+                , function( data ) {
+                if(data=='0'){
+                    alert('ไม่สามารถบันทึกข้อมูลได้');
+                }else if(data=='1'){
+                    alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
+                }else if(data=='2'){
+                    alert('ไม่สามารถแก้ไขข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
+                }else{
+                    $("#modal_data_<?php echo $debt_id; ?>").html(data);
+                }
+                // getInvoiceNumber(customer_id);
+            });
+        }
+            
+    }
+    function charge_delete(debt_payment_charge_id){
+        if(confirm('You want to delete this charge ?')){
+            $.post( "modules/charge/views/index.inc.php",
+                    {
+                        customer_id:<?php echo $customer_id; ?>,
+                        debt_id:'<?php echo $debt_id; ?>',
+                        id:debt_payment_charge_id,
+                        action:'delete'
+                    }
+                , function( data ) {
+                if(data=='0'){
+                    alert('ไม่สามารถลบข้อมูลได้');
+                }else if(data=='2'){
+                    alert('ไม่สามารถลบข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
+                }else{
+                    $("#modal_data_<?php echo $debt_id; ?>").html(data);
+                } 
+            });
+        }
+        
+    }
+    function charge_update(debt_payment_charge_id,debt_payment_charge_detail,debt_payment_charge_amount,debt_payment_charge_date){
+            
+        document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value = debt_payment_charge_id;
+        document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value = debt_payment_charge_detail;
+        document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value = debt_payment_charge_amount; 
+        document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value = debt_payment_charge_date; 
+    }
+    function charge_view(customer_id){
+        $.post( "modules/charge/views/index.inc.php",
+            {
+                customer_id:<?php echo $customer_id; ?>,
+                debt_id:'<?php echo $debt_id; ?>',
+                action:'view'
+            }, 
+            function( data ) {
                 $("#modal_data_<?php echo $debt_id; ?>").html(data);
-            }
-            // getInvoiceNumber(customer_id);
 
         });
-    }else{
-        // alert();
-        // window.history.replaceState("", "", "index.php?content=customer&customer_id="+customer_id+"");
-        $.post( "modules/charge/views/index.inc.php",
-                {
-                    id:debt_payment_charge_id,
-                    customer_id:<?php echo $customer_id; ?>,
-                    debt_id:'<?php echo $debt_id; ?>',
-                    debt_payment_charge_detail:debt_payment_charge_detail,
-                    debt_payment_charge_amount:debt_payment_charge_amount,
-                    debt_payment_charge_date:debt_payment_charge_date,
-                    action:'edit'
-                }
-            , function( data ) {
-            if(data=='0'){
-                alert('ไม่สามารถบันทึกข้อมูลได้');
-            }else if(data=='1'){
-                alert('กรุณาเลือกวันให้มากกว่าข้อมูลล่าสุด');
-            }else if(data=='2'){
-                alert('ไม่สามารถแก้ไขข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
-            }else{
-                $("#modal_data_<?php echo $debt_id; ?>").html(data);
-            }
-            // getInvoiceNumber(customer_id);
-        });
-    }
-           
-}
-function charge_delete(debt_payment_charge_id){
-    if(confirm('You want to delete this charge ?')){
-        $.post( "modules/charge/views/index.inc.php",
-                {
-                    customer_id:<?php echo $customer_id; ?>,
-                    debt_id:'<?php echo $debt_id; ?>',
-                    id:debt_payment_charge_id,
-                    action:'delete'
-                }
-            , function( data ) {
-            if(data=='0'){
-                alert('ไม่สามารถลบข้อมูลได้');
-            }else if(data=='2'){
-                alert('ไม่สามารถลบข้อมูลได้ เนื่องจากข้อมูลนี้ได้ถูกใช้งานในรายการจ่ายเงินไปแล้ว');
-            }else{
-                $("#modal_data_<?php echo $debt_id; ?>").html(data);
-            } 
-        });
-    }
-    
-}
-function charge_update(debt_payment_charge_id,debt_payment_charge_detail,debt_payment_charge_amount,debt_payment_charge_date){
         
-    document.getElementById("debt_payment_charge_id_<?php echo $debt_id; ?>").value = debt_payment_charge_id;
-    document.getElementById("debt_payment_charge_detail_<?php echo $debt_id; ?>").value = debt_payment_charge_detail;
-    document.getElementById("debt_payment_charge_amount_<?php echo $debt_id; ?>").value = debt_payment_charge_amount; 
-    document.getElementById("debt_payment_charge_date_<?php echo $debt_id; ?>").value = debt_payment_charge_date; 
-}
-function charge_view(customer_id){
-    $.post( "modules/charge/views/index.inc.php",
-        {
-            customer_id:<?php echo $customer_id; ?>,
-            debt_id:'<?php echo $debt_id; ?>',
-            action:'view'
-        }, 
-        function( data ) {
-            $("#modal_data_<?php echo $debt_id; ?>").html(data);
+    }
+
+    $(function(){
+        $(".debt_date").datepicker({
+            dateFormat: 'yy-mm-dd',
+            // numberOfMonths: 2,
+        });
 
     });
-    
-}
-
-$(function(){
-    $(".debt_date").datepicker({
-        dateFormat: 'yy-mm-dd',
-        // numberOfMonths: 2,
-    });
-
-});
 </script>             
 
 <div class="modal-header">

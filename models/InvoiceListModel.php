@@ -26,16 +26,16 @@ function getInvoiceListBy($invoice_number = ''){
     }
 }
 
-function getInvoiceListByID($id){
+function getInvoiceListByInvoiceID($id){
     $sql = "SELECT * 
     FROM tb_invoice_list 
     WHERE invoice_id = '$id' 
     ";
-
+// echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-        $data;
+        $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-            $data = $row;
+            $data[] = $row;
         }
         $result->close();
         return $data;

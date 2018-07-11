@@ -47,7 +47,7 @@ function getInvoiceByID($id){
     FROM tb_invoice 
     WHERE invoice_id = '$id' 
     ";
-
+// echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -57,10 +57,10 @@ function getInvoiceByID($id){
         return $data;
     }
 }
-
+ 
 function updateInvoiceByID($id,$data = []){
     $sql = " UPDATE tb_invoice SET 
-    invoice_name = '".$data['invoice_name']."' 
+    invoice_remark = '".$data['invoice_remark']."' 
     WHERE invoice_id = $id ";
     
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){

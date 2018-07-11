@@ -114,13 +114,12 @@
       $(id).closest('tr').children('td').children('select[name="debt[]"]').focus();
     }
   }
-  function invoice_list(customer_id,invoice_id){
-    $("#modal_invoice_data_"+invoice_id).modal('show'); 
+  function invoice_list(customer_id,invoice_id){ 
     $.post( "modules/invoice_list/views/index.inc.php",
             {
-                customer_id:customer_id,
+                customer_id:customer_id, 
                 invoice_id:invoice_id, 
-                action:'view'
+                action:'update'
             }, 
             function( data ) {
             $("#modal_invoice_data_"+invoice_id).html(data); 
@@ -250,7 +249,7 @@
                 <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>
             </a>
             <div class="modal fade" id="modal_invoice_<?php echo $invoice[$i]['invoice_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal_invoice_<?php echo $invoice[$i]['invoice_id']; ?>Title" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-big" role="document">
                     <div id="modal_invoice_data_<?php echo $invoice[$i]['invoice_id']; ?>" class="modal-content">
                         
                     </div>

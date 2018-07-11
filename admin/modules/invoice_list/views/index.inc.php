@@ -1,125 +1,47 @@
 <?php
 date_default_timezone_set('Asia/Bangkok');
-require_once('../../../../models/ChargeModel.php');
-require_once('../../../../models/SaleModel.php');
-require_once('../../../../models/StatusModel.php');
-require_once('../../../../models/DebtModel.php');
-require_once('../../../../models/PaymentModel.php');
+require_once('../../../../models/InvoiceModel.php');
+require_once('../../../../models/InvoiceListModel.php');
+require_once('../../../../models/CustomerModel.php');
+require_once('../../../../models/DebtModel.php');  
 
+$path = ""; 
 
-$path = "";
-
-$model = new ChargeModel;
-$model_sale = new SaleModel;
-$model_status = new StatusModel;
+$model = new InvoiceModel;
+$model_list = new InvoiceListModel;
+$model_customer = new CustomerModel;
 $model_debt = new DebtModel;
-$model_payment = new PaymentModel;
-$customer_id=$_POST['customer_id'];
-$debt_payment_charge_id=$_POST['id'];
-$debt_id=$_POST['debt_id'];
 
+$customer_id = $_POST['customer_id']; 
+$invoice_id = $_POST['invoice_id'];  
 if(!isset($_POST['action'])){
-    $debts = $model_debt->getDebtByID($debt_id);
-    $charge = $model->getChargeBy($debt_id);
-    require_once($path.'view.inc.php');
+    $debt = $model_debt->getDebtBy($customer_id);
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice_list = $model_list ->getInvoiceListByInvoiceID($invoice_id);  
+    $invoice = $model ->getInvoiceByID($invoice_id);   
+    require_once($path.'view.inc.php'); 
 
 }
 else if ($_POST['action'] == 'insert'){
  
 }else if ($_POST['action'] == 'update'){
+    $debt = $model_debt->getDebtBy($customer_id);
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice_list = $model_list ->getInvoiceListByInvoiceID($invoice_id);  
+    $invoice = $model ->getInvoiceByID($invoice_id);   
+    require_once($path.'view.inc.php'); 
+}else if ($_POST['action'] == 'delete'){ 
 
-}else if ($_POST['action'] == 'delete'){
+}else if ($_POST['action'] == 'add'){ 
+      
+}else if ($_POST['action'] == 'edit'){ 
 
-    $check_payment = $model_payment->getCountPaymentByChargeID($debt_payment_charge_id);
-    if($check_payment['count_payment'] > 0){
-        echo '2';
-    }else{ 
-        $check_result = $model->deleteChargeByID($debt_payment_charge_id);
-        
-        $debts = $model_debt->getDebtByID($debt_id);
-        $charge = $model->getChargeBy($debt_id);
-        require_once($path.'view.inc.php');
-    } 
-    
-
-}else if ($_POST['action'] == 'add'){
-     
-    $data = [];
-    $data['debt_id'] = $_POST['debt_id'];
-    $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
-    $data['debt_payment_charge_amount'] = $_POST['debt_payment_charge_amount'];
-    $data['debt_payment_charge_date'] = $_POST['debt_payment_charge_date'];
-    // echo "------------end--------------";
-    // echo "<pre>";
-    // print_r($data);
-    // echo "</pre>";
-    // echo "<script>alert('');</script>";
-    $check_charge = $model->getChargeBy($debt_id); 
-    if(count($check_charge)<=0){ 
-
-        $check_result = $model->insertCharge($data);
-
-        if($check_result){
-            $debts = $model_debt->getDebtByID($debt_id);
-            $charge = $model->getChargeBy($debt_id);
-            require_once($path.'view.inc.php');
-        }else{
-            echo '0';
-        }
-
-    }else{
-        $last_charge = $model->getLastChargeBy($debt_id); 
-        $old_date=date_create($last_charge['debt_payment_charge_date']);//วันก่อนหน้า
-        $new_date=date_create($_POST['debt_payment_charge_date']);//วันที่
-        if($old_date<=$new_date){
-
-            $check_result = $model->insertCharge($data);
-
-            if($check_result){
-                $debts = $model_debt->getDebtByID($debt_id);
-                $charge = $model->getChargeBy($debt_id);
-                require_once($path.'view.inc.php');
-            }else{
-                echo '0';
-            }
-
-        }else{
-            echo '1';
-        }
-    }
-    
-    
-    
-}else if ($_POST['action'] == 'edit'){
-    
-    $data = [];
-    $data['debt_id'] = $_POST['debt_id'];
-    $data['debt_payment_charge_detail'] = $_POST['debt_payment_charge_detail'];
-    $data['debt_payment_charge_amount'] = $_POST['debt_payment_charge_amount'];
-    $data['debt_payment_charge_date'] = $_POST['debt_payment_charge_date'];
-    $check_payment = $model_payment->getCountPaymentByChargeID($debt_payment_charge_id);
-    if($check_payment['count_payment'] > 0){
-        echo '2';
-    }else{ 
-        $check_result = $model->updateChargeByID($debt_payment_charge_id,$data);
-
-        if($check_result){
-            $debts = $model_debt->getDebtByID($debt_id);
-            $charge = $model->getChargeBy($debt_id);
-            require_once($path.'view.inc.php');
-        }else{
-            echo '0';
-        }
-    }  
-    
-
-}
-else{
-    $debts = $model_debt->getDebtByID($debt_id);
-    $charge = $model->getChargeBy($debt_id);
-    
-    
-    require_once($path.'view.inc.php');
+}else{
+    $debt = $model_debt->getDebtBy($customer_id);
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice_list = $model_list ->getInvoiceListByInvoiceID($invoice_id);  
+    $invoice = $model ->getInvoiceByID($invoice_id);   
+    require_once($path.'view.inc.php'); 
 
 }
 ?>
