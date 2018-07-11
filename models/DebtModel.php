@@ -7,20 +7,7 @@ class DebtModel extends BaseModel{
         $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
     } 
 function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_number = '',$point=2){
-    $sql = "SELECT 
-    debt_cate_id,
-    debt_id,
-    customer_id,
-    sale_id,
-    debt_check_number,
-    debt_invoice_number,
-    debt_value, 
-    debt_balance,
-    debt_interest,
-    debt_date,
-    debt_remark,
-    updateby,
-    lastupdate
+    $sql = "SELECT *
     FROM tb_debt 
     WHERE customer_id='$customer_id' AND debt_check_number LIKE ('%$debt_check_number%') 
     AND debt_invoice_number LIKE ('%$debt_invoice_number%')
@@ -70,6 +57,21 @@ function updateDebtByID($customer_id,$id,$data = []){
     lastupdate = ".$data['lastupdate']." 
     WHERE debt_id = $id ";
     
+    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+        return true;
+    }else {
+        return false;
+    }
+}
+function updateDebtBalanceByID($data = []){
+    
+    $sql = " UPDATE tb_debt SET  
+    debt_balance = '".$data['debt_payment_value_balance']."', 
+    debt_charge_amount = '".$data['debt_payment_charge_amount_balance']."', 
+    debt_charge_amount_new_id = '".$data['debt_payment_charge_amount_new_id']."', 
+    debt_interest = '".$data['debt_payment_interest_balance']."' 
+    WHERE debt_id = '".$data['debt_id']."' ";
+    // echo $sql;
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
     }else {

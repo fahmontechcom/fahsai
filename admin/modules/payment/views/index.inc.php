@@ -170,7 +170,7 @@ function payment_cal($old_date_var,$new_date_var,$value_balance_var,$interest_ba
         $data['debt_payment_value_pay'] = round($value_pay,2);
         $data['debt_payment_charge_amount_new'] = round($charge_sum['debt_payment_charge_amount'],2);
         $data['debt_payment_charge_amount_new_date'] = $charge_sum['debt_payment_charge_date'];
-        $data['debt_payment_charge_amount_new_id'] =  $charge_sum['debt_payment_charge_id'];
+        $data['debt_payment_charge_amount_new_id'] =  $charge_sum['debt_payment_charge_id']; 
 
         // echo ' วันก่อนหน้า = '.$old_date_var.'
         //  วันที่ = '.$data['debt_payment_date'].' 
@@ -213,7 +213,7 @@ else if ($_POST['action'] == 'insert'){
 
 }else if ($_POST['action'] == 'add'){ 
     $last_payment = $model->getLastPaymentBy($debt_id); 
-    if(count($last_payment)>0){ 
+    if($last_payment['debt_payment_date']!=''){ 
         
         $data = []; 
         $data = payment_cal(
@@ -232,9 +232,15 @@ else if ($_POST['action'] == 'insert'){
             $last_payment['debt_payment_charge_amount_new_date']
         );
         if(count($data)>0){
+
             $check_result = $model->insertPayment($data); 
             if($check_result){ 
-                payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+                $check_result = $model_debt->updateDebtBalanceByID($data); 
+                if($check_result){ 
+                    payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+                }else{
+                    echo '0';
+                }
             }else{
                 echo '0';
             }  
@@ -270,7 +276,13 @@ else if ($_POST['action'] == 'insert'){
         $check_result = $model->insertPayment($data);
         
         if($check_result){ 
-            payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+            
+            $check_result = $model_debt->updateDebtBalanceByID($data); 
+            if($check_result){ 
+                payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+            }else{
+                echo '0';
+            }
         }else{
             echo '0';
         }  
@@ -305,8 +317,13 @@ else if ($_POST['action'] == 'insert'){
         
         $check_result = $model->updatePaymentByID($id,$data);
     
-        if($check_result){ 
-            payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+        if($check_result){  
+            $check_result = $model_debt->updateDebtBalanceByID($data); 
+            if($check_result){ 
+                payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+            }else{
+                echo '0';
+            }
         }else{
      
         } 
@@ -338,7 +355,13 @@ else if ($_POST['action'] == 'insert'){
         $check_result = $model->updatePaymentByID($id,$data);
     
         if($check_result){ 
-            payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge);
+            
+            $check_result = $model_debt->updateDebtBalanceByID($data); 
+            if($check_result){ 
+                payment_view($debt_id,$model,$model_gateway,$model_debt,$model_charge,$_POST['debt_payment_date']);
+            }else{
+                echo '0';
+            }
         }else{
      
         } 

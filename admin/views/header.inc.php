@@ -23,7 +23,7 @@
         <ul class="navbar-nav ml-auto mr-auto">
             
             <li class="nav-item nav-item-style" >
-                <a href="?content=customer"   <?php if($page=="customer"||$page=="schedule"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-user header-i-size " ></i>
+                <a href="?content=customer"   <?php if($page=="customer"||$page=="schedule"||$page=="invoice"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-user header-i-size " ></i>
                 <span >ลูกค้า</span></a>
             </li>
             <li class="nav-item nav-item-style" >

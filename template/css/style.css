@@ -458,6 +458,12 @@ a.list-group-item, button.list-group-item {
     padding-right: 10px;
     padding-left: 10px;
 }
+.modal-dialog-big {
+    max-width: 1200px;
+    margin: 1.75rem auto;
+    padding-right: 10px;
+    padding-left: 10px;
+}
 
 .row-debt{
     margin:0px;

@@ -139,7 +139,7 @@ function updatePaymentByID($id,$data = []){
     debt_payment_charge_amount_new = '".$data['debt_payment_charge_amount_new']."', 
     debt_payment_charge_amount_new_date = '".$data['debt_payment_charge_amount_new_date']."', 
     debt_payment_charge_amount_new_id = '".$data['debt_payment_charge_amount_new_id']."' 
-    WHERE debt_payment_id = $id ";
+    WHERE debt_payment_id = $id  ";
     // echo $sql;
     if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
         return true;
