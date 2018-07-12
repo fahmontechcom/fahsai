@@ -18,7 +18,7 @@ $invoice_id = $_GET['invoice_id'];
 if(!isset($_GET['action'])){ 
     $debt = $model_debt->getDebtBy($customer_id);
     $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy(); 
+    $invoice = $model->getInvoiceBy($customer_id); 
     require_once($path.'view.inc.php'); 
 }
 else if ($_GET['action'] == 'insert'){ 
@@ -29,9 +29,8 @@ else if ($_GET['action'] == 'insert'){
     $model->deleteInvoiceByID($_GET['id']);
     $debt = $model_debt->getDebtBy($customer_id);
     $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy(); 
-    require_once($path.'view.inc.php'); 
-
+    $invoice = $model->getInvoiceBy($customer_id); 
+    require_once($path.'view.inc.php');  
 }else if ($_GET['action'] == 'add'){ 
         $invoice_str =''; 
         $invoice_count = $model->getSumInvoiceBy(); 
@@ -93,13 +92,13 @@ else if ($_GET['action'] == 'insert'){
                 $data['invoice_list_debt_charge_amount'] = str_replace(',','',$debt_charge_amount);
                 $data['invoice_list_interest_balance'] = str_replace(',','',$interest_balance);
                 $data['invoice_list_sum'] = str_replace(',','',$sum);
-                if ($invoice_list_id != "" && $invoice_list_id != '0'){
-                    $model_list->updateInvoiceListByID($data,$invoice_list_id);
-                }else{
+                // if ($invoice_list_id != "" && $invoice_list_id != '0'){
+                //     $model_list->updateInvoiceListByID($data,$invoice_list_id);
+                // }else{
                     $model_list->insertInvoiceList($data);
-                }
+                // }
                 ?>
-                        <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
+                        <!-- <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script> -->
                 <?php 
             }
 
@@ -108,7 +107,7 @@ else if ($_GET['action'] == 'insert'){
             <?php
         }else{ 
             ?>
-                <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
+                <!-- <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script> -->
             <?php 
         }
     
@@ -201,7 +200,7 @@ else{
 
     $debt = $model_debt->getDebtBy($customer_id);
     $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy(); 
+    $invoice = $model->getInvoiceBy($customer_id); 
     require_once($path.'view.inc.php'); 
 
 }

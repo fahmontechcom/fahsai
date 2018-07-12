@@ -9,10 +9,11 @@ class InvoiceModel extends BaseModel{
 
     
 
-function getInvoiceBy($invoice_number = ''){
+function getInvoiceBy($customer_id,$invoice_number = ''){
     $sql = "SELECT tb_invoice.*,SUM(tb_invoice_list.invoice_list_sum) AS list_sum 
     FROM tb_invoice INNER JOIN tb_invoice_list ON tb_invoice.invoice_id = tb_invoice_list.invoice_id 
-    WHERE  
+    WHERE 
+    customer_id = '$customer_id' AND 
     invoice_number LIKE ('%$invoice_number%') GROUP BY tb_invoice.invoice_id 
     ";
     // echo $sql;

@@ -59,7 +59,11 @@
     if(data.length > 0){
         $(id).closest('tr').children('td').children('select[name="debt_id[]"]').val( data[0]['debt_id'] );
         $(id).closest('tr').children('td').children('input[name="debt_date[]"]').val( data[0]['debt_date'] );
-        $(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val( data[0]['debt_balance'] );
+        $(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val( (parseFloat(data[0]['debt_balance']).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+        $(id).closest('tr').children('td').children('input[name="invoice_list_to_date[]"]').val('');
+        $(id).closest('tr').children('td').children('input[name="debt_charge_amount[]"]').val('');
+        $(id).closest('tr').children('td').children('input[name="interest_balance[]"]').val('');
+        $(id).closest('tr').children('td').children('input[name="sum[]"]').val('');
         // $(id).closest('tr').children('td').children('input[name="debt_charge_amount[]"]').val( data[0]['debt_charge_amount'] );
         // $.post( "controllers/getSumCharge.php",
         //         {  
@@ -78,42 +82,42 @@
         //     } 
 
         // });
-    }
-    
+    }    
   }
   function cal(id){  
-    var debt_balance = $(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val();
-    var invoice_list_to_date = $(id).closest('tr').children('td').children('input[name="invoice_list_to_date[]"]').val();
-    var debt_id = $(id).closest('tr').children('td').children('select[name="debt_id[]"]').val();
-    // console.log('***'+$(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val()+'*');
-    
-    if(debt_id!=''&&debt_id!=0){
+        var debt_balance = $(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val();
+        var invoice_list_to_date = $(id).closest('tr').children('td').children('input[name="invoice_list_to_date[]"]').val();
+        var debt_id = $(id).closest('tr').children('td').children('select[name="debt_id[]"]').val();
+        // console.log('***'+$(id).closest('tr').children('td').children('input[name="debt_balance[]"]').val()+'*');
+        
+        if(debt_id!=''&&debt_id!=0){
 
-      $.post( "controllers/getSumCharge.php",
-                  {  
-                      debt_id:debt_id,
-                      invoice_list_to_date:invoice_list_to_date 
-                  }
-              , function( data ) {
-                // console.log(data.debt_payment_interest);
-                var interest = data.debt_payment_interest;
-                var charge_amount =  data.debt_payment_charge_amount; 
-                var check = data.check;
-                // alert(interest);
-                if(check=='1'){ 
-                  console.log(data.debt_payment_interest);
-                  $(id).closest('tr').children('td').children('input[name="interest_balance[]"]').val( interest );
-                  $(id).closest('tr').children('td').children('input[name="debt_charge_amount[]"]').val( charge_amount );
-                  $(id).closest('tr').children('td').children('input[name="sum[]"]').val( (parseFloat(debt_balance) + parseFloat(interest)+ parseFloat(charge_amount)).toFixed(2) );
-                }
-                // alert(date.debt_payment_interest)  
-               
-          });
-    }else{
-      alert('กรุณาเลือกอินวอย');
-      $(id).closest('tr').children('td').children('select[name="debt[]"]').focus();
+        $.post( "controllers/getSumCharge.php",
+                    {  
+                        debt_id:debt_id,
+                        invoice_list_to_date:invoice_list_to_date,
+                        action:'edit' 
+                    }
+                , function( data ) {
+                    // console.log(data.debt_payment_interest);
+                    var interest = data.debt_payment_interest;
+                    var charge_amount =  data.debt_payment_charge_amount; 
+                    var check = data.check;
+                    // alert(interest);
+                    if(check=='1'){ 
+                    console.log(data.debt_payment_interest);
+                    $(id).closest('tr').children('td').children('input[name="interest_balance[]"]').val( (parseFloat(interest).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+                    $(id).closest('tr').children('td').children('input[name="debt_charge_amount[]"]').val( (parseFloat(charge_amount).toFixed(2) ).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+                    $(id).closest('tr').children('td').children('input[name="sum[]"]').val((parseFloat(debt_balance.replace(/,/g , "")) + parseFloat(interest)+ parseFloat(charge_amount)).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    }
+                    // alert(date.debt_payment_interest)  
+                
+            });
+        }else{
+        alert('กรุณาเลือกอินวอย');
+        $(id).closest('tr').children('td').children('select[name="debt[]"]').focus();
+        }
     }
-  }
   function invoice_list(customer_id,invoice_id){ 
     $.post( "modules/invoice_list/views/index.inc.php",
             {
@@ -125,96 +129,29 @@
             $("#modal_invoice_data_"+invoice_id).html(data); 
         });
   }
+  function invoice_add(customer_id){
+    $.post( "modules/invoice_list/views/index.inc.php",
+            {
+                customer_id:customer_id,  
+                action:''
+            }, 
+            function( data ) {
+            $("#modal_invoice_data").html(data); 
+        });
+  }
 </script>
 <div class="row">
   <div class="col-lg-12">
     <div>
      <h1 style="color:black;">รายการใบแจ้งหนี้ของลูกค้า <?=$customer['customer_name']?></h1> 
      <div align="right">
-      <a href="javascript:;" onclick="" data-toggle="modal" data-target="#modal_invoice"  style="font-size: 20px;color:green;">
+      <a href="javascript:;" onclick="invoice_add('<?PHP echo $customer_id;?>');" data-toggle="modal" data-target="#modal_invoice"  style="font-size: 20px;color:green;">
         <input class="button" type="submit" value="เพิ่ม">
       </a> 
       <div class="modal fade" id="modal_invoice" tabindex="-1" role="dialog" aria-labelledby="modal_invoiceTitle" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-big" role="document">
               <div id="modal_invoice_data" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">ออกใบแจ้งหนี้</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">          
-                  <div class="container-fluid">
-                    <form role="form" method="post" onsubmit="return check();" action="index.php?content=invoice&action=add&customer_id=<?=$customer_id?>" enctype="multipart/form-data">
-                      <div class="row">
-                          <div class="col-md-2">
-                              <div class="form-group">
-                                  <label>ชื่อลูกค้า </label>
-                                  <input readonly id="customer_name" name="customer_name" class="form-control" value="<?=$customer['customer_name']?>"> 
-                              </div>
-                          </div>
-                          <div class="col-md-7">
-                              <div class="form-group">
-                                  <label>ที่อยู่ </label>
-                                  <input readonly id="customer_address" name="customer_address" class="form-control" value="<?=$customer['customer_address']?>">
-                              </div>
-                          </div> 
-                          <div class="col-md-3">
-                              <div class="form-group">
-                                  <label>อีเมล </label>
-                                  <input readonly id="customer_email" name="customer_email" class="form-control" value="<?=$customer['customer_email']?>">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label>หมายเหตุ </label>
-                                  <input  id="invoice_remark" name="invoice_remark" class="form-control" value="<?php echo $invoice['invoice_remark'];?>"> 
-                              </div>
-                          </div> 
-                      </div>
-                      <table width="100%" class="table table-striped table-bordered table-hover" >
-                          <thead>
-                              <tr>
-                                  <th style="text-align:center;">วันที่</th>
-                                  <th style="text-align:center;">อินวอย</th>
-                                  <th style="text-align:center;">ยอด</th>
-                                  <th style="text-align:center;">ถึงวันที่</th>
-                                  <th style="text-align:center;">ค่าใช้จ่าย</th>
-                                  <th style="text-align:center;">ดอกเบี้ย</th>
-                                  <th style="text-align:center;">รวม</th>
-                                  <th style="width: 10px;"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                                
-                          </tbody>
-                          <tfoot>
-                              <tr class="odd gradeX">
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td>
-                                      <a href="javascript:;" onclick="add_row(this);" style="color:red;">
-                                          <i class="fa fa-plus" aria-hidden="true"></i>
-                                      </a>
-                                  </td>
-                              </tr>
-                          </tfoot>
-                      </table>
-                      <div align="right">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">ย้อนกลับ</button>
-                          <button type="button" onclick="" class="btn btn-primary">ล้างข้อมูล</button>
-                          <button type="submit" name="button" onclick=""  class="btn btn-success">บันทึกข้อมูล</button>  
-                      </div>
-                    </form>  
-                  </div>
-                </div>
+                
               </div>
           </div>
       </div>

@@ -1,9 +1,5 @@
 <script>
-    webshims.setOptions('forms-ext', {
-        replaceUI: 'auto',
-        types: 'number'
-    });
-    webshims.polyfill('forms forms-ext');
+    
     var debt_data = [
     <?php for($i = 0 ; $i < count($debt) ; $i++ ){?>
         {
@@ -100,8 +96,7 @@
         $.post( "controllers/getSumCharge.php",
                     {  
                         debt_id:debt_id,
-                        invoice_list_to_date:invoice_list_to_date,
-                        action:'edit' 
+                        invoice_list_to_date:invoice_list_to_date 
                     }
                 , function( data ) {
                     // console.log(data.debt_payment_interest);
@@ -135,10 +130,19 @@
 </div>
 <div class="modal-body">          
     <div class="container-fluid">
-        <form role="form" method="post" onsubmit="return check();" action="index.php?content=invoice&action=edit&customer_id=<?=$customer_id?>&invoice_id=<?=$invoice_id?>" enctype="multipart/form-data">
+        <form role="form" method="post" onsubmit="return check();"  action="<?PHP
+        if($invoice_id!=''){
+            echo "index.php?content=invoice&action=edit&customer_id=".$customer_id."&invoice_id=".$invoice_id;
+        
+        }else{
+            echo "index.php?content=invoice&action=add&customer_id=".$customer_id;
+         
+        }
+        ?>" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
+                        <input type="hidden" id="invoice_id" name="invoice_id" class="form-control" value="<?=$invoice['invoice_id']?>"> 
                         <label>ชื่อลูกค้า </label>
                         <input readonly id="customer_name" name="customer_name" class="form-control" value="<?=$customer['customer_name']?>"> 
                     </div>
@@ -158,10 +162,10 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                <div class="form-row">
-                    <label for="c1">Currency</label>
-                    <input type="number" value="1000" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="currency" id="c1" />
-                </div>
+                    <div class="form-group">
+                        <label>หมายเหตุ </label>
+                        <input  id="invoice_remark" name="invoice_remark" class="form-control" value="<?php echo $invoice['invoice_remark'];?>"> 
+                    </div>
                 </div> 
             </div>
             <table width="100%" class="table table-striped table-bordered table-hover" >
@@ -229,10 +233,10 @@
                     </tr>
                 </tfoot>
             </table>
-            <div align="right">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">ย้อนกลับ</button>
-                <button type="button" onclick="" class="btn btn-primary">ล้างข้อมูล</button>
-                <button type="submit" name="button" onclick=""  class="btn btn-success">บันทึกข้อมูล</button>  
+            <div align="right"> 
+                <button type="submit" name="button" onclick=""  class="btn btn-success">บันทึกข้อมูล</button> 
+                <button type="button" onclick=""  class="btn btn-success">ส่งอีเมล</button> 
+                <button type="button" onclick=""  class="btn btn-success">พิมพ์</button> 
             </div>
         </form>  
     </div>
