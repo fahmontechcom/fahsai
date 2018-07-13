@@ -59,7 +59,7 @@ function updateSaleByID($id,$data = []){
     sale_address = '".$data['sale_address']."' 
     WHERE sale_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -79,9 +79,9 @@ function insertSale($data=[]){
         $data['sale_telephone']."','".
         $data['sale_email']."','".
         $data['sale_address']."')";
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['sale_image'];
-        // $ict=move_uploaded_file($data['sale_image_upload'],$img_path);
+        // $ict=move_uploaded_file($data['sale_image_upload'],$img_path); 
         return true;
     }else {
         return false;
@@ -90,7 +90,7 @@ function insertSale($data=[]){
 
 function deleteSaleByID($id){
     $sql = " DELETE FROM tb_sale WHERE sale_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

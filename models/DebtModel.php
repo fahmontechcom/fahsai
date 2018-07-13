@@ -57,7 +57,7 @@ function updateDebtByID($customer_id,$id,$data = []){
     lastupdate = ".$data['lastupdate']." 
     WHERE debt_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -72,7 +72,7 @@ function updateDebtBalanceByID($data = []){
     debt_interest = '".$data['debt_payment_interest_balance']."' 
     WHERE debt_id = '".$data['debt_id']."' ";
     // echo $sql;
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -107,9 +107,9 @@ function insertDebt($data=[]){
         $data['updateby']."',".
         $data['lastupdate'].")";
         
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['sale_image'];
-        // $ict=move_uploaded_file($data['sale_image_upload'],$img_path);
+        // $ict=move_uploaded_file($data['sale_image_upload'],$img_path); 
         return true;
     }else {
         return false;
@@ -118,7 +118,7 @@ function insertDebt($data=[]){
 
     function deleteDebtByID($id){
         $sql = " DELETE FROM tb_debt WHERE debt_id = '$id' ";
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     }
     
 }

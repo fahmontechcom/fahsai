@@ -92,7 +92,7 @@ function updateScheduleByID($id,$data = []){
     debt_schedule_remark = '".$data['debt_schedule_remark']."' 
     WHERE debt_schedule_id = $id "; 
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -110,8 +110,9 @@ function insertSchedule($data=[]){
         $data['debt_schedule_status_id']."','".
         $data['debt_schedule_detail']."','".
         $data['debt_schedule_remark']."')";
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-        return mysqli_insert_id($this->db);
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $id = mysqli_insert_id($this->db); 
+        return $id;
     }else {
         return false;
     }
@@ -119,7 +120,7 @@ function insertSchedule($data=[]){
 
 function deleteScheduleByID($id){
     $sql = " DELETE FROM tb_debt_schedule WHERE debt_schedule_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

@@ -77,7 +77,7 @@ function updateUserByID($id,$data = []){
     user_address = '".$data['user_address']."' 
     WHERE user_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -101,9 +101,9 @@ function insertUser($data=[]){
         $data['user_telephone']."','".
         $data['user_email']."','".
         $data['user_address']."')";
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/user/".$data['user_image'];
-        // $ict=move_uploaded_file($data['user_image_upload'],$img_path);
+        // $ict=move_uploaded_file($data['user_image_upload'],$img_path); 
         return true;
     }else {
         return false;
@@ -112,7 +112,7 @@ function insertUser($data=[]){
 
 function deleteUserByID($id){
     $sql = " DELETE FROM tb_user WHERE user_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

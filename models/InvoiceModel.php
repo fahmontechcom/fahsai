@@ -64,7 +64,7 @@ function updateInvoiceByID($id,$data = []){
     invoice_remark = '".$data['invoice_remark']."' 
     WHERE invoice_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -84,8 +84,9 @@ function insertInvoice($data=[]){
         "NOW()".
         ")";
         // echo $sql;
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
-        return mysqli_insert_id($this->db);
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+        $id = mysqli_insert_id($this->db); 
+        return $id;
     }else {
         return false;
     }
@@ -93,7 +94,7 @@ function insertInvoice($data=[]){
 
 function deleteInvoiceByID($id){
     $sql = " DELETE FROM tb_invoice WHERE invoice_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     // echo $sql;
 }
 }

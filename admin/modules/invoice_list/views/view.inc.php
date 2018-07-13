@@ -28,7 +28,7 @@
                 '<td>'+ 
                     '<input type="hidden" name="invoice_id[]" value="0" />'+
                     '<input type="hidden" name="invoice_list_id[]" value="0" />'+     
-                    '<select class="form-control select" type="text" name="debt_id[]" onchange="show_data(this);" data-live-search="true"  style="width:140px;" ></select>'+
+                    '<select class="form-control select" type="text" name="debt_id[]" onchange="show_data(this);" data-live-search="true"  style="width:150px;" ></select>'+
                 '</td>'+ 
                 '<td><input type="text" class="form-control align-money" id="debt_balance_'+index+'" name="debt_balance[]" readonly /></td>'+
                 '<td><input type="date" class="form-control" id="invoice_list_to_date_'+index+'" name="invoice_list_to_date[]" onchange="cal(this);" /></td>'+
@@ -53,7 +53,7 @@
         $(id).closest('table').children('tbody').children('tr:last').children('td').children('select').selectpicker();
     }
     function show_data(id){
-        // console.log('***'+id);
+        console.log('***'+id);
         var debt_date = "";
         var data = debt_data.filter(val => val['debt_id'] == $(id).val());
         if(data.length > 0){
@@ -118,6 +118,13 @@
         $(id).closest('tr').children('td').children('select[name="debt[]"]').focus();
         }
     }
+
+    function invoice_print(){
+        window.open("index.php?content=invoice&customer_id=<?php echo $customer_id;?>&id=<?php echo $invoice_id;?>&action=print");
+    } 
+    function btn_click_submit(id){ 
+        document.getElementById("btn_click").value = id;
+    }
     
     
 </script>             
@@ -130,7 +137,7 @@
 </div>
 <div class="modal-body">          
     <div class="container-fluid">
-        <form role="form" method="post" onsubmit="return check();"  action="<?PHP
+        <form role="form" method="post" onsubmit=""  action="<?PHP
         if($invoice_id!=''){
             echo "index.php?content=invoice&action=edit&customer_id=".$customer_id."&invoice_id=".$invoice_id;
         
@@ -142,6 +149,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
+                        <input type="hidden" id="btn_click" name="btn_click" class="form-control" value="0"> 
                         <input type="hidden" id="invoice_id" name="invoice_id" class="form-control" value="<?=$invoice['invoice_id']?>"> 
                         <label>ชื่อลูกค้า </label>
                         <input readonly id="customer_name" name="customer_name" class="form-control" value="<?=$customer['customer_name']?>"> 
@@ -190,7 +198,7 @@
                         <td>
                             <input type="hidden" name="invoice_id[]" value="<?php echo $invoice_list[$i]['invoice_id']; ?>" />
                             <input type="hidden" name="invoice_list_id[]" value="<?php echo $invoice_list[$i]['invoice_list_id']; ?>" /> 
-                            <select  class="form-control select" name="debt_id[]" onchange="show_data(this);" data-live-search="true" style="width:140px;">
+                            <select  class="form-control select" name="debt_id[]" onchange="show_data(this);" data-live-search="true" style="width:150px;">
                                 <option value="">Select</option>
                                 <?php 
                                     for($ii =  0 ; $ii < count($debt) ; $ii++){
@@ -234,9 +242,9 @@
                 </tfoot>
             </table>
             <div align="right"> 
-                <button type="submit" name="button" onclick=""  class="btn btn-success">บันทึกข้อมูล</button> 
-                <button type="button" onclick=""  class="btn btn-success">ส่งอีเมล</button> 
-                <button type="button" onclick=""  class="btn btn-success">พิมพ์</button> 
+                <input type="submit" onclick="btn_click_submit('0');"  class="btn btn-success"  value="บันทึก"/> 
+                <input type="submit" onclick="btn_click_submit('1');"  class="btn btn-success" value="ส่งอีเมล"/> 
+                <input type="submit" onclick="btn_click_submit('2');"  class="btn btn-success" value="พิมพ์"/> 
             </div>
         </form>  
     </div>

@@ -84,7 +84,7 @@ class ChargeModel extends BaseModel{
             $data['debt_payment_charge_amount']."','". 
             $data['debt_payment_charge_date']."');";
             // echo $sql;
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {  
             return true;
         }else {
             return false;
@@ -104,8 +104,8 @@ class ChargeModel extends BaseModel{
             WHERE debt_payment_charge_id = '$id'
         ";
     
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-           return true;
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+            return true;
         }else {
             return false;
         }
@@ -117,14 +117,13 @@ class ChargeModel extends BaseModel{
     function deleteChargeByID($id){
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_payment_charge_id = '$id' ";
         // echo $sql;
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteChargeByScheduleID($id){
 
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_id = '$id' ";
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
-
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteChargeByScheduleIDNotIN($id,$data){
@@ -145,8 +144,7 @@ class ChargeModel extends BaseModel{
 
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_id = '$id' AND debt_payment_charge_id NOT IN ($str) ";
 
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
-
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
         
 
     }

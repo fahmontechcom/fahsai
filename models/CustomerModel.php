@@ -125,7 +125,7 @@ function updateCustomerByID($id,$data = []){
     customer_address = '".$data['customer_address']."' 
     WHERE customer_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -143,9 +143,9 @@ function insertCustomer($data=[]){
         $data['customer_telephone']."','".
         $data['customer_email']."','".
         $data['customer_address']."')";
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['customer_image'];
-        // $ict=move_uploaded_file($data['customer_image_upload'],$img_path);
+        // $ict=move_uploaded_file($data['customer_image_upload'],$img_path); 
         return true;
     }else {
         return false;
@@ -154,7 +154,7 @@ function insertCustomer($data=[]){
 
 function deleteCustomerByID($id){
     $sql = " DELETE FROM tb_customer WHERE customer_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

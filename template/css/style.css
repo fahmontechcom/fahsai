@@ -293,6 +293,7 @@ a, a:hover {
 td > a > .fa >{
     margin:5px;
 }
+
 .button-head {
     
     border: none;
@@ -317,6 +318,50 @@ td > a > .fa >{
     
 }
 
+.button-head-menu:hover {
+    background-color: #186ab6;
+    color: white;
+}
+
+.button-head-menu-active {
+    background-color: #186ab6;
+    color: white !important; 
+}
+.button-report {
+    
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none !important;
+    display: inline-block;
+    
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-report-menu {
+    background-color:#999999;
+    color:#eeeeee;
+    
+    /* border: 2px solid #555555; */
+    
+}
+
+.button-report-menu:hover {
+    background-color: #70b451;
+    color: white;
+}
+
+.button-report-menu-active {
+    background-color: #70b451;
+    color: white !important; 
+}
+
+
 .header-i-size {
     font-size:16px !important;
 }
@@ -325,15 +370,8 @@ li > a > span {
     padding:5px;
 }
 
-.button-head-menu-active {
-    background-color: #186ab6;
-    color: white !important; 
-}
 
-.button-head-menu:hover {
-    background-color: #186ab6;
-    color: white;
-}
+
 
 .footer {
     padding:8px;
@@ -485,6 +523,10 @@ a.list-group-item, button.list-group-item {
 }
 .align-money{
     text-align: right; 
+}
+.border-report{
+    text-align: right; 
+    border:1px solid #000;
 }
 
 @media only screen and (max-width: 1600px) {

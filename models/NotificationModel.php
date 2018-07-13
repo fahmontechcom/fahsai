@@ -89,7 +89,7 @@ class NotificationModel extends BaseModel{
             $result->close();
 
             for($i=0; $i < count($str); $i++){
-                mysqli_query($this->db,$str[$i], MYSQLI_USE_RESULT);
+                $result = mysqli_query($this->db,$str[$i], MYSQLI_USE_RESULT); 
             }
         }
 
@@ -103,7 +103,7 @@ class NotificationModel extends BaseModel{
         ";
 
 
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
            return true;
         }else {
             return false;
@@ -119,7 +119,7 @@ class NotificationModel extends BaseModel{
         WHERE notification_url LIKE ('%$url%') 
         ";
 
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
            return true;
         }else {
             return false;
@@ -131,7 +131,7 @@ class NotificationModel extends BaseModel{
 
     function deleteNotificationByID($id){
         $sql = " DELETE FROM tb_notification WHERE notification_id = '$id' ";
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 
     }
 }

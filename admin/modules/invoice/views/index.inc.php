@@ -14,6 +14,7 @@ $model_debt = new DebtModel;
 
 $customer_id = $_GET['customer_id'];
 $invoice_id = $_GET['invoice_id'];
+$btn_click = $_POST['btn_click'];
 
 if(!isset($_GET['action'])){ 
     $debt = $model_debt->getDebtBy($customer_id);
@@ -32,86 +33,82 @@ else if ($_GET['action'] == 'insert'){
     $invoice = $model->getInvoiceBy($customer_id); 
     require_once($path.'view.inc.php');  
 }else if ($_GET['action'] == 'add'){ 
-        $invoice_str =''; 
-        $invoice_count = $model->getSumInvoiceBy(); 
-        $invoice_count_list = $invoice_count[0]['invoice_count']+1;
-        if($invoice_count_list%10>0){
-            $invoice_str = '00'.$invoice_count_list;
-        }else if($invoice_count_list%100>0){
-            $invoice_str = '0'.$invoice_count_list;
-        }else{
-            $invoice_str = $invoice_count_list;
-        }
-        
-            
-        
-        $data = [];
-        $data['customer_id'] = $customer_id;
-        $data['invoice_number'] = 'RV'.date('d').date('m').$invoice_str;
-        $data['invoice_remark'] = $_POST['invoice_remark'];
-        // echo "<script>console.log(".count($data).");</script>";
-        $invoice_id = $model->insertInvoice($data);
+    $invoice_str =''; 
+    $invoice_count = $model->getSumInvoiceBy(); 
+    $invoice_count_list = $invoice_count[0]['invoice_count']+1;
+    if($invoice_count_list%10>0){
+        $invoice_str = '00'.$invoice_count_list;
+    }else if($invoice_count_list%100>0){
+        $invoice_str = '0'.$invoice_count_list;
+    }else{
+        $invoice_str = $invoice_count_list;
+    }  
+    
+    $data = [];
+    $data['customer_id'] = $customer_id;
+    $data['invoice_number'] = 'RV'.date('d').date('m').$invoice_str;
+    $data['invoice_remark'] = $_POST['invoice_remark'];
+    // echo "<script>console.log(".count($data).");</script>";
+    $invoice_id = $model->insertInvoice($data);
 
-        if($invoice_id!=false&&$invoice_id!=''){
-            $invoice_list_id = $_POST['invoice_list_id'];
-            $debt_date = $_POST['debt_date'];
-            $debt_id = $_POST['debt_id'];
-            $debt_balance = $_POST['debt_balance'];
-            $invoice_list_to_date = $_POST['invoice_list_to_date'];
-            $debt_charge_amount = $_POST['debt_charge_amount'];
-            $interest_balance = $_POST['interest_balance'];
-            $sum = $_POST['sum'];
-            $model_list->deleteInvoiceListByInvoiceIDNotIN($invoice_id,$invoice_list_id);
-            if(is_array($debt_id)){
-                for($i=0; $i < count($debt_id) ; $i++){
-                    $data = [];
-                    $data['invoice_id'] = $invoice_id;
-                    $data['invoice_list_debt_date'] = $debt_date[$i];
-                    $data['debt_id'] = $debt_id[$i];
-                    $data['invoice_list_debt_balance'] = str_replace(',','',$debt_balance[$i]);
-                    $data['invoice_list_to_date'] = $invoice_list_to_date[$i];
-                    $data['invoice_list_debt_charge_amount'] = str_replace(',','',$debt_charge_amount[$i]);
-                    $data['invoice_list_interest_balance'] = str_replace(',','',$interest_balance[$i]);
-                    $data['invoice_list_sum'] = str_replace(',','',$sum[$i]);
-                    if ($invoice_list_id[$i] != "" && $invoice_list_id[$i] != '0'){
-                        $model_list->updateInvoiceListByID($data,$invoice_list_id[$i]);
-                    }else{
-                        $model_list->insertInvoiceList($data);
-                    }
-                    ?>
-                            <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
-                    <?php 
-                }
-            }else{
+    if($invoice_id!=false&&$invoice_id!=''){
+        $invoice_list_id = $_POST['invoice_list_id'];
+        $debt_date = $_POST['debt_date'];
+        $debt_id = $_POST['debt_id'];
+        $debt_balance = $_POST['debt_balance'];
+        $invoice_list_to_date = $_POST['invoice_list_to_date'];
+        $debt_charge_amount = $_POST['debt_charge_amount'];
+        $interest_balance = $_POST['interest_balance'];
+        $sum = $_POST['sum'];
+        $model_list->deleteInvoiceListByInvoiceIDNotIN($invoice_id,$invoice_list_id);
+        if(is_array($debt_id)){
+            for($i=0; $i < count($debt_id) ; $i++){
                 $data = [];
                 $data['invoice_id'] = $invoice_id;
-                $data['invoice_list_debt_date'] = $debt_date;
-                $data['debt_id'] = $debt_id;
-                $data['invoice_list_debt_balance'] = str_replace(',','',$debt_balance);
-                $data['invoice_list_to_date'] = $invoice_list_to_date;
-                $data['invoice_list_debt_charge_amount'] = str_replace(',','',$debt_charge_amount);
-                $data['invoice_list_interest_balance'] = str_replace(',','',$interest_balance);
-                $data['invoice_list_sum'] = str_replace(',','',$sum);
-                // if ($invoice_list_id != "" && $invoice_list_id != '0'){
-                //     $model_list->updateInvoiceListByID($data,$invoice_list_id);
-                // }else{
-                    $model_list->insertInvoiceList($data);
-                // }
-                ?>
-                        <!-- <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script> -->
-                <?php 
+                $data['invoice_list_debt_date'] = $debt_date[$i];
+                $data['debt_id'] = $debt_id[$i];
+                $data['invoice_list_debt_balance'] = str_replace(',','',$debt_balance[$i]);
+                $data['invoice_list_to_date'] = $invoice_list_to_date[$i];
+                $data['invoice_list_debt_charge_amount'] = str_replace(',','',$debt_charge_amount[$i]);
+                $data['invoice_list_interest_balance'] = str_replace(',','',$interest_balance[$i]);
+                $data['invoice_list_sum'] = str_replace(',','',$sum[$i]); 
+                $model_list->insertInvoiceList($data);  
             }
-
+        }else{
+            $data = [];
+            $data['invoice_id'] = $invoice_id;
+            $data['invoice_list_debt_date'] = $debt_date;
+            $data['debt_id'] = $debt_id;
+            $data['invoice_list_debt_balance'] = str_replace(',','',$debt_balance);
+            $data['invoice_list_to_date'] = $invoice_list_to_date;
+            $data['invoice_list_debt_charge_amount'] = str_replace(',','',$debt_charge_amount);
+            $data['invoice_list_interest_balance'] = str_replace(',','',$interest_balance);
+            $data['invoice_list_sum'] = str_replace(',','',$sum); 
+            $model_list->insertInvoiceList($data); 
+        } 
+        if($btn_click=='1'){
+            
             ?>
-                    <!-- <script>window.location="index.php?content=invoice&action=update&id=<?php echo $invoice_id;?>"</script> -->
-            <?php
-        }else{ 
+                <script>alert('ส่งอีเมลเรียบร้อยแล้ว');</script>
+            <?php 
+        }else if($btn_click=='2'){ 
             ?>
-                <!-- <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script> -->
+                <script>
+                    // alert();
+                    window.location="index.php?content=invoice&action=print&customer_id=<?php echo $customer_id;?>&invoice_id=<?php echo $invoice_id;?>";
+                </script>
+            <?php 
+        }else{
+            ?>
+                <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
             <?php 
         }
-    
-    
+    }else{ 
+        ?>
+            <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
+        <?php 
+    }
+ 
 }else if ($_GET['action'] == 'edit'){
     
     $invoice_str =''; 
@@ -160,9 +157,7 @@ else if ($_GET['action'] == 'insert'){
                 }else{
                     $model_list->insertInvoiceList($data);
                 }
-                ?>
-                        <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
-                <?php 
+                
             }
         }else{
             $data = [];
@@ -178,25 +173,92 @@ else if ($_GET['action'] == 'insert'){
                 $model_list->updateInvoiceListByID($data,$invoice_list_id);
             }else{
                 $model_list->insertInvoiceList($data);
-            }
-            ?>
-                    <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
-            <?php 
+            } 
         }
 
-        ?>
-                <!-- <script>window.location="index.php?content=invoice&action=update&id=<?php echo $invoice_id;?>"</script> -->
-        <?php
+        if($btn_click=='1'){ 
+            ?>
+                <script>
+                    // alert();
+                window.location="index.php?content=invoice&action=email&customer_id=<?php echo $customer_id;?>&invoice_id=<?php echo $invoice_id;?>";
+                </script>
+            <?php 
+        }else if($btn_click=='2'){ 
+            ?>
+                <script>
+                    // alert();
+                window.location="index.php?content=invoice&action=print&customer_id=<?php echo $customer_id;?>&invoice_id=<?php echo $invoice_id;?>";
+                </script>
+            <?php 
+        }else{
+            ?>
+                <script>alert('ส่งเมล');</script>
+            <?php 
+        }
     }else{ 
         ?>
             <script>window.location="index.php?content=invoice&customer_id=<?php echo $customer_id;?>"</script>
         <?php 
     }
-        
-    
+}else if ($_GET['action'] == 'print'){
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice_list = $model_list ->getInvoiceListByInvoiceID($invoice_id);
+    $invoice = $model ->getInvoiceByID($invoice_id);  
+    $invoice_list_sum = $model_list ->getSumInvoiceListByInvoiceID($invoice_id);
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($invoice_list_sum);
+    // echo "</pre>";  
+    require_once($path.'detail.inc.php'); 
+}else if ($_GET['action'] == 'email'){
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice_list = $model_list ->getInvoiceListByInvoiceID($invoice_id);
+    $invoice = $model ->getInvoiceByID($invoice_id);  
+    $invoice_list_sum = $model_list ->getSumInvoiceListByInvoiceID($invoice_id);
+    if($invoice_id > 0){
+        /******** setmail ********************************************/
+        require("../controllers/mail/class.phpmailer.php");
+        $mail = new PHPMailer();
+        $body = '
+            We are opening the purchase order. 
+        ';
 
-}
-else{
+        $mail->CharSet = "utf-8";
+        $mail->IsSMTP();
+        $mail->SMTPDebug = 0;
+        $mail->SMTPAuth = true;
+        $mail->Host = "smtp.gmail.com"; // SMTP server
+        $mail->Port = 587; 
+        $mail->Username = "fahmontechcom3@gmail.com"; // account SMTP
+        $mail->Password = "fahmontechcom3"; //  SMTP
+
+        $mail->SetFrom("fahmontechcom3@gmail.com", "Revelsoft.co.th");
+        $mail->AddReplyTo("fahmontechcom3@gmail.com","Revelsoft.co.th");
+        $mail->Subject = "Arno order recheck to " ;
+
+        $mail->MsgHTML($body);
+
+        $mail->AddAddress("fahmontechcom5@gmail.com", "Supplier Mail"); //
+        //$mail->AddAddress($set1, $name); // 
+        if(!$mail->Send()) {
+            $result = "Mailer Error: " . $mail->ErrorInfo;
+        }else{
+            // $output = $purchase_order_model->updatePurchaseOrderStatusByID($purchase_order_id,$data);
+            $result = "Send checking complete.";
+        } 
+        ?>
+        <script>
+            alert("<?php echo $result; ?>");
+            window.history.back();
+        </script>
+        <?php   
+    }else{
+        ?>
+        <script>window.history.back();</script>
+        <?php
+    } 
+    require_once($path.'view.inc.php');  
+}else{
 
     $debt = $model_debt->getDebtBy($customer_id);
     $customer = $model_customer->getCustomerByID($customer_id);

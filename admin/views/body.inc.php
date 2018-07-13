@@ -23,5 +23,8 @@
     if($page=="invoice"){ 
         require_once("modules/invoice/views/index.inc.php"); 
     }
+    if($page=="report"){ 
+        require_once("modules/report/views/index.inc.php"); 
+    }
     
 ?>

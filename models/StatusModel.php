@@ -65,7 +65,7 @@ function updateStatusByID($id,$data = []){
     debt_schedule_status_name = '".$data['debt_schedule_status_name']."' 
     WHERE debt_schedule_status_id = $id ";
     
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -77,8 +77,7 @@ function insertStatus($data=[]){
         debt_schedule_status_name
         ) VALUES ('".
         $data['debt_schedule_status_name']."')";
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-        
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
         return true;
     }else {
         return false;
@@ -87,7 +86,7 @@ function insertStatus($data=[]){
 
 function deleteStatusByID($id){
     $sql = " DELETE FROM tb_debt_schedule_status WHERE debt_schedule_status_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

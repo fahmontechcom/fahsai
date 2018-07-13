@@ -36,8 +36,8 @@ class ScheduleListModel extends BaseModel{
             $data['debt_schedule_list_detail']."','". 
             $data['debt_schedule_list_date']."');";
 
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-            $id = mysqli_insert_id($this->db);
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+            $id = mysqli_insert_id($this->db); 
             return $id; 
         }else {
             return 0;
@@ -57,8 +57,8 @@ class ScheduleListModel extends BaseModel{
         ";
      
 
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
-           return true;
+        if($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+            return true;
         }else {
             return false;
         }
@@ -69,13 +69,13 @@ class ScheduleListModel extends BaseModel{
 
     function deleteScheduleListByID($id){
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_list_id = '$id' ";
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteScheduleListByScheduleID($id){
 
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_id = '$id' ";
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 
     }
 
@@ -97,9 +97,7 @@ class ScheduleListModel extends BaseModel{
 
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_id = '$id' AND debt_schedule_list_id NOT IN ($str) ";
 
-        mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
-
-        
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 
     }
 }

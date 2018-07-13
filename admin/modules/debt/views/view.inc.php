@@ -9,8 +9,7 @@
         var debt_value = document.getElementById("debt_value").value;
         var debt_date = document.getElementById("debt_date").value;
         var debt_remark = document.getElementById("debt_remark").value;
-        var sale_id = document.getElementById("sale_id").value;
-        
+        var sale_id = document.getElementById("sale_id").value; 
 
         debt_cate_id = $.trim(debt_cate_id); 
         debt_check_number = $.trim(debt_check_number); 
@@ -18,8 +17,7 @@
         debt_value = $.trim(debt_value);
         debt_date = $.trim(debt_date);
         debt_remark = $.trim(debt_remark);
-        sale_id = $.trim(sale_id);
- 
+        sale_id = $.trim(sale_id); 
 
         if(debt_cate_id.length == 0){
             alert("Please input debt_cate_id");
@@ -118,13 +116,11 @@
     }
     function schedule_view(customer_id,debt_id){
         // alert(debt_id);
-        window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id;
-       
+        window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id; 
     }
     function schedule_update(customer_id,debt_id,debt_schedule_id){
         // alert(debt_id);
-        window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id+"&id="+debt_schedule_id+"&action=update";
-       
+        window.location="index.php?content=schedule&customer_id="+customer_id+"&debt_id="+debt_id+"&id="+debt_schedule_id+"&action=update"; 
     }
 
    

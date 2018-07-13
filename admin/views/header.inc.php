@@ -42,6 +42,10 @@
                 <a href="?content=sale"  <?php if($page=="sale"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-id-badge header-i-size" ></i>
                 <span >พนักงานขาย</span></a>
             </li>
+            <li class="nav-item nav-item-style" >
+                <a href="?content=report"  <?php if($page=="report"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-file-text-o header-i-size" ></i>
+                <span >รายงาน</span></a>
+            </li>
             
         </ul>
         

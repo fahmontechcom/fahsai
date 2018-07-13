@@ -141,7 +141,7 @@ function updatePaymentByID($id,$data = []){
     debt_payment_charge_amount_new_id = '".$data['debt_payment_charge_amount_new_id']."' 
     WHERE debt_payment_id = $id  ";
     // echo $sql;
-    if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -192,18 +192,18 @@ function insertPayment($data=[]){
         $data['debt_payment_charge_amount_new_date']."','".
         $data['debt_payment_charge_amount_new_id']."')";
         //  echo $sql;
-        if (mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
             // $img_path="../img_upload/sale/".$data['sale_image'];
-            // $ict=move_uploaded_file($data['sale_image_upload'],$img_path);
+            // $ict=move_uploaded_file($data['sale_image_upload'],$img_path); 
             return true;
-        }else {
+        }else { 
             return false;
         }
 }
 
 function deletePaymentByID($id){
     $sql = " DELETE FROM tb_debt_payment WHERE debt_payment_id = '$id' ";
-    mysqli_query($this->db,$sql, MYSQLI_USE_RESULT);
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>
