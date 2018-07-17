@@ -12,6 +12,40 @@ class ScheduleListModel extends BaseModel{
         FROM tb_debt_schedule_list  
         WHERE debt_schedule_id = '$debt_schedule_id' 
         ORDER BY debt_schedule_list_id 
+        "; 
+        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+            $data = [];
+            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                $data[] = $row;
+            }
+            $result->close();
+            return $data;
+        } 
+    }
+    function getScheduleListByDate($date){
+        $sql = " SELECT tb_debt_schedule_list.* ,tb_debt_schedule.debt_id,tb_debt.customer_id 
+        FROM tb_debt_schedule_list 
+        INNER JOIN tb_debt_schedule ON tb_debt_schedule_list.debt_schedule_id = tb_debt_schedule.debt_schedule_id  
+        INNER JOIN tb_debt ON tb_debt_schedule.debt_id = tb_debt.debt_id 
+        WHERE tb_debt_schedule_list.debt_schedule_list_date = '$date' 
+        ORDER BY tb_debt_schedule_list.debt_schedule_list_id 
+        ";
+echo $sql;
+        if($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+            $data = [];
+            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+                $data[] = $row;
+            }
+            $result->close();
+            return $data;
+        }
+
+    }
+    function getScheduleListCustomerBy($start_date,$end_date){
+        $sql = " SELECT tb_debt_schedule_list.*,tb_customer.customer_name,tb_debt.debt_invoice_number 
+        FROM tb_debt_schedule_list INNER JOIN tb_debt_schedule ON tb_debt_schedule_list.debt_schedule_id = tb_debt_schedule.debt_schedule_id INNER JOIN tb_debt ON tb_debt_schedule.debt_id = tb_debt.debt_id INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id 
+        WHERE tb_debt_schedule_list.debt_schedule_list_date >= '$start_date' AND tb_debt_schedule_list.debt_schedule_list_date <= '$end_date'   
+        ORDER BY tb_debt_schedule_list.debt_schedule_list_date 
         ";
 
         if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {

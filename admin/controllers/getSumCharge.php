@@ -17,8 +17,7 @@ $model_debt = new DebtModel;
 $model_charge = new ChargeModel;
 
 $debt_id=$_POST['debt_id'];
-$invoice_list_to_date=$_POST['invoice_list_to_date'];
-$id=$_POST['id']; 
+$invoice_list_to_date=$_POST['invoice_list_to_date']; 
 
 function payment_cal($old_date_var,$new_date_var,$value_balance_var,$interest_balance_var,$charge_amount_balance_var,$debt_id,$model_charge,$debt_payment_charge_id = '',$charge_amount_new_date = ''){
     $old_date=date_create($old_date_var);//วันก่อนหน้า
@@ -65,6 +64,7 @@ function payment_cal($old_date_var,$new_date_var,$value_balance_var,$interest_ba
     $data['debt_payment_interest_cal'] = round($interest,2); 
     $data['debt_payment_interest'] = round($interest_sum,2);  
     $data['debt_payment_charge_amount'] = round($charge_amount,2);     
+    $data['debt_payment_value_balance'] = round($debt_value_last,2);     
     $data['check'] = '0';     
     if($old_date<=$new_date){
         $data['check'] = '1'; 

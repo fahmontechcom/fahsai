@@ -1,16 +1,12 @@
 <script>
     
-    function check_debt_schedule(){ 
-        
+    function check_debt_schedule(){  
             
             var debt_schedule_status_id = document.getElementById("debt_schedule_status_id").value;
-            var debt_schedule_detail = document.getElementById("debt_schedule_detail").value;
-            
-            
+            var debt_schedule_detail = document.getElementById("debt_schedule_detail").value; 
             
             debt_schedule_status_id = $.trim(debt_schedule_status_id);
-            debt_schedule_detail = $.trim(debt_schedule_detail);
-            
+            debt_schedule_detail = $.trim(debt_schedule_detail); 
             
             if(debt_schedule_status_id.length == 0){
                 alert("Please input status");
@@ -139,6 +135,17 @@
 // }
 
 var modal_id ='<?php echo $_GET['modal_id'];?>';
+if(modal_id!=''){
+    // alert();
+    $.post( "controllers/setNotificationLog.php",
+                    {
+                        user_id:<?php echo $user[0][0];?>,
+                        debt_schedule_list_id:<?php echo $_GET['id'];?> 
+                    }
+                , function( data ) {
+                    console.log(data);    
+            });
+}
 var d = new Date();
 
 var date_event = [
@@ -147,9 +154,9 @@ if(count($schedule_list)>0){
 
     for($i=0;$i<count($schedule_list);$i++){
         $schedule_list_date = explode("-",$schedule_list[$i]['debt_schedule_list_date']);
-        $day = $schedule_list_date[0];
+        $day = $schedule_list_date[2];
         $month= $schedule_list_date[1];
-        $year= $schedule_list_date[2];
+        $year= $schedule_list_date[0];
         
 ?>
     {

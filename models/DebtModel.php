@@ -40,6 +40,41 @@ function getDebtByID($id){
         return $data;
     }
 }
+function getDebtAndCustomerBy(){
+    $sql = " SELECT * 
+    FROM tb_debt INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id 
+    ORDER BY  tb_customer.customer_id
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        $result->close();
+        // echo "<script>alert(".count($data).");</script>";
+        // echo $sql;        
+        return $data;
+    }
+}
+function getDebtAndCustomerByDate($start_date,$end_date){
+    $sql = " SELECT * 
+    FROM tb_debt INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id 
+    WHERE debt_date >= '$start_date' AND debt_date <= '$end_date'   
+    ORDER BY  tb_customer.customer_id
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        $result->close();
+        // echo "<script>alert(".count($data).");</script>";
+        // echo $sql;        
+        return $data;
+    }
+}
 
 function updateDebtByID($customer_id,$id,$data = []){
     

@@ -1,18 +1,28 @@
 <?php
 date_default_timezone_set('Asia/Bangkok');
-require_once('../../../../models/InvoiceModel.php');
-require_once('../../../../models/InvoiceListModel.php');
-require_once('../../../../models/CustomerModel.php');
-require_once('../../../../models/DebtModel.php');  
+// require_once('../../../../models/InvoiceModel.php');
+// require_once('../../../../models/InvoiceListModel.php');
+// require_once('../../../../models/CustomerModel.php'); 
+require_once('../../../../models/DebtModel.php'); 
 
 $path = ""; 
 
-$model = new InvoiceModel;
-$model_list = new InvoiceListModel;
-$model_customer = new CustomerModel;
-$model_debt = new DebtModel;
- 
-if(!isset($_POST['action'])){  
+// $model_invoice = new InvoiceModel;
+// $model_invoice_list = new InvoiceListModel;
+// $model_customer = new CustomerModel; 
+$model_debt = new DebtModel; 
+$start_date = $_POST['start_date'];
+$end_date = $_POST['end_date'];
+if(!isset($_POST['action'])){
+    // $customer = $model_customer->getCustomerByID($customer_id); 
+    // $invoice_list = $model_invoice_list ->getInvoiceListByInvoiceID($invoice_id);
+    // $invoice = $model_invoice ->getInvoiceByID($invoice_id);  
+    // $invoice_list_sum = $model_invoice_list ->getSumInvoiceListByInvoiceID($invoice_id);  
+    // $debt = $model_debt ->getDebtAndCustomerBy();  
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt);
+    // echo "</pre>";  
     require_once($path.'view.inc.php');  
 }
 else if ($_POST['action'] == 'insert'){
@@ -23,10 +33,21 @@ else if ($_POST['action'] == 'insert'){
 
 }else if ($_POST['action'] == 'add'){ 
       
-}else if ($_POST['action'] == 'edit'){ 
+}else if ($_POST['action'] == 'edit'){
 
+}else if ($_POST['action'] == 'search'){ 
+    $debt = $model_debt ->getDebtAndCustomerByDate($start_date,$end_date);  
+    require_once($path.'view.inc.php');  
 }else{ 
-    require_once($path.'view.inc.php'); 
-
+    // $customer = $model_customer->getCustomerByID($customer_id); 
+    // $invoice_list = $model_invoice_list ->getInvoiceListByInvoiceID($invoice_id);
+    // $invoice = $model_invoice ->getInvoiceByID($invoice_id);  
+    // $invoice_list_sum = $model_invoice_list ->getSumInvoiceListByInvoiceID($invoice_id);  
+    // $debt = $model_debt ->getDebtAndCustomerBy();  
+    // echo "------------end--------------";
+    // echo "<pre>";
+    // print_r($debt);
+    // echo "</pre>";  
+    require_once($path.'view.inc.php');  
 }
 ?>

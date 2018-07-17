@@ -6,7 +6,7 @@ var initCalendar = function(){
         index,
         arr_month   = ['January','February','March','April','May','June','July','August','September','October','November','December'],
         yr          = new Date().getFullYear(),arr;
-        console.log(date_event);
+        // console.log(date_event);
         for (var i = 0; i <12; i++) {
             arr=calendarDate(yr,i);
             index = 0;
@@ -122,7 +122,7 @@ var initCalendar = function(){
     '<div class="ml-auto" style="margin:15px;">'+
         '<button onclick="schedule_list_add();" class="btn btn-success">บันทึกข้อมูล</button>'+
     '</div>'+
-    '<div class="clear"></div><script>$("#23-11-2018").modal("show");</script>';
+    '<div class="clear"></div>';
     if(modal_id!=''){
 
         $("#"+modal_id).modal("show");
@@ -161,7 +161,7 @@ function calendarDate(yr,i){
 var select_type = 0;
 function select_date_type(type){
     select_type = type;
-    console.log("Date type: "+select_type);
+    // console.log("Date type: "+select_type);
     //document.body.style.cursor = "wait";
     document.getElementById('calendar_div').classList.remove('mouse-today');
     document.getElementById('calendar_div').classList.remove('mouse-event');

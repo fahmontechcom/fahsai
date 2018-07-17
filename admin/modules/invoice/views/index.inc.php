@@ -219,32 +219,75 @@ else if ($_GET['action'] == 'insert'){
         /******** setmail ********************************************/
         require("../controllers/mail/class.phpmailer.php");
         $mail = new PHPMailer();
-        $body = '
-            We are opening the purchase order. 
-        ';
+        $body = '<div style="font-size:32px;" align="center"><strong>ใบแจ้งหนี้</strong></div>'.
+                '<div>'. 
+                    '<p style="font-size: 14px;"><strong>รหัสใบแจ้งหนี้ </strong> '.$invoice['invoice_number'].'</p>'.
+                    '<span style="font-size: 14px;"><strong>ชื่อลูกค้า </strong> '.$customer['customer_name'].'</span><br>'.
+                    '<span style="font-size: 14px;"><strong>ที่อยู่ </strong> '.$customer['customer_address'].'</span><br>'.
+                    '<span style="font-size: 14px;"><strong>อีเมล </strong> '.$customer['customer_email'].'</span><br>'.
+                    '<span style="font-size: 14px;"><strong>หมายเหตุ </strong> '.$invoice['invoice_remark'].'</span> '.
+                '</div>'.
+                '<table width="90%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">'.
+                    '<thead>'.
+                        '<tr>'. 
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">วันที่</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">อินวอย</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">ยอด</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">ถึงวันที่</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">ค่าใช้จ่าย</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">ดอกเบี้ย</td>'.
+                            '<td  style="text-align:center;border:1px solid #000;padding:2px;font-size:14px;">รวม</td> '.
+                        '</tr>'.        
+                    '</thead>'.
+                    '<tbody>'; 
+                    for($i=0; $i < count($invoice_list); $i++){ 
+                        $body .= '<tr>'. 
+                                    '<td style="padding:2px;font-size:14px;text-align:center;width:110px;border:1px solid #000;">'.date_format(date_create($invoice_list[$i]['invoice_list_debt_date']),"d-m-Y").'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align:center;width:140px;border:1px solid #000;">'.$invoice_list[$i]['debt_invoice_number'].'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list[$i]['invoice_list_debt_balance'], 2, '.', ',').'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align:center;border:1px solid #000;">'. date_format(date_create($invoice_list[$i]['invoice_list_to_date']),"d-m-Y") .'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list[$i]['invoice_list_debt_charge_amount'], 2, '.', ',').'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list[$i]['invoice_list_interest_balance'], 2, '.', ',').'</td>'.
+                                    '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list[$i]['invoice_list_sum'], 2, '.', ',').'</td> '.
+                                '</tr> ';
+                    
+                    }                     
+            $body .= '</tbody>'.
+                    '<tfoot>'.
+                        '<tr>'. 
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;" colspan="2">รวม</td>'. 
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list_sum[0]['invoice_list_debt_balance'], 2, '.', ',').'</td>'.
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;"></td>'.
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list_sum[0]['invoice_list_debt_charge_amount'], 2, '.', ',').'</td>'.
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list_sum[0]['invoice_list_interest_balance'], 2, '.', ',').'</td>'.
+                            '<td style="padding:2px;font-size:14px;text-align: right;border:1px solid #000;">'. number_format($invoice_list_sum[0]['invoice_list_sum'], 2, '.', ',').'</td>'. 
+                        '</tr>'. 
+                    '</tfoot>'.
+                '</table>'.          
+                '<p style="font-size: 14px;"><strong>รวมยอด</strong> : เงินต้น + ค่าใช้จ่าย + ดอกเบี้ย = '. number_format($invoice_list_sum[0]['invoice_list_debt_balance'], 2, '.', ',').' + '. number_format($invoice_list_sum[0]['invoice_list_debt_charge_amount'], 2, '.', ',').' + '. number_format($invoice_list_sum[0]['invoice_list_interest_balance'], 2, '.', ',').' = '. number_format($invoice_list_sum[0]['invoice_list_sum'], 2, '.', ',').' บาท</p>';
 
         $mail->CharSet = "utf-8";
         $mail->IsSMTP();
         $mail->SMTPDebug = 0;
         $mail->SMTPAuth = true;
-        $mail->Host = "smtp.gmail.com"; // SMTP server
+        $mail->Host = "mail.revelsoft.co.th"; // SMTP server
         $mail->Port = 587; 
-        $mail->Username = "fahmontechcom3@gmail.com"; // account SMTP
-        $mail->Password = "fahmontechcom3"; //  SMTP
+        $mail->Username = "support@revelsoft.co.th"; // account SMTP
+        $mail->Password = "revelsoft1234@"; //  SMTP
 
-        $mail->SetFrom("fahmontechcom3@gmail.com", "Revelsoft.co.th");
-        $mail->AddReplyTo("fahmontechcom3@gmail.com","Revelsoft.co.th");
-        $mail->Subject = "Arno order recheck to " ;
+        $mail->SetFrom("support@revelsoft.co.th", "Revelsoft.co.th");
+        $mail->AddReplyTo("support@revelsoft.co.th","Revelsoft.co.th");
+        $mail->Subject = "ใบแจ้งหนี้ ถึง ".$customer['customer_name'];
 
         $mail->MsgHTML($body);
 
-        $mail->AddAddress("fahmontechcom5@gmail.com", "Supplier Mail"); //
+        $mail->AddAddress($customer['customer_email'], "Customer Mail"); //
         //$mail->AddAddress($set1, $name); // 
         if(!$mail->Send()) {
             $result = "Mailer Error: " . $mail->ErrorInfo;
         }else{
             // $output = $purchase_order_model->updatePurchaseOrderStatusByID($purchase_order_id,$data);
-            $result = "Send checking complete.";
+            $result = "Send email complete.";
         } 
         ?>
         <script>

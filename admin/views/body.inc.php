@@ -26,5 +26,8 @@
     if($page=="report"){ 
         require_once("modules/report/views/index.inc.php"); 
     }
+    if($page=="report_payment"){ 
+        require_once("report/payment/views/index.inc.php"); 
+    }
     
 ?>

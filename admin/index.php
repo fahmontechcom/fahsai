@@ -1,6 +1,7 @@
 <?php
 session_start();
 $user = $_SESSION['user'];
+date_default_timezone_set('Asia/Bangkok');
 require_once('../models/NotificationModel.php');
 if($user == ""){
 	?>
@@ -8,9 +9,14 @@ if($user == ""){
 	<?PHP
 }
 $model_notification = new NotificationModel;
-$notifications = $model_notification->getNotificationBy($user[0][0]);
 
-$notifications_new = $model_notification->getNotificationBy($user[0][0],"1");
+// $notifications = $model_notification->getNotificationBy($user[0][0]);
+$notifications = $model_notification->getNotificationByUserID($user[0][0],date('Y-m-d')); 
+$notifications_new = $model_notification->getNewNotificationByUserID($user[0][0],date('Y-m-d'));
+
+// echo '<pre>';
+// print_r($notifications_new);
+// echo '</pre>';
 $page = $_REQUEST['content'];
 // to change a session variable, just overwrite it
 ?>

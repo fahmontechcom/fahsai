@@ -10,7 +10,25 @@ function getPaymentBy($debt = ''){
     $sql = "SELECT tb_debt_payment.* ,tb_debt_payment_gateway.debt_payment_gateway_name
     FROM tb_debt_payment INNER JOIN tb_debt_payment_gateway ON tb_debt_payment.debt_payment_gateway_id = tb_debt_payment_gateway.debt_payment_gateway_id 
     WHERE debt_id='$debt' 
-    ORDER BY  str_to_date( tb_debt_payment.debt_payment_date,'%m/%d/%Y %h:%i:%s' ) 
+    ORDER BY tb_debt_payment.debt_payment_date  
+    ";
+    
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        $result->close();
+        // echo "<script>alert(".count($data).");</script>";
+        // echo $sql;        
+        return $data;
+    }
+}
+function getPaymentCustomerBy($start_date,$end_date){
+    $sql = "SELECT tb_debt_payment.* ,tb_debt_payment_gateway.debt_payment_gateway_name,tb_customer.customer_name,tb_debt.debt_invoice_number
+    FROM tb_debt_payment INNER JOIN tb_debt_payment_gateway ON tb_debt_payment.debt_payment_gateway_id = tb_debt_payment_gateway.debt_payment_gateway_id INNER JOIN tb_debt ON tb_debt_payment.debt_id = tb_debt.debt_id INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id
+    WHERE debt_payment_date >= '$start_date' AND debt_payment_date <= '$end_date'   
+    ORDER BY tb_customer.customer_id, tb_debt_payment.debt_payment_date 
     ";
     
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -43,6 +61,20 @@ function getSumPaymentBy($debt_id){
 }
 function getLastPaymentBy($debt_id){
     $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id' AND debt_payment_date IN (SELECT MAX(debt_payment_date) FROM tb_debt_payment WHERE debt_id = '$debt_id' ) ORDER BY debt_payment_id DESC
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        
+        $result->close();
+        return $data;
+    }
+
+}
+
+function getLastPaymentInterestDateBy($debt_id){
+    $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id'  AND debt_payment_interest_pay >'0' ORDER BY debt_payment_id DESC
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {

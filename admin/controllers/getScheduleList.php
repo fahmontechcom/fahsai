@@ -19,7 +19,7 @@ for($i=0; $i<count($data_date);$i++){
     $data_sub = [];
     $data_sub['debt_schedule_id'] = $debt_schedule_id;
     $data_sub['debt_schedule_list_detail'] = $data_date[$i]['detail'];
-    $data_sub['debt_schedule_list_date'] = $day.'-'.$month.'-'.$year;
+    $data_sub['debt_schedule_list_date'] = $year.'-'.$month.'-'.$day;
 
     if($data_date[$i]['id']!= "0"){
          $model_schedule_list->updateScheduleListById($data_sub,$data_date[$i]['id']);

@@ -4,7 +4,7 @@
 <div>
     <div style="font-size:32px;" align="center"><strong>ใบแจ้งหนี้</strong></div>
     <div> 
-        <p style="font-size: 14px;"><strong>รหัสใบแจ้งหนี้ </strong> <?=$customer['customer_name']?></p>
+        <p style="font-size: 14px;"><strong>รหัสใบแจ้งหนี้ </strong> <?=$invoice['invoice_number']?></p>
         <span style="font-size: 14px;"><strong>ชื่อลูกค้า </strong> <?=$customer['customer_name']?></span><br>
         <span style="font-size: 14px;"><strong>ที่อยู่ </strong> <?=$customer['customer_address']?></span><br>
         <span style="font-size: 14px;"><strong>อีเมล </strong> <?=$customer['customer_email']?></span><br>
@@ -51,4 +51,5 @@
         </tr> 
         </tfoot>
     </table>
+    <p style="font-size: 14px;"><strong>รวมยอด</strong> : เงินต้น + ค่าใช้จ่าย + ดอกเบี้ย = <?php echo number_format($invoice_list_sum[0]['invoice_list_debt_balance'], 2, '.', ','); ?> + <?php echo number_format($invoice_list_sum[0]['invoice_list_debt_charge_amount'], 2, '.', ','); ?> + <?php echo number_format($invoice_list_sum[0]['invoice_list_interest_balance'], 2, '.', ','); ?> = <?php echo number_format($invoice_list_sum[0]['invoice_list_sum'], 2, '.', ','); ?> บาท</p>
 </div>

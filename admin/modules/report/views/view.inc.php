@@ -1,4 +1,7 @@
 <script>  
+    $(document).ready(function(){
+        show_report('1');
+    }); 
     function show_report(id){ 
         var overview = document.getElementById("overview");
         var payment = document.getElementById("payment");
@@ -19,10 +22,24 @@
             overview.classList.remove("button-report-menu-active");  
             payment.classList.add("button-report-menu-active"); 
             schedule.classList.remove("button-report-menu-active"); 
+            $.post( "report/payment/views/index.inc.php",
+                    { 
+                        action:'view'
+                    }
+                , function( data ) { 
+                    $("#display_report").html(data);
+                });
         }else if(id==3){
             overview.classList.remove("button-report-menu-active");  
             payment.classList.remove("button-report-menu-active"); 
             schedule.classList.add("button-report-menu-active"); 
+            $.post( "report/schedule/views/index.inc.php",
+                    { 
+                        action:'view'
+                    }
+                , function( data ) { 
+                    $("#display_report").html(data);
+                });
         }
     }
 </script>
