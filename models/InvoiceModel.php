@@ -9,12 +9,32 @@ class InvoiceModel extends BaseModel{
 
     
 
-function getInvoiceBy($customer_id,$invoice_number = ''){
+function getInvoiceByCustomerID($customer_id,$deleted=0,$invoice_number = ''){
     $sql = "SELECT tb_invoice.*,SUM(tb_invoice_list.invoice_list_sum) AS list_sum 
     FROM tb_invoice INNER JOIN tb_invoice_list ON tb_invoice.invoice_id = tb_invoice_list.invoice_id 
     WHERE 
     customer_id = '$customer_id' AND 
-    invoice_number LIKE ('%$invoice_number%') GROUP BY tb_invoice.invoice_id 
+    invoice_number LIKE ('%$invoice_number%') AND 
+    tb_invoice.deleted = $deleted 
+    GROUP BY tb_invoice.invoice_id 
+    ";
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        $result->close();
+        return $data;
+    }
+}
+function getInvoiceBy($deleted=0,$invoice_number = ''){
+    $sql = "SELECT * 
+    FROM tb_invoice INNER JOIN tb_customer ON tb_invoice.customer_id = tb_customer.customer_id 
+    WHERE  
+    tb_invoice.invoice_number LIKE ('%$invoice_number%') AND 
+    tb_invoice.deleted = $deleted 
+    GROUP BY tb_invoice.invoice_id 
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -96,6 +116,22 @@ function deleteInvoiceByID($id){
     $sql = " DELETE FROM tb_invoice WHERE invoice_id = '$id' ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     // echo $sql;
+}
+function deletedInvoiceByID($id,$user_id){
+    $sql = " UPDATE tb_invoice SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE invoice_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverInvoiceByID($id){
+    $sql = " UPDATE tb_invoice SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE invoice_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

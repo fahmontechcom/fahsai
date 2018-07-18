@@ -22,7 +22,8 @@ else if ($_GET['action'] == 'insert'){
     require_once($path.'update.inc.php');
 
 }else if ($_GET['action'] == 'delete'){
-    $debt_schedule_status = $model->deleteStatusById($_GET['id']);
+    // $debt_schedule_status = $model->deleteStatusById($_GET['id']);
+    $debt_schedule_status = $model->deletedStatusByID($_GET['id'],$user[0][0]); 
     ?>
     <script>window.location="index.php?content=status"</script>
     <?php
@@ -68,7 +69,8 @@ else if ($_GET['action'] == 'insert'){
 }
 else{
 
-    $debt_schedule_status = $model->getStatusBy($_GET['name'],$_GET['position'],$_GET['email']);
+    $debt_schedule_status = $model->getStatusBy();
+    // echo "<script>console.log(".count($debt_schedule_status).");</script>";
     require_once($path.'view.inc.php');
 
 }

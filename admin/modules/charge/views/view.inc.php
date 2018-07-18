@@ -184,8 +184,8 @@
             <div class="col-lg-3">
                 <div class="form-group">
                     <label>วันที่ <font color="#F00"><b>*</b></font> </label>
-                    <input readonly type="text" id="debt_payment_charge_date_<?php echo $debt_id; ?>" name="debt_payment_charge_date_<?php echo $debt_id; ?>" class="form-control debt_date" value="">
-                    <p class="help-block">Example : 2018-12-31 09:00</p>
+                    <input  type="date" id="debt_payment_charge_date_<?php echo $debt_id; ?>" name="debt_payment_charge_date_<?php echo $debt_id; ?>" class="form-control " value="">
+                    <p class="help-block">Example : 31-12-2018</p>
                     
                 </div>
             </div>

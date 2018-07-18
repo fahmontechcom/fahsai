@@ -29,5 +29,8 @@
     if($page=="report_payment"){ 
         require_once("report/payment/views/index.inc.php"); 
     }
+    if($page=="recover"){ 
+        require_once("modules/recover/views/index.inc.php"); 
+    }
     
 ?>

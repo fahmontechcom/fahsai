@@ -8,13 +8,13 @@
 
             var customer_name = document.getElementById("customer_name").value;
             var customer_telephone = document.getElementById("customer_telephone").value;
-            var customer_email = document.getElementById("customer_email").value;
-            var customer_address = document.getElementById("customer_address").value;
+            // var customer_email = document.getElementById("customer_email").value;
+            // var customer_address = document.getElementById("customer_address").value;
 
             customer_name = $.trim(customer_name);
             customer_telephone = $.trim(customer_telephone);
-            customer_email = $.trim(customer_email);
-            customer_address = $.trim(customer_address);
+            // customer_email = $.trim(customer_email);
+            // customer_address = $.trim(customer_address);
             
             if(customer_name.length == 0){
                 alert("Please input customer customer name");
@@ -24,14 +24,14 @@
                 alert("Please input customer telephone");
                 document.getElementById("customer_telephone").focus();
                 return false;
-            }else if(customer_email.length == 0){
-                alert("Please input customer email");
-                document.getElementById("customer_email").focus();
-                return false;
-            }else if(customer_address.length == 0){
-                alert("Please input customer address");
-                document.getElementById("customer_address").focus();
-                return false;
+            // }else if(customer_email.length == 0){
+            //     alert("Please input customer email");
+            //     document.getElementById("customer_email").focus();
+            //     return false;
+            // }else if(customer_address.length == 0){
+            //     alert("Please input customer address");
+            //     document.getElementById("customer_address").focus();
+            //     return false;
             }else{
                 return true;
             }
@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
-                                        <label>ที่อยู่อีเมล <font color="#F00"><b>*</b></font></label>
+                                        <label>ที่อยู่อีเมล </label>
                                         <input id="customer_email" name="customer_email" class="form-control" value="<?php echo $customers['customer_email']?>">
                                         <p class="help-block">Example : user@info.com</p>
                                         
@@ -140,7 +140,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label>ที่อยู่ <font color="#F00"><b>*</b></font> </label>
+                                        <label>ที่อยู่ </label>
                                         <input type="text" id="customer_address" name="customer_address" class="form-control" value="<?php echo $customers['customer_address']?>">
                                         <p class="help-block">Example : 1242/2 Mittraphab Road </p>
                                         
@@ -188,7 +188,7 @@
                   <th>ลำดับ.</th>
                   <th>ชื่อลูกค้า</th>  
                   <th>เบอร์โทรศัพท์</th>
-                  <th>อีเมล</th>
+                  <!-- <th>อีเมล</th> -->
                   <th>จำนวนอินวอย</th>
                   <th>จำนวนเช็ค</th>
                   <th>มูลค่าอินวอย</th>
@@ -205,7 +205,7 @@
                         <td><?php echo $i+1; ?><a href="javascript:;" onclick="show_debt('#collapse_<?=$customer[$i]['customer_id']?>','#collapse_td_<?=$customer[$i]['customer_id']?>','<?=$customer[$i]['customer_id']?>')"  style="font-size: 12px;">&nbsp;[+]</a></td>
                         <td><?php echo $customer[$i]['name']; ?></td>
                         <td><?php echo $customer[$i]['customer_telephone']; ?></td>
-                        <td><?php echo $customer[$i]['customer_email']; ?></td>
+                        <!-- <td><?php echo $customer[$i]['customer_email']; ?></td> -->
                         <td id="display_inv_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_number']; ?></td>
                         <td id="display_chk_num_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['check_number']; ?></td>
                         <td class="align-money" id="display_inv_val_<?=$customer[$i]['customer_id']?>"><?php echo $customer[$i]['invoice_value']; ?></td>

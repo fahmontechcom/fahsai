@@ -57,13 +57,16 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div class="login100-form-title" style="background-image: url(template/login/images/bg-01.jpg);">
-					<span class="login100-form-title-1">
-						Sign In
-					</span>
+				<!-- <div class="login100-form-title" style="background-image: url(template/login/images/bg-01.jpg);"> -->
+				<div class=" " style="padding-top:20px;" align='center'>
+					<img  class="img-responsive logo"  src="template/images/logo_fahsai.png" >
+					<div style="color:#347ab7;margin-top:5px;">             
+						<span style="font-weight:bold;">Credit Management</span>              
+					</div>
+				 
 				</div>
 				<iframe id="checklogin" name="checklogin" src="" style="width:0px;height:0px;border:0"></iframe>
-				<form class="login100-form validate-form" action="check_login.php" method="post" onSubmit="return check();" target="checklogin">
+				<form class="login100-form validate-form" style="padding: 10px 88px 40px 190px;" action="check_login.php" method="post" onSubmit="return check();" target="checklogin">
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
 						<span class="label-input100">Username</span>
 						<input class="input100" type="text" name="username" id="username"  placeholder="Enter username" autofocus>

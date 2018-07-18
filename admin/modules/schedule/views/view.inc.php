@@ -135,15 +135,15 @@
 // }
 
 var modal_id ='<?php echo $_GET['modal_id'];?>';
-if(modal_id!=''){
-    // alert();
+if(modal_id!=''){ 
     $.post( "controllers/setNotificationLog.php",
                     {
-                        user_id:<?php echo $user[0][0];?>,
-                        debt_schedule_list_id:<?php echo $_GET['id'];?> 
+                        user_id:'<?php echo $user[0][0];?>',
+                        debt_schedule_list_id:'<?php echo $_GET['list_id'];?>' 
                     }
                 , function( data ) {
-                    console.log(data);    
+                    console.log(data); 
+                    $('#display_notification').html(data);   
             });
 }
 var d = new Date();
@@ -177,6 +177,8 @@ if(count($schedule_list)>0){
 ?>
 
 ];
+var customer_name =  '<?PHP echo $customer['customer_name'];?>';
+var status_name =  '<?PHP echo $debt_schedule['debt_schedule_status_name'];?>';
 function schedule_list_add(){
 
         $.post( "controllers/getScheduleList.php",

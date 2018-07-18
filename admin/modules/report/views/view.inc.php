@@ -47,15 +47,15 @@
   <div class="col-lg-12">
     <div>
     <a id="overview" href="javasctipt:;" onclick="show_report('1');" class='button-report button-report-menu button-report-menu-active' >
-        <i class="fa fa-user header-i-size " ></i>
+        <i class="fa fa-file-text-o header-i-size " ></i>
         <span >รายงานภาพรวม</span>
     </a>
     <a id="payment"  href="javasctipt:;" onclick="show_report('2');" class='button-report button-report-menu' >
-        <i class="fa fa-user header-i-size " ></i>
+        <i class="fa fa-file-text-o header-i-size " ></i>
         <span >รายงานการชำระเงิน</span>
     </a>
     <a id="schedule" href="javasctipt:;" onclick="show_report('3');" class='button-report button-report-menu' >
-        <i class="fa fa-user header-i-size " ></i>
+        <i class="fa fa-file-text-o header-i-size " ></i>
         <span >รายงานกำหนดการรวม</span>
     </a> 
   </div>

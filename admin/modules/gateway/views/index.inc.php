@@ -22,7 +22,8 @@ else if ($_GET['action'] == 'insert'){
     require_once($path.'update.inc.php');
 
 }else if ($_GET['action'] == 'delete'){
-    $debt_payment_gateway = $model->deleteGatewayById($_GET['id']);
+    // $debt_payment_gateway = $model->deleteGatewayById($_GET['id']);
+    $debt_payment_gateway = $model->deletedGatewayByID($_GET['id'],$user[0][0]); 
     ?>
     <script>window.location="index.php?content=gateway"</script>
     <?php

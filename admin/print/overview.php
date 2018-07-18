@@ -150,25 +150,27 @@ table, td, th {
 }
 td{
     padding:3px;
+    padding-top:5px;
 }
 </style>'.
     '<div style="font-size:18px;" align="center"><strong>รายงานการชำระเงิน</strong></div> '.
-    '<div style="font-size:14px;" align="center">ระหว่างวันที่ '.date_format(date_create($start_date),"d-m-Y").' ถึง '.date_format(date_create($end_date),"d-m-Y").' </div> '. 
-    '<table width="90%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">'.
+    '<div style="font-size:14px;" align="right">ระหว่างวันที่ '.date_format(date_create($start_date),"d-m-Y").' ถึง '.date_format(date_create($end_date),"d-m-Y").' </div> '. 
+    '<table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">'.
         '<thead>'.
             '<tr>'.  
-                '<td class="" style="text-align:center;">ลูกค้า</td>'.
-                '<td class="" style="text-align:center;">เงินต้นคงเหลือ</td>'.
-                '<td class="" style="text-align:center;">ดอกเบี้ย</td>'.
-                '<td class="" style="text-align:center;">วันที่รับดอกเบี้ยล่าสุด</td>'.
-                '<td class="" style="text-align:center;">ค่าใช้จ่าย</td>'.
-                '<td class="" style="text-align:center;">ยอดทั้งหมด</td>'.  
+                '<td class="" style="text-align:center;"><strong>ลูกค้า</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>เงินต้นคงเหลือ</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>ดอกเบี้ย</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>วันที่รับดอกเบี้ยล่าสุด</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>ค่าใช้จ่าย</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>ยอดทั้งหมด</strong></td>'.  
             '</tr>'.      
         '</thead>'.
         '<tbody>';
-            
+            $sum_all = 0;
             for($i=0; $i < count($debt_data); $i++){
                 $interest_last_date = '';
+                $sum_all += $result[$i]['debt_payment_sum'];
                 if($result[$i]['debt_payment_interest_last_date']!='-'){
                     $interest_last_date = date_format(date_create($result[$i]['debt_payment_interest_last_date']),"d-m-Y");
                 }else{
@@ -178,7 +180,7 @@ td{
                     '<td class="" style="text-align:center;">&nbsp;'.$debt_data[$i]['customer_name'].'&nbsp;</td>'.
                     '<td class="" style="text-align:right;">&nbsp;'.number_format($result[$i]['debt_payment_value_balance'], 2, '.', ',').'&nbsp;</td>'.
                     '<td class="" style="text-align:right;">&nbsp;'.number_format($result[$i]['debt_payment_interest'], 2, '.', ',').'&nbsp;</td>'.
-                    '<td class="" style="text-align:center;">&nbsp;'.$interest_last_date.'&nbsp;</td>'.
+                    '<td class="" style="text-align:center;width:160px;">&nbsp;'.$interest_last_date.'&nbsp;</td>'.
                     '<td class="" style="text-align:right;">&nbsp;'.number_format($result[$i]['debt_payment_charge_amount'], 2, '.', ',').'</td>'.
                     '<td class="" style="text-align:right;">&nbsp;'.number_format($result[$i]['debt_payment_sum'], 2, '.', ',').'&nbsp;</td> '. 
                 '</tr>'; 
@@ -186,9 +188,14 @@ td{
             }
              
         $str .= '</tbody>'.
-        '<tfoot>'. 
-        '</tfoot>'.
-    '</table>';
+        '<tfoot> 
+            <tr>  
+                <td colspan="5" style="text-align:right;border:0.5px solid #000;"><strong>รวม</strong></td> 
+                <td style="text-align:right;border:0.5px solid #000;"><strong><span id="rp_sum_all">'.number_format($sum_all, 2, '.', ',').'</span></strong></td> 
+            </tr>
+        </tfoot>'.
+    '</table><div style="font-size:14px;" align="">ออกรายงานวันที่ '.$d1.'-'.$d2.'-'.$d3.'&nbsp;'.date("H").':'.$d5.'</div> ';
+   
 if($export_type=='excel'){
     header("Content-type: application/vnd.ms-excel");
 	// header('Content-type: application/csv'); //*** CSV ***//
@@ -197,7 +204,7 @@ if($export_type=='excel'){
 if($export_type=='pdf'){
     include("../../template/mpdf/mpdf.php");
 	$mpdf=new mPDF('th', 'A4', '0', 'garuda');   
-	
+	$mpdf->AddPage('L');
 	$mpdf->mirrorMargins = true;
 	
 	$mpdf->SetDisplayMode('fullpage','two');
@@ -211,6 +218,9 @@ if($export_type=='pdf'){
 }else {
 	echo $str;
 	?>
+    <style type="text/css" media="print">
+        @page { size: landscape; }
+    </style>
 	<script language="javascript">
 
 		window.print();

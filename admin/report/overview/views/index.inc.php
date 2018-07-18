@@ -10,9 +10,16 @@ $path = "";
 // $model_invoice = new InvoiceModel;
 // $model_invoice_list = new InvoiceListModel;
 // $model_customer = new CustomerModel; 
+$start_date = date('Y-m').'-01';
+$end_date = date('Y-m').'-01';
+$end_date = date('Y-m-d',strtotime($end_date . "+1 month"));
+$end_date = date('Y-m-d',strtotime($end_date . "-1 days"));
 $model_debt = new DebtModel; 
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
+
+if($_POST['start_date']!=''&&$_POST['end_date']!=''){
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date']; 
+}
 if(!isset($_POST['action'])){
     // $customer = $model_customer->getCustomerByID($customer_id); 
     // $invoice_list = $model_invoice_list ->getInvoiceListByInvoiceID($invoice_id);

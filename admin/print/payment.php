@@ -25,31 +25,32 @@ table, td, th {
 }
 td{
     padding:3px;
+    padding-top:5px;
 }
 </style>'.
     '<div style="font-size:32px;" align="center"><strong>รายงานการชำระเงิน</strong></div> '.
-    '<div style="font-size:16px;" align="center">ระหว่างวันที่ '.date_format(date_create($start_date),"d-m-Y").' ถึง '.date_format(date_create($end_date),"d-m-Y").' </div> '.
+    '<div style="font-size:16px;" align="right">ระหว่างวันที่ '.date_format(date_create($start_date),"d-m-Y").' ถึง '.date_format(date_create($end_date),"d-m-Y").' </div> '.
     '<br>'.
-    '<table width="90%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">'.
+    '<table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">'.
         '<thead>'.
             '<tr>'.  
-                '<td class="" style="text-align:center;">ลูกค้า</td>'.
-                '<td class="" style="text-align:center;">อินวอย</td>'.
-                '<td class="" style="text-align:center;">เงินต้น</td>'.
-                '<td class="" style="text-align:center;">ดอกเบี้ย</td>'.
-                '<td class="" style="text-align:center;">ช่องทางชำระ</td>'.
-                '<td class="" style="text-align:center;">วันที่</td>'. 
-                '<td class="" style="text-align:center;">ค่าใช้จ่าย</td>'; 
+                '<td class="" style="text-align:center;"><strong>ลูกค้า</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>อินวอย</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>เงินต้น</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>ดอกเบี้ย</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>ช่องทางชำระ</strong></td>'.
+                '<td class="" style="text-align:center;"><strong>วันที่</strong></td>'. 
+                '<td class="" style="text-align:center;"><strong>ค่าใช้จ่าย</strong></td>'; 
                 if($debt_payment_remark!='false'){
-                    $str .= '<td class="" style="text-align:center;">หมายเหตุ</td>'; 
+                    $str .= '<td class="" style="text-align:center;"><strong>หมายเหตุ</strong></td>'; 
                 }
-                $str .= '<td class="" style="text-align:center;">ชำระ</td>'. 
+                $str .= '<td class="" style="text-align:center;"><strong>ชำระ</strong></td>'. 
             '</tr>'.      
         '</thead>'.
         '<tbody>';
-            
+            $sum_all = 0 ;
             for($i=0; $i < count($payment); $i++){
-            
+                $sum_all +=$payment[$i]['debt_payment_pay'];
                 $str .= '<tr>'. 
                     '<td class="" style="text-align:center;">&nbsp;'.$payment[$i]['customer_name'].'&nbsp;</td>'.
                     '<td class="" style="text-align:center;">&nbsp;'.$payment[$i]['debt_invoice_number'].'&nbsp;</td>'.
@@ -67,9 +68,20 @@ td{
             }
              
         $str .= '</tbody>'.
-        '<tfoot>'. 
-        '</tfoot>'.
-    '</table>';
+        '<tfoot> 
+            <tr>  
+                <td colspan="';
+                if($debt_payment_remark!='false')
+                {
+                    $str .= '8';
+                }else{
+                    $str .= '7';
+                }
+                $str .='" style="text-align:right;border:0.5px solid #000;"><strong>รวม</strong></td> 
+                <td style="text-align:right;border:0.5px solid #000;"><strong><span id="rp_sum_all">'.number_format($sum_all, 2, '.', ',').'</span></strong></td> 
+            </tr>
+        </tfoot>'.
+    '</table><div style="font-size:14px;" align="">ออกรายงานวันที่ '.$d1.'-'.$d2.'-'.$d3.'&nbsp;'.date("H").':'.$d5.'</div> ';
 if($export_type=='excel'){
     header("Content-type: application/vnd.ms-excel");
 	// header('Content-type: application/csv'); //*** CSV ***//
@@ -78,7 +90,7 @@ if($export_type=='excel'){
 if($export_type=='pdf'){
     include("../../template/mpdf/mpdf.php");
 	$mpdf=new mPDF('th', 'A4', '0', 'garuda');   
-	
+	$mpdf->AddPage('L');
 	$mpdf->mirrorMargins = true;
 	
 	$mpdf->SetDisplayMode('fullpage','two');
@@ -92,6 +104,9 @@ if($export_type=='pdf'){
 }else {
 	echo $str;
 	?>
+    <style type="text/css" media="print">
+        @page { size: landscape; }
+    </style>
 	<script language="javascript">
 
 		window.print();

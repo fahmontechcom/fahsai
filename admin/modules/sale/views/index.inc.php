@@ -21,7 +21,8 @@ else if ($_GET['action'] == 'insert'){
     require_once($path.'update.inc.php');
 
 }else if ($_GET['action'] == 'delete'){
-    $sale = $model->deleteSaleById($_GET['id']);
+    // $sale = $model->deleteSaleById($_GET['id']);
+    $sale = $model->deletedSaleByID($_GET['id'],$user[0][0]); 
     ?>
     <script>window.location="index.php?content=sale"</script>
     <?php

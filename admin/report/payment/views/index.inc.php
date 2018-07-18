@@ -11,8 +11,16 @@ require_once('../../../../models/PaymentModel.php');
 $path = ""; 
 
 $model_payment = new PaymentModel;
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
+
+$start_date = date('Y-m').'-01';
+$end_date = date('Y-m').'-01';
+$end_date = date('Y-m-d',strtotime($end_date . "+1 month"));
+$end_date = date('Y-m-d',strtotime($end_date . "-1 days")); 
+
+if($_POST['start_date']!=''&&$_POST['end_date']!=''){
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date']; 
+}
 $debt_payment_remark = $_POST['debt_payment_remark'];
 if($_GET['start_date']!=''&&$_GET['end_date']!=''&&$_GET['debt_payment_remark']!=''){
     $start_date = $_GET['start_date'];

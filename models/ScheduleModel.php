@@ -9,9 +9,10 @@ class ScheduleModel extends BaseModel{
 
     
 
-function getScheduleBy(){
+function getScheduleBy($deleted=0){
     $sql = "SELECT * 
-    FROM tb_debt_schedule
+    FROM tb_debt_schedule INNER JOIN tb_debt_schedule_status ON tb_debt_schedule.debt_schedule_status_id = tb_debt_schedule_status.debt_schedule_status_id INNER JOIN tb_debt ON tb_debt_schedule.debt_id = tb_debt.debt_id
+    WHERE tb_debt_schedule.deleted =$deleted
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -24,7 +25,7 @@ function getScheduleBy(){
     }
 }
 
-function getInvoiceNumberByScheduleID($customer_id){
+function getInvoiceNumberByScheduleID($customer_id,$deleted=0){
     $sql = "SELECT 
     IFNULL(( 
         SELECT COUNT(*) 
@@ -54,8 +55,9 @@ function getInvoiceNumberByScheduleID($customer_id){
         AND debt_check_number !='' 
         GROUP BY customer_id 
     ),0),2) AS check_value   
-    FROM tb_debt_schedule AS tb_cust  
-    WHERE customer_id = '$customer_id'
+    FROM tb_debt_schedule AS tb_cust   
+    WHERE customer_id = '$customer_id' 
+    AND deleted =$deleted
     ";
 
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -70,7 +72,7 @@ function getInvoiceNumberByScheduleID($customer_id){
 
 function getScheduleByID($id){
     $sql = " SELECT * 
-    FROM tb_debt_schedule 
+    FROM tb_debt_schedule INNER JOIN tb_debt_schedule_status ON tb_debt_schedule.debt_schedule_status_id = tb_debt_schedule_status.debt_schedule_status_id 
     WHERE debt_schedule_id = '$id' 
     ";
 
@@ -120,6 +122,22 @@ function insertSchedule($data=[]){
 
 function deleteScheduleByID($id){
     $sql = " DELETE FROM tb_debt_schedule WHERE debt_schedule_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedScheduleByID($id,$user_id){
+    $sql = " UPDATE tb_debt_schedule SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE debt_schedule_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverScheduleByID($id){
+    $sql = " UPDATE tb_debt_schedule SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE debt_schedule_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

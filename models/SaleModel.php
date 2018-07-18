@@ -9,7 +9,7 @@ class SaleModel extends BaseModel{
 
     
 
-function getSaleBy($name = '', $email = '', $mobile  = ''){
+function getSaleBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     $sql = "SELECT 
     sale_id,
     CONCAT(tb_sale.sale_firstname,' ',tb_sale.sale_lastname) as name , 
@@ -19,8 +19,9 @@ function getSaleBy($name = '', $email = '', $mobile  = ''){
     WHERE CONCAT(tb_sale.sale_firstname,' ',tb_sale.sale_lastname) LIKE ('%$name%') 
     AND sale_email LIKE ('%$email%') 
     AND sale_telephone LIKE ('%$mobile%') 
-    ORDER BY CONCAT(tb_sale.sale_firstname,' ',tb_sale.sale_lastname) 
+    AND deleted = $deleted 
     ";
+    // ORDER BY CONCAT(tb_sale.sale_firstname,' ',tb_sale.sale_lastname) 
     
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
@@ -90,6 +91,22 @@ function insertSale($data=[]){
 
 function deleteSaleByID($id){
     $sql = " DELETE FROM tb_sale WHERE sale_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedSaleByID($id,$user_id){
+    $sql = " UPDATE tb_sale SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE sale_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverSaleByID($id){
+    $sql = " UPDATE tb_sale SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE sale_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

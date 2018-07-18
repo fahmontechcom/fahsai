@@ -120,7 +120,7 @@ class NotificationModel extends BaseModel{
             $data['debt_schedule_list_id']."',".
             "NOW()".
             ")";
-            echo $sql;
+            // echo $sql;
         if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
             return true;
         }else {

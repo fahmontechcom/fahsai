@@ -179,8 +179,7 @@ $(function(){
                                 <th class="th-debt-payment">จ่ายดอกเบี้ย</th>  
                                 <th class="th-debt-payment">ส่วนลด</th>  
                                 <th class="th-debt-payment">ช่องทางชำระ</th>
-                                <th class="th-debt-payment">จัดการ</th>
-                                
+                                <th class="th-debt-payment">จัดการ</th> 
                             </tr>
                         </thead>
                         <tbody id="tbody_debt">
@@ -188,7 +187,7 @@ $(function(){
                             for($i=0; $i < count($payment); $i++){
                                 ?>
                                 <tr class="nth-child">
-                                    <td><?PHP echo $payment[$i]['debt_payment_date']; ?></td>
+                                    <td><?PHP echo date_format(date_create($payment[$i]['debt_payment_date']),"d-m-Y"); ?></td>
                                     <td class="align-money" ><?PHP echo number_format($payment[$i]['debt_payment_pay'], 2, '.', ','); ?></td>
                                     <td class="align-money"><?PHP echo number_format($payment[$i]['debt_payment_value_pay'], 2, '.', ','); ?></td>
                                     <td class="align-money"><?PHP echo number_format($payment[$i]['debt_payment_charge_amount_pay'], 2, '.', ','); ?></td>
@@ -232,15 +231,15 @@ $(function(){
                 <hr />  
                     <input type="hidden"  id="debt_payment_id" name="debt_payment_id" value="" />
                     <div class="row" style="margin-left:10px;margin-right:10px;"> 
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label>วันที่ <font color="#F00"><b>*</b></font> </label>
-                                <input readonly type="text" id="debt_payment_date" name="debt_payment_date" class="form-control date_pick">
-                                <p class="help-block">Example : 2018-12-31 09:00</p>
+                                <input  type="date" id="debt_payment_date" name="debt_payment_date" class="form-control ">
+                                <p class="help-block">Example : 31-12-2018</p>
                                 
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label>ชำระเงิน <font color="#F00"><b>*</b></font></label>
                                 <input type="number"  step="any" id="debt_payment_pay" name="debt_payment_pay" class="form-control" value="">
@@ -248,7 +247,7 @@ $(function(){
                                 
                             </div>
                         </div> 
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             
                             <div class="form-group">
                                 <label>ช่องทางชำระ <font color="#F00"><b>*</b></font></label>
@@ -264,7 +263,7 @@ $(function(){
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label>ส่วนลด</label>
                                 <input type="number" id="debt_payment_discount" name="debt_payment_discount" class="form-control" value="">
@@ -272,7 +271,7 @@ $(function(){
                                 
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>หมายเหตุ</label>
                                 <input type="text" id="debt_payment_remark" name="debt_payment_remark" class="form-control" value="">

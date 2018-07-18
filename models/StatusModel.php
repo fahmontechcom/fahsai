@@ -9,11 +9,12 @@ class StatusModel extends BaseModel{
 
     
 
-function getStatusBy($name = ''){
+function getStatusBy($deleted=0,$name = ''){
     $sql = "SELECT *
     FROM tb_debt_schedule_status 
     WHERE  
-    debt_schedule_status_name LIKE ('%$name%')
+    debt_schedule_status_name LIKE ('%$name%') 
+    AND deleted = $deleted 
     ";
     
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -41,10 +42,10 @@ function getStatusByID($id){
         return $data;
     }
 }
-function getStatusByDebtID($id){
+function getStatusByDebtID($id,$deleted=0){
     $sql = "SELECT DISTINCT tb_schedule.debt_schedule_id , tb_status.* 
     FROM tb_debt_schedule_status AS tb_status INNER JOIN tb_debt_schedule AS tb_schedule ON tb_status.debt_schedule_status_id = tb_schedule.debt_schedule_status_id
-    WHERE tb_schedule.debt_id = '$id' 
+    WHERE tb_schedule.debt_id = '$id' AND tb_schedule.deleted = $deleted
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -86,6 +87,23 @@ function insertStatus($data=[]){
 
 function deleteStatusByID($id){
     $sql = " DELETE FROM tb_debt_schedule_status WHERE debt_schedule_status_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedStatusByID($id,$user_id){
+    $sql = " UPDATE tb_debt_schedule_status SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE debt_schedule_status_id = $id ";
+    echo $sql;
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverStatusByID($id){
+    $sql = " UPDATE tb_debt_schedule_status SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE debt_schedule_status_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

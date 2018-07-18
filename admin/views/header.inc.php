@@ -39,12 +39,16 @@
                 <span >ช่องทางชำระ</span></a>
             </li>
             <li class="nav-item nav-item-style" >
-                <a href="?content=sale"  <?php if($page=="sale"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-id-badge header-i-size" ></i>
+                <a href="?content=sale"  <?php if($page=="sale"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-male header-i-size" ></i>
                 <span >พนักงานขาย</span></a>
             </li>
             <li class="nav-item nav-item-style" >
                 <a href="?content=report"  <?php if($page=="report"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-file-text-o header-i-size" ></i>
                 <span >รายงาน</span></a>
+            </li>
+            <li class="nav-item nav-item-style" >
+                <a href="?content=recover"  <?php if($page=="recover"){echo "class='button-head button-head-menu-active'";} else {echo "class='button-head button-head-menu'";}?> ><i class="fa fa-trash header-i-size" ></i>
+                <span >กู้คืนข้อมูล</span></a>
             </li>
             
         </ul>
@@ -52,7 +56,7 @@
         
         <ul class="navbar-nav ">
             <!-- PROFILE DROPDOWN - scrolling off the page to the right -->
-            <li class="nav-item dropdown">
+            <li id="display_notification" class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle text-center" id="navDropDownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><i class="fa fa-bell" style="font-size:18px;color:#337ab7;">
                     <?php if(count($notifications_new) > 0){?>
                         <span class="alert">
@@ -72,7 +76,7 @@
                                     $year= intval($today_arr[0]);
                             $debt_schedule_list_date = $day.'-'.$month.'-'.$year;   
                         ?>
-                        <a class="dropdown-item <?php if($notifications[$i]['notification_log_id'] == "0"){ echo "notify-active"; }else{  echo "notify";  } ?>" style="font-size:12px" href="index.php?content=schedule&action=update&customer_id=<?=$notifications[$i]['customer_id']?>&debt_id=<?=$notifications[$i]['debt_id']?>&id=<?=$notifications[$i]['debt_schedule_id']?>&modal_id=<?=$debt_schedule_list_date?>&notification_id=<?=$notifications[$i]['debt_schedule_list_id']?>">
+                        <a class="dropdown-item <?php if($notifications[$i]['notification_log_id'] == "0"){ echo "notify-active"; }else{  echo "notify";  } ?>" style="font-size:12px" href="index.php?content=schedule&action=update&customer_id=<?=$notifications[$i]['customer_id']?>&debt_id=<?=$notifications[$i]['debt_id']?>&id=<?=$notifications[$i]['debt_schedule_id']?>&list_id=<?=$notifications[$i]['debt_schedule_list_id']?>&modal_id=<?=$debt_schedule_list_date?>&notification_id=<?=$notifications[$i]['debt_schedule_list_id']?>">
                             <div>
                                 <i class="fa fa-comment fa-fw"></i><?php echo $notifications[$i]['debt_schedule_status_name'];?><br>InvNo.&nbsp;<?php echo $notifications[$i]['debt_invoice_number'];?><span class="pull-right text-muted small"><?php echo $notifications[$i]['debt_schedule_list_date'];?></span>
                             </div>

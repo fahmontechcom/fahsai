@@ -9,11 +9,12 @@ class GatewayModel extends BaseModel{
 
     
 
-function getGatewayBy($name = ''){
+function getGatewayBy($deleted=0,$name = ''){
     $sql = "SELECT *
     FROM tb_debt_payment_gateway 
     WHERE  
-    debt_payment_gateway_name LIKE ('%$name%')
+    debt_payment_gateway_name LIKE ('%$name%') 
+    AND deleted = $deleted
     ";
     // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -68,6 +69,22 @@ function insertGateway($data=[]){
 
 function deleteGatewayByID($id){
     $sql = " DELETE FROM tb_debt_payment_gateway WHERE debt_payment_gateway_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedGatewayByID($id,$user_id){
+    $sql = " UPDATE tb_debt_payment_gateway SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE debt_payment_gateway_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverGatewayByID($id){
+    $sql = " UPDATE tb_debt_payment_gateway SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE debt_payment_gateway_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

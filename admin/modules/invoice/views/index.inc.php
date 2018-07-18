@@ -16,21 +16,16 @@ $customer_id = $_GET['customer_id'];
 $invoice_id = $_GET['invoice_id'];
 $btn_click = $_POST['btn_click'];
 
-if(!isset($_GET['action'])){ 
-    $debt = $model_debt->getDebtBy($customer_id);
-    $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy($customer_id); 
-    require_once($path.'view.inc.php'); 
-}
-else if ($_GET['action'] == 'insert'){ 
+if ($_GET['action'] == 'insert'){ 
 
 }else if ($_GET['action'] == 'update'){ 
 
 }else if ($_GET['action'] == 'delete'){
-    $model->deleteInvoiceByID($_GET['id']);
+    // $model->deleteInvoiceByID($_GET['id']);
+    $model->deletedInvoiceByID($_GET['id'],$user[0][0]);
     $debt = $model_debt->getDebtBy($customer_id);
-    $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy($customer_id); 
+    $customer = $model_customer->getCustomerByID($customer_id); 
+    $invoice = $model->getInvoiceByCustomerID($customer_id); 
     require_once($path.'view.inc.php');  
 }else if ($_GET['action'] == 'add'){ 
     $invoice_str =''; 
@@ -302,10 +297,9 @@ else if ($_GET['action'] == 'insert'){
     } 
     require_once($path.'view.inc.php');  
 }else{
-
     $debt = $model_debt->getDebtBy($customer_id);
     $customer = $model_customer->getCustomerByID($customer_id);
-    $invoice = $model->getInvoiceBy($customer_id); 
+    $invoice = $model->getInvoiceByCustomerID($customer_id); 
     require_once($path.'view.inc.php'); 
 
 }

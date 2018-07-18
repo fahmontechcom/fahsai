@@ -26,7 +26,7 @@ class UserModel extends BaseModel{
         }
     }
 
-function getUserBy($name = '', $email = '', $mobile  = ''){
+function getUserBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     $sql = "SELECT 
     user_id,
     user_username,
@@ -36,7 +36,8 @@ function getUserBy($name = '', $email = '', $mobile  = ''){
     FROM tb_user 
     WHERE CONCAT(tb_user.user_firstname,' ',tb_user.user_lastname) LIKE ('%$name%') 
     AND user_email LIKE ('%$email%') 
-    AND user_telephone LIKE ('%$mobile%') 
+    AND user_telephone LIKE ('%$mobile%')  
+    AND deleted = $deleted  
     ORDER BY CONCAT(tb_user.user_firstname,' ',tb_user.user_lastname) 
     ";
     
@@ -112,6 +113,22 @@ function insertUser($data=[]){
 
 function deleteUserByID($id){
     $sql = " DELETE FROM tb_user WHERE user_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedUserByID($id,$user_id){
+    $sql = " UPDATE tb_user SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE user_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverUserByID($id){
+    $sql = " UPDATE tb_user SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE user_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

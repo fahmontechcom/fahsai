@@ -6,13 +6,34 @@ class DebtModel extends BaseModel{
     function __construct(){
         $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
     } 
-function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_number = '',$point=2){
-    $sql = "SELECT *
-    FROM tb_debt 
-    WHERE customer_id='$customer_id' AND debt_check_number LIKE ('%$debt_check_number%') 
-    AND debt_invoice_number LIKE ('%$debt_invoice_number%')
+function getDebtAllBy($deleted=0,$point=2){
+    $sql = "SELECT *  
+    FROM tb_debt INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id 
+    WHERE   tb_debt.debt_check_number LIKE ('%$debt_check_number%') 
+    AND tb_debt.debt_invoice_number LIKE ('%$debt_invoice_number%') 
+    AND tb_debt.deleted = $deleted 
     ";
-    
+    // echo $sql;
+    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        $data = [];
+        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+            $data[] = $row;
+        }
+        $result->close();
+        // echo "<script>alert(".count($data).");</script>";
+        // echo $sql;        
+        return $data;
+    }
+}
+function getDebtBy($customer_id = '',$debt_check_number = '', $debt_invoice_number = '',$deleted=0,$point=2){
+    $sql = "SELECT *
+    FROM tb_debt INNER JOIN tb_customer ON tb_debt.customer_id = tb_customer.customer_id 
+    WHERE tb_debt.customer_id='$customer_id' 
+    AND tb_debt.debt_check_number LIKE ('%$debt_check_number%') 
+    AND tb_debt.debt_invoice_number LIKE ('%$debt_invoice_number%') 
+    AND tb_debt.deleted = $deleted 
+    ";
+    // echo $sql;
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -87,6 +108,7 @@ function updateDebtByID($customer_id,$id,$data = []){
     debt_balance = '".$data['debt_balance']."', 
     debt_interest = '".$data['debt_interest']."', 
     debt_date = '".$data['debt_date']."', 
+    debt_bill_date = '".$data['debt_bill_date']."', 
     debt_remark = '".$data['debt_remark']."', 
     updateby = '".$data['updateby']."', 
     lastupdate = ".$data['lastupdate']." 
@@ -125,6 +147,7 @@ function insertDebt($data=[]){
         debt_balance,
         debt_interest,
         debt_date,
+        debt_bill_date,
         debt_remark,
         updateby,
         lastupdate
@@ -138,6 +161,7 @@ function insertDebt($data=[]){
         $data['debt_balance']."','".
         $data['debt_interest']."','".
         $data['debt_date']."','".
+        $data['debt_bill_date']."','".
         $data['debt_remark']."','".
         $data['updateby']."',".
         $data['lastupdate'].")";
@@ -153,6 +177,22 @@ function insertDebt($data=[]){
 
     function deleteDebtByID($id){
         $sql = " DELETE FROM tb_debt WHERE debt_id = '$id' ";
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    }
+    function deletedDebtByID($id,$user_id){
+        $sql = " UPDATE tb_debt SET 
+        deleted = 1,
+        delete_by = '".$user_id."', 
+        delete_date = NOW()  
+        WHERE debt_id = $id ";
+        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    }
+    function recoverDebtByID($id){
+        $sql = " UPDATE tb_debt SET 
+        deleted = 0,
+        delete_by = '', 
+        delete_date = ''  
+        WHERE debt_id = $id ";
         $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
     }
     

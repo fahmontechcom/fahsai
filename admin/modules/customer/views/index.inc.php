@@ -25,7 +25,11 @@ else if ($_GET['action'] == 'insert'){
     
 
 }else if ($_GET['action'] == 'delete'){
-    $customer = $model->deleteCustomerByID($_GET['id']);
+    // $customer = $model->deleteCustomerByID($_GET['id']);
+    ?>
+    <!-- <script>window.location="index.php?content=customer";</script> -->
+    <?php
+    $customer = $model->deletedCustomerByID($_GET['id'],$user[0][0]);
     ?>
     <script>window.location="index.php?content=customer";</script>
     <?php

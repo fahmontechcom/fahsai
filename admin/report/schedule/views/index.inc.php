@@ -6,8 +6,12 @@ require_once('../../../../models/ScheduleListModel.php');
 $path = "";  
  
 $model_schedule_list = new ScheduleListModel;
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
+
+$start_date = date('Y-m').'-01';
+$end_date = date('Y-m').'-01';
+$end_date = date('Y-m-d',strtotime($end_date . "+1 month"));
+$end_date = date('Y-m-d',strtotime($end_date . "-1 days")); 
+
 if(!isset($_POST['action'])){  
     require_once($path.'view.inc.php');  
 }

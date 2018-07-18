@@ -27,17 +27,17 @@
     <button name="button" onclick="rp_pdf();"  class="btn btn-custom-blue" style="margin-top: 27px;">PDF</button>
 </div>  
 <div class="col-lg-12">
-    <div style="font-size:32px;" align="center"><strong>รายงานภาพรวม</strong></div> 
-    <br>
+    <div style="font-size:18px;" align="center"><strong>รายงานภาพรวม</strong></div> 
+    <div style="font-size:14px;" align="right">ระหว่างวันที่ <?=date_format(date_create($start_date),"d-m-Y")?> ถึง <?=date_format(date_create($end_date),"d-m-Y")?> </div> 
     <table width="90%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">
         <thead>
             <tr>  
-                <td class="border-report" style="text-align:center;">ลูกค้า</td>
-                <td class="border-report" style="text-align:center;">เงินต้นคงเหลือ</td>
-                <td class="border-report" style="text-align:center;">ดอกเบี้ย</td>
-                <td class="border-report" style="text-align:center;">วันที่รับดอกเบี้ยล่าสุด</td>
-                <td class="border-report" style="text-align:center;">ค่าใช้จ่าย</td>
-                <td class="border-report" style="text-align:center;">ยอดทั้งหมด</td> 
+                <td class="border-report" style="text-align:center;"><strong>ลูกค้า</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>เงินต้นคงเหลือ</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>ดอกเบี้ย</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>วันที่รับดอกเบี้ยล่าสุด</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>ค่าใช้จ่าย</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>ยอดทั้งหมด</strong></td> 
             </tr>        
         </thead>
         <tbody>
@@ -58,7 +58,10 @@
             ?>  
         </tbody>
         <tfoot>
-        
+            <tr>  
+                <td colspan='5' style="text-align:right;border:1px solid #000;"><strong>รวม</strong></td> 
+                <td style="text-align:right;border:1px solid #000;"><strong><span id="rp_sum_all"></span></strong></td> 
+            </tr>
         </tfoot>
     </table>
 </div>
@@ -73,7 +76,8 @@
         var rp_interest = document.getElementsByName('rp_interest'); 
         var rp_charge = document.getElementsByName('rp_charge'); 
         var rp_sum = document.getElementsByName('rp_sum'); 
-
+        var rp_sum_all = document.getElementById('rp_sum_all'); 
+        var sum_all = 0;
         var debt_data = [];
         for(var i = 0 ; i < (debt_id.length); i++){ 
             debt_data.push({
@@ -84,14 +88,16 @@
         $.post( "controllers/getSumReport.php", { debt_data:JSON.stringify(debt_data)}) 
                 .done(function( data ) { 
                     console.log(data);
-
+                    
                     for(var i = 0 ; i < (data.length); i++){ 
                         rp_value_balance[i].innerText= (parseFloat(data[i].debt_payment_value_balance).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
                         rp_interest_date[i].innerText=data[i].debt_payment_interest_last_date; 
                         rp_interest[i].innerText= (parseFloat(data[i].debt_payment_interest).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         rp_charge[i].innerText= (parseFloat(data[i].debt_payment_charge_amount).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                         rp_sum[i].innerText=(parseFloat(data[i].debt_payment_value_balance+data[i].debt_payment_interest+data[i].debt_payment_charge_amount).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        sum_all +=data[i].debt_payment_value_balance+data[i].debt_payment_interest+data[i].debt_payment_charge_amount;
                     }
+                    rp_sum_all.innerText = (parseFloat(sum_all).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         });
 
 

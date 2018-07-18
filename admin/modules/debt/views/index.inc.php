@@ -14,32 +14,7 @@ $model_status = new StatusModel;
 $model_payment = new PaymentModel;
 $customer_id=$_POST['customer_id'];
 
-if(!isset($_POST['action'])){
-    
-    $debt_status = [];
-    $value_balance = [];
-    $debt = $model->getDebtBy($customer_id);
-    // echo count($debt);
-    
-    for($i=0;$i < count($debt);$i++){
-        $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
-        $value_balance[$debt[$i]['debt_id']] = $model_payment->getLastPaymentBy($debt[$i]['debt_id']); 
-        
-        if(count($data)>0){
-            $debt_status[$debt[$i]['debt_id']] = $data;
-        } 
-    }
-    // echo "------------end--------------";
-    // echo "<pre>";
-    // print_r($debt_status);
-    // echo "</pre>";
-    
-    $sale = $model_sale->getSaleBy();
-    
-    require_once($path.'view.inc.php');
-
-}
-else if ($_POST['action'] == 'insert'){
+if ($_POST['action'] == 'insert'){
     
     ?>
     <!-- <script>alert();</script> -->
@@ -72,7 +47,8 @@ else if ($_POST['action'] == 'insert'){
     
 
 }else if ($_POST['action'] == 'delete'){
-    $customer = $model->deleteDebtByID($_POST['id']);
+    // $customer = $model->deleteDebtByID($_POST['id']);
+    $customer = $model->deletedDebtByID($_POST['id'],$user[0][0]);
     
     $debt_status = [];
     $debt = $model->getDebtBy($customer_id);
@@ -108,6 +84,7 @@ else if ($_POST['action'] == 'insert'){
         $data['debt_balance'] = $_POST['debt_value'];
         $data['debt_interest'] = 0;
         $data['debt_date'] = $_POST['debt_date'];
+        $data['debt_bill_date'] = $_POST['debt_bill_date'];
         $data['debt_remark'] = $_POST['debt_remark'];
         $data['updateby'] = $user[0][0];
         $data['lastupdate'] = 'NOW()';
@@ -151,6 +128,7 @@ else if ($_POST['action'] == 'insert'){
     $data['debt_balance'] = $_POST['debt_value'];
     $data['debt_interest'] = 0;
     $data['debt_date'] = $_POST['debt_date'];
+    $data['debt_bill_date'] = $_POST['debt_bill_date'];
     $data['debt_remark'] = $_POST['debt_remark'];
     $data['updateby'] = $user[0][0];
     $data['lastupdate'] = 'NOW()';
@@ -188,14 +166,16 @@ else if ($_POST['action'] == 'insert'){
     
 
 }
-else{
+else{ 
+
     $debt_status = [];
+    $value_balance = [];
     $debt = $model->getDebtBy($customer_id);
     // echo count($debt);
     
     for($i=0;$i < count($debt);$i++){
         $data = $model_status->getStatusByDebtID($debt[$i]['debt_id']);
-        
+        $value_balance[$debt[$i]['debt_id']] = $model_payment->getLastPaymentBy($debt[$i]['debt_id']); 
         
         if(count($data)>0){
             $debt_status[$debt[$i]['debt_id']] = $data;

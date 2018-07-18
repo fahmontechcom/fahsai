@@ -10,7 +10,7 @@ $path = "modules/report/views/";
 $model = new InvoiceModel;
 $model_list = new InvoiceListModel;
 $model_customer = new CustomerModel;
-$model_debt = new DebtModel;
+$model_debt = new DebtModel; 
 
 $customer_id = $_POST['customer_id']; 
 $invoice_id = $_POST['invoice_id'];  
@@ -29,7 +29,6 @@ else if ($_POST['action'] == 'insert'){
 }else if ($_POST['action'] == 'edit'){ 
 
 }else{ 
-    require_once($path.'view.inc.php'); 
-
+    require_once($path.'view.inc.php');  
 }
 ?>

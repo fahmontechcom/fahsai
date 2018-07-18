@@ -8,6 +8,7 @@
         var debt_invoice_number = document.getElementById("debt_invoice_number").value;
         var debt_value = document.getElementById("debt_value").value;
         var debt_date = document.getElementById("debt_date").value;
+        var debt_bill_date = document.getElementById("debt_bill_date").value;
         var debt_remark = document.getElementById("debt_remark").value;
         var sale_id = document.getElementById("sale_id").value; 
 
@@ -16,6 +17,7 @@
         debt_invoice_number = $.trim(debt_invoice_number);
         debt_value = $.trim(debt_value);
         debt_date = $.trim(debt_date);
+        debt_bill_date = $.trim(debt_bill_date);
         debt_remark = $.trim(debt_remark);
         sale_id = $.trim(sale_id); 
 
@@ -35,6 +37,10 @@
             alert("Please input date");
             document.getElementById("debt_date").focus();
             return false;
+        }else if(debt_bill_date.length == 0){
+            alert("Please input bill date");
+            document.getElementById("debt_bill_date").focus();
+            return false;
         }else if(sale_id.length == 0){
             alert("Please input sale name");
             document.getElementById("sale_id").focus();
@@ -50,6 +56,7 @@
                         debt_invoice_number:debt_invoice_number,
                         debt_value:debt_value,
                         debt_date:debt_date,
+                        debt_bill_date:debt_bill_date,
                         sale_id:sale_id,
                         debt_remark:debt_remark,
                         action:'add'
@@ -74,6 +81,7 @@
                         debt_invoice_number:debt_invoice_number,
                         debt_value:debt_value,
                         debt_date:debt_date,
+                        debt_bill_date:debt_bill_date,
                         sale_id:sale_id,
                         debt_remark:debt_remark,
                         action:'edit'
@@ -125,7 +133,7 @@
 
    
     
-    function debt_update(customer_id,debt_cate_id,debt_id,debt_check_number,debt_invoice_number,debt_value,debt_date,sale_id,debt_remark){
+    function debt_update(customer_id,debt_cate_id,debt_id,debt_check_number,debt_invoice_number,debt_value,debt_date,debt_bill_date,sale_id,debt_remark){
         
         document.getElementById("customer_id").value = customer_id;
         document.getElementById("debt_cate_id").value = debt_cate_id; 
@@ -134,6 +142,7 @@
         document.getElementById("debt_invoice_number").value = debt_invoice_number; 
         document.getElementById("debt_value").value = debt_value; 
         document.getElementById("debt_date").value = debt_date; 
+        document.getElementById("debt_bill_date").value = debt_bill_date; 
         document.getElementById("sale_id").value = sale_id; 
         document.getElementById("debt_remark").value = debt_remark; 
         
@@ -231,7 +240,7 @@ function getInvoiceNumber(customer_id){
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>อินวอย <font color="#F00"><b>*</b></font></label>
-                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $debts['debt_invoice_number']?>">
+                                <input id="debt_invoice_number" name="debt_invoice_number" class="form-control" value="<?php echo $debts['debt_invoice_number']?>" style="text-transform:uppercase">
                                 <p class="help-block">Example : INV1805004</p>
                                 
                             </div>
@@ -254,9 +263,17 @@ function getInvoiceNumber(customer_id){
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label>วันที่ <font color="#F00"><b>*</b></font> </label>
-                                <input readonly type="text" id="debt_date" name="debt_date" class="form-control debt_date" value="<?php echo $debts['debt_date']?>">
-                                <p class="help-block">Example : 2018-12-31 09:00</p>
+                                <label>วันที่ในบิล <font color="#F00"><b>*</b></font> </label>
+                                <input  type="date" id="debt_bill_date" name="debt_bill_date" class="form-control " value="<?php echo $debts['debt_bill_date']?>">
+                                <p class="help-block">Example : 31-12-2018</p>
+                                
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>วันที่ครบกำหนด <font color="#F00"><b>*</b></font> </label>
+                                <input  type="date" id="debt_date" name="debt_date" class="form-control " value="<?php echo $debts['debt_date']?>">
+                                <p class="help-block">Example : 31-12-2018</p>
                                 
                             </div>
                         </div>
@@ -275,7 +292,7 @@ function getInvoiceNumber(customer_id){
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-10">
                             <div class="form-group">
                                 <label>หมายเหตุ</label>
                                 <input type="text" id="debt_remark" name="debt_remark" class="form-control" value="<?php echo $debts['debt_remark']?>">
@@ -385,6 +402,7 @@ function getInvoiceNumber(customer_id){
                         echo $debt[$i]['debt_invoice_number'];?>','<?php 
                         echo $debt[$i]['debt_value'];?>','<?php 
                         echo $debt[$i]['debt_date'];?>','<?php 
+                        echo $debt[$i]['debt_bill_date'];?>','<?php 
                         echo $debt[$i]['sale_id'];?>','<?php 
                         echo $debt[$i]['debt_remark'];?>');" style="font-size: 20px;">
                         <i class="fa fa-pencil-square-o" aria-hidden="true" ></i>

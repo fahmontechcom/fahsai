@@ -9,7 +9,7 @@ class CustomerModel extends BaseModel{
 
     
 
-function getCustomerBy($name = '', $email = '', $mobile  = ''){
+function getCustomerBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     $sql = "SELECT 
     customer_id,
     customer_name as name , 
@@ -43,7 +43,8 @@ function getCustomerBy($name = '', $email = '', $mobile  = ''){
         AND customer_id = tb_cust.customer_id 
         GROUP BY customer_id 
     ),0),2) AS check_value  
-    FROM tb_customer AS tb_cust
+    FROM tb_customer AS tb_cust 
+    WHERE deleted = $deleted 
     ORDER BY tb_cust.customer_name
     ";
     // echo $sql;
@@ -88,7 +89,7 @@ function getInvoiceNumberByCustomerID($customer_id){
         GROUP BY customer_id 
     ),0),2) AS check_value   
     FROM tb_customer AS tb_cust  
-    WHERE customer_id = '$customer_id'
+    WHERE customer_id = '$customer_id' AND deleted = 0 
     ";
 
     if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
@@ -154,6 +155,22 @@ function insertCustomer($data=[]){
 
 function deleteCustomerByID($id){
     $sql = " DELETE FROM tb_customer WHERE customer_id = '$id' ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function deletedCustomerByID($id,$user_id){
+    $sql = " UPDATE tb_customer SET 
+    deleted = 1,
+    delete_by = '".$user_id."', 
+    delete_date = NOW()  
+    WHERE customer_id = $id ";
+    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+}
+function recoverCustomerByID($id){
+    $sql = " UPDATE tb_customer SET 
+    deleted = 0,
+    delete_by = '', 
+    delete_date = ''  
+    WHERE customer_id = $id ";
     $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
 }
 }

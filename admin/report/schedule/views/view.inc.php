@@ -31,15 +31,15 @@
     <button name="button" onclick="rp_pdf();"  class="btn btn-custom-blue" style="margin-top: 27px;">PDF</button>
 </div>  
 <div class="col-lg-12">
-    <div style="font-size:32px;" align="center"><strong>รายงานกำหนดการรวม</strong></div> 
-    <br>
+    <div style="font-size:18px;" align="center"><strong>รายงานกำหนดการรวม</strong></div>
+    <div style="font-size:14px;" align="right">ระหว่างวันที่ <?=date_format(date_create($start_date),"d-m-Y")?> ถึง <?=date_format(date_create($end_date),"d-m-Y")?> </div>  
     <table width="90%" cellspacing="0" cellpadding="0" style="border:1px solid #000;margin:20px auto;">
         <thead>
             <tr>  
-                <td class="border-report" style="text-align:center;">วันที่</td>
-                <td class="border-report" style="text-align:center;">รายละเอียด</td>
-                <td class="border-report" style="text-align:center;">ลูกค้า</td>
-                <td class="border-report" style="text-align:center;">อินวอย</td>  
+                <td class="border-report" style="text-align:center;"><strong>วันที่</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>รายละเอียด</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>ลูกค้า</strong></td>
+                <td class="border-report" style="text-align:center;"><strong>อินวอย</strong></td>  
             </tr>        
         </thead>
         <tbody>
