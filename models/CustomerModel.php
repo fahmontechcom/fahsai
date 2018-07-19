@@ -4,10 +4,10 @@ require_once("BaseModel.php");
 class CustomerModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
-    }
-
-    
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
+    } 
 
 function getCustomerBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     $sql = "SELECT 
@@ -48,7 +48,7 @@ function getCustomerBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     ORDER BY tb_cust.customer_name
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -92,7 +92,7 @@ function getInvoiceNumberByCustomerID($customer_id){
     WHERE customer_id = '$customer_id' AND deleted = 0 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -108,7 +108,7 @@ function getCustomerByID($id){
     WHERE customer_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -126,7 +126,7 @@ function updateCustomerByID($id,$data = []){
     customer_address = '".$data['customer_address']."' 
     WHERE customer_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -144,7 +144,7 @@ function insertCustomer($data=[]){
         $data['customer_telephone']."','".
         $data['customer_email']."','".
         $data['customer_address']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['customer_image'];
         // $ict=move_uploaded_file($data['customer_image_upload'],$img_path); 
         return true;
@@ -155,7 +155,7 @@ function insertCustomer($data=[]){
 
 function deleteCustomerByID($id){
     $sql = " DELETE FROM tb_customer WHERE customer_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedCustomerByID($id,$user_id){
     $sql = " UPDATE tb_customer SET 
@@ -163,7 +163,7 @@ function deletedCustomerByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE customer_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverCustomerByID($id){
     $sql = " UPDATE tb_customer SET 
@@ -171,7 +171,7 @@ function recoverCustomerByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE customer_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

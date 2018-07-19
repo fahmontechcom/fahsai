@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class UserModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     function getLogin($username, $password){
@@ -16,7 +18,7 @@ class UserModel extends BaseModel{
         WHERE user_username = '$username' 
         AND user_password = '$password'";
 
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             while ($row = mysqli_fetch_array($result,MYSQLI_NUM)){
                 $data[] = $row;
@@ -41,7 +43,7 @@ function getUserBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     ORDER BY CONCAT(tb_user.user_firstname,' ',tb_user.user_lastname) 
     ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -57,7 +59,7 @@ function getUserByID($id){
     WHERE user_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -78,7 +80,7 @@ function updateUserByID($id,$data = []){
     user_address = '".$data['user_address']."' 
     WHERE user_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -102,7 +104,7 @@ function insertUser($data=[]){
         $data['user_telephone']."','".
         $data['user_email']."','".
         $data['user_address']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/user/".$data['user_image'];
         // $ict=move_uploaded_file($data['user_image_upload'],$img_path); 
         return true;
@@ -113,7 +115,7 @@ function insertUser($data=[]){
 
 function deleteUserByID($id){
     $sql = " DELETE FROM tb_user WHERE user_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedUserByID($id,$user_id){
     $sql = " UPDATE tb_user SET 
@@ -121,7 +123,7 @@ function deletedUserByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE user_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverUserByID($id){
     $sql = " UPDATE tb_user SET 
@@ -129,7 +131,7 @@ function recoverUserByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE user_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

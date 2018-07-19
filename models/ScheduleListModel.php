@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class ScheduleListModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     function getScheduleListBy($debt_schedule_id){
@@ -13,7 +15,7 @@ class ScheduleListModel extends BaseModel{
         WHERE debt_schedule_id = '$debt_schedule_id' 
         ORDER BY debt_schedule_list_id 
         "; 
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $data[] = $row;
@@ -31,7 +33,7 @@ class ScheduleListModel extends BaseModel{
         ORDER BY tb_debt_schedule_list.debt_schedule_list_id 
         ";
 echo $sql;
-        if($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $data[] = $row;
@@ -48,7 +50,7 @@ echo $sql;
         ORDER BY tb_debt_schedule_list.debt_schedule_list_date 
         ";
 
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $data[] = $row;
@@ -70,7 +72,7 @@ echo $sql;
             $data['debt_schedule_list_detail']."','". 
             $data['debt_schedule_list_date']."');";
 
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $id = mysqli_insert_id($this->db); 
             return $id; 
         }else {
@@ -91,7 +93,7 @@ echo $sql;
         ";
      
 
-        if($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+        if($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) { 
             return true;
         }else {
             return false;
@@ -103,13 +105,13 @@ echo $sql;
 
     function deleteScheduleListByID($id){
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_list_id = '$id' ";
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteScheduleListByScheduleID($id){
 
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_id = '$id' ";
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 
     }
 
@@ -131,7 +133,7 @@ echo $sql;
 
         $sql = "DELETE FROM tb_debt_schedule_list WHERE debt_schedule_id = '$id' AND debt_schedule_list_id NOT IN ($str) ";
 
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 
     }
 }

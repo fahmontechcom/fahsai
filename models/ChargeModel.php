@@ -2,9 +2,11 @@
 
 require_once("BaseModel.php");
 class ChargeModel extends BaseModel{
-
+ 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     function getChargeBy($debt_id){
@@ -14,7 +16,7 @@ class ChargeModel extends BaseModel{
         ORDER BY debt_payment_charge_id 
         ";
         // echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
                 $data[] = $row;
@@ -30,7 +32,7 @@ class ChargeModel extends BaseModel{
         WHERE debt_id = '$debt_id' AND debt_payment_charge_date <= '$debt_payment_date'  
         ";
         // echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
             
@@ -47,7 +49,7 @@ class ChargeModel extends BaseModel{
         ORDER BY debt_payment_charge_id 
         ";
         // echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
             
@@ -61,7 +63,7 @@ class ChargeModel extends BaseModel{
         $sql = "SELECT * FROM tb_debt_payment_charge WHERE debt_id = '$debt_id' AND debt_payment_charge_date IN (SELECT MAX(debt_payment_charge_date) FROM tb_debt_payment_charge WHERE debt_id = '$debt_id' ) ORDER BY debt_payment_charge_id DESC
         ";
         // echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             $data = [];
             $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
             
@@ -84,7 +86,7 @@ class ChargeModel extends BaseModel{
             $data['debt_payment_charge_amount']."','". 
             $data['debt_payment_charge_date']."');";
             // echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {  
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {  
             return true;
         }else {
             return false;
@@ -104,7 +106,7 @@ class ChargeModel extends BaseModel{
             WHERE debt_payment_charge_id = '$id'
         ";
     
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) { 
             return true;
         }else {
             return false;
@@ -117,13 +119,13 @@ class ChargeModel extends BaseModel{
     function deleteChargeByID($id){
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_payment_charge_id = '$id' ";
         // echo $sql;
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteChargeByScheduleID($id){
 
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_id = '$id' ";
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
     }
 
     function deleteChargeByScheduleIDNotIN($id,$data){
@@ -144,7 +146,7 @@ class ChargeModel extends BaseModel{
 
         $sql = "DELETE FROM tb_debt_payment_charge WHERE debt_id = '$id' AND debt_payment_charge_id NOT IN ($str) ";
 
-        $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+        $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
         
 
     }

@@ -4,10 +4,10 @@ require_once("BaseModel.php");
 class GatewayModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
-    }
-
-    
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
+    } 
 
 function getGatewayBy($deleted=0,$name = ''){
     $sql = "SELECT *
@@ -17,7 +17,7 @@ function getGatewayBy($deleted=0,$name = ''){
     AND deleted = $deleted
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -33,7 +33,7 @@ function getGatewayByID($id){
     WHERE debt_payment_gateway_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -48,7 +48,7 @@ function updateGatewayByID($id,$data = []){
     debt_payment_gateway_name = '".$data['debt_payment_gateway_name']."' 
     WHERE debt_payment_gateway_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -60,7 +60,7 @@ function insertGateway($data=[]){
         debt_payment_gateway_name
         ) VALUES ('".
         $data['debt_payment_gateway_name']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) { 
         return true;
     }else {
         return false;
@@ -69,7 +69,7 @@ function insertGateway($data=[]){
 
 function deleteGatewayByID($id){
     $sql = " DELETE FROM tb_debt_payment_gateway WHERE debt_payment_gateway_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedGatewayByID($id,$user_id){
     $sql = " UPDATE tb_debt_payment_gateway SET 
@@ -77,7 +77,7 @@ function deletedGatewayByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE debt_payment_gateway_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverGatewayByID($id){
     $sql = " UPDATE tb_debt_payment_gateway SET 
@@ -85,7 +85,7 @@ function recoverGatewayByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE debt_payment_gateway_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

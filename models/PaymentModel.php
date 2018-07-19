@@ -4,8 +4,10 @@ require_once("BaseModel.php");
 class PaymentModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
-    } 
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
+    }
 function getPaymentBy($debt = ''){
     $sql = "SELECT tb_debt_payment.* ,tb_debt_payment_gateway.debt_payment_gateway_name
     FROM tb_debt_payment INNER JOIN tb_debt_payment_gateway ON tb_debt_payment.debt_payment_gateway_id = tb_debt_payment_gateway.debt_payment_gateway_id 
@@ -13,7 +15,7 @@ function getPaymentBy($debt = ''){
     ORDER BY tb_debt_payment.debt_payment_date  
     ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -31,7 +33,7 @@ function getPaymentCustomerBy($start_date,$end_date){
     ORDER BY tb_customer.customer_id, tb_debt_payment.debt_payment_date 
     ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -50,7 +52,7 @@ function getSumPaymentBy($debt_id){
     ORDER BY debt_payment_id 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -63,7 +65,7 @@ function getLastPaymentBy($debt_id){
     $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id' AND debt_payment_date IN (SELECT MAX(debt_payment_date) FROM tb_debt_payment WHERE debt_id = '$debt_id' ) ORDER BY debt_payment_id DESC
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -77,7 +79,7 @@ function getLastPaymentInterestDateBy($debt_id){
     $sql = "SELECT * FROM tb_debt_payment WHERE debt_id = '$debt_id'  AND debt_payment_interest_pay >'0' ORDER BY debt_payment_id DESC
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -94,7 +96,7 @@ function getCountPaymentByID($id){
     WHERE debt_id = '$id' 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -109,7 +111,7 @@ function getCountPaymentByChargeID($id){
     WHERE debt_payment_charge_amount_new_id >= '$id' 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -123,7 +125,7 @@ function getBeforePaymentByID($id,$debt_id){
     WHERE debt_payment_id = '$id') ORDER BY debt_payment_date DESC
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         $data = mysqli_fetch_array($result,MYSQLI_ASSOC);
         
@@ -137,7 +139,7 @@ function getPaymentByID($id){
     WHERE debt_payment_id = '$id' 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -173,7 +175,7 @@ function updatePaymentByID($id,$data = []){
     debt_payment_charge_amount_new_id = '".$data['debt_payment_charge_amount_new_id']."' 
     WHERE debt_payment_id = $id  ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -224,7 +226,7 @@ function insertPayment($data=[]){
         $data['debt_payment_charge_amount_new_date']."','".
         $data['debt_payment_charge_amount_new_id']."')";
         //  echo $sql;
-        if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+        if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
             // $img_path="../img_upload/sale/".$data['sale_image'];
             // $ict=move_uploaded_file($data['sale_image_upload'],$img_path); 
             return true;
@@ -235,7 +237,7 @@ function insertPayment($data=[]){
 
 function deletePaymentByID($id){
     $sql = " DELETE FROM tb_debt_payment WHERE debt_payment_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

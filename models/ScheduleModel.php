@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class ScheduleModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     
@@ -15,7 +17,7 @@ function getScheduleBy($deleted=0){
     WHERE tb_debt_schedule.deleted =$deleted
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -60,7 +62,7 @@ function getInvoiceNumberByScheduleID($customer_id,$deleted=0){
     AND deleted =$deleted
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -76,7 +78,7 @@ function getScheduleByID($id){
     WHERE debt_schedule_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -94,7 +96,7 @@ function updateScheduleByID($id,$data = []){
     debt_schedule_remark = '".$data['debt_schedule_remark']."' 
     WHERE debt_schedule_id = $id "; 
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -112,7 +114,7 @@ function insertSchedule($data=[]){
         $data['debt_schedule_status_id']."','".
         $data['debt_schedule_detail']."','".
         $data['debt_schedule_remark']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $id = mysqli_insert_id($this->db); 
         return $id;
     }else {
@@ -122,7 +124,7 @@ function insertSchedule($data=[]){
 
 function deleteScheduleByID($id){
     $sql = " DELETE FROM tb_debt_schedule WHERE debt_schedule_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedScheduleByID($id,$user_id){
     $sql = " UPDATE tb_debt_schedule SET 
@@ -130,7 +132,7 @@ function deletedScheduleByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE debt_schedule_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverScheduleByID($id){
     $sql = " UPDATE tb_debt_schedule SET 
@@ -138,7 +140,7 @@ function recoverScheduleByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE debt_schedule_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

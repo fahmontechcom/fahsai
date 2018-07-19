@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class SaleModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     
@@ -23,7 +25,7 @@ function getSaleBy($deleted=0,$name = '', $email = '', $mobile  = ''){
     ";
     // ORDER BY CONCAT(tb_sale.sale_firstname,' ',tb_sale.sale_lastname) 
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -41,7 +43,7 @@ function getSaleByID($id){
     WHERE sale_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -60,7 +62,7 @@ function updateSaleByID($id,$data = []){
     sale_address = '".$data['sale_address']."' 
     WHERE sale_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -80,7 +82,7 @@ function insertSale($data=[]){
         $data['sale_telephone']."','".
         $data['sale_email']."','".
         $data['sale_address']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         // $img_path="../img_upload/sale/".$data['sale_image'];
         // $ict=move_uploaded_file($data['sale_image_upload'],$img_path); 
         return true;
@@ -91,7 +93,7 @@ function insertSale($data=[]){
 
 function deleteSaleByID($id){
     $sql = " DELETE FROM tb_sale WHERE sale_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedSaleByID($id,$user_id){
     $sql = " UPDATE tb_sale SET 
@@ -99,7 +101,7 @@ function deletedSaleByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE sale_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverSaleByID($id){
     $sql = " UPDATE tb_sale SET 
@@ -107,7 +109,7 @@ function recoverSaleByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE sale_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

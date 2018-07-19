@@ -1,6 +1,6 @@
 <?php
 session_start();
-$user = $_SESSION['user'];
+$user = $_SESSION['fahsai_user'];
 date_default_timezone_set('Asia/Bangkok');
 require_once('../models/NotificationModel.php');
 if($user == ""){

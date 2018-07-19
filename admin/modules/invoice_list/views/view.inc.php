@@ -194,7 +194,7 @@
                 for($i=0; $i < count($invoice_list); $i++){
                 ?>
                     <tr class="odd gradeX">
-                        <td><input type="text" class="form-control" name="debt_date[]" readonly style="width:110px;"  value="<?php echo $invoice_list[$i]['invoice_list_debt_date']; ?>" /></td>
+                        <td><input type="date" class="form-control" name="debt_date[]" readonly style="width:165px;"  value="<?php echo $invoice_list[$i]['invoice_list_debt_date']; ?>" /></td>
                         <td>
                             <input type="hidden" name="invoice_id[]" value="<?php echo $invoice_list[$i]['invoice_id']; ?>" />
                             <input type="hidden" name="invoice_list_id[]" value="<?php echo $invoice_list[$i]['invoice_list_id']; ?>" /> 

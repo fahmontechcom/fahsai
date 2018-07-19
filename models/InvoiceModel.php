@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class InvoiceModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     
@@ -19,7 +21,7 @@ function getInvoiceByCustomerID($customer_id,$deleted=0,$invoice_number = ''){
     GROUP BY tb_invoice.invoice_id 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -37,7 +39,7 @@ function getInvoiceBy($deleted=0,$invoice_number = ''){
     GROUP BY tb_invoice.invoice_id 
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -53,7 +55,7 @@ function getSumInvoiceBy($invoice_number = ''){
     invoice_number LIKE ('%$invoice_number%')   
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -69,7 +71,7 @@ function getInvoiceByID($id){
     WHERE invoice_id = '$id' 
     ";
 // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -84,7 +86,7 @@ function updateInvoiceByID($id,$data = []){
     invoice_remark = '".$data['invoice_remark']."' 
     WHERE invoice_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -104,7 +106,7 @@ function insertInvoice($data=[]){
         "NOW()".
         ")";
         // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) { 
         $id = mysqli_insert_id($this->db); 
         return $id;
     }else {
@@ -114,7 +116,7 @@ function insertInvoice($data=[]){
 
 function deleteInvoiceByID($id){
     $sql = " DELETE FROM tb_invoice WHERE invoice_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
     // echo $sql;
 }
 function deletedInvoiceByID($id,$user_id){
@@ -123,7 +125,7 @@ function deletedInvoiceByID($id,$user_id){
     delete_by = '".$user_id."', 
     delete_date = NOW()  
     WHERE invoice_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverInvoiceByID($id){
     $sql = " UPDATE tb_invoice SET 
@@ -131,7 +133,7 @@ function recoverInvoiceByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE invoice_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>

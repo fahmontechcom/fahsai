@@ -4,7 +4,9 @@ require_once("BaseModel.php");
 class StatusModel extends BaseModel{
 
     function __construct(){
-        $this->db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        if(!static::$db){
+            static::$db = mysqli_connect($this->host, $this->username, $this->password, $this->db_name);
+        }
     }
 
     
@@ -17,7 +19,7 @@ function getStatusBy($deleted=0,$name = ''){
     AND deleted = $deleted 
     ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -33,7 +35,7 @@ function getStatusByID($id){
     WHERE debt_schedule_status_id = '$id' 
     ";
 
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data;
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data = $row;
@@ -48,7 +50,7 @@ function getStatusByDebtID($id,$deleted=0){
     WHERE tb_schedule.debt_id = '$id' AND tb_schedule.deleted = $deleted
     ";
     // echo $sql;
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) {
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) {
         $data = [];
         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $data[] = $row;
@@ -66,7 +68,7 @@ function updateStatusByID($id,$data = []){
     debt_schedule_status_name = '".$data['debt_schedule_status_name']."' 
     WHERE debt_schedule_status_id = $id ";
     
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)){ 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)){ 
         return true;
     }else {
         return false;
@@ -78,7 +80,7 @@ function insertStatus($data=[]){
         debt_schedule_status_name
         ) VALUES ('".
         $data['debt_schedule_status_name']."')";
-    if ($result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT)) { 
+    if ($result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT)) { 
         return true;
     }else {
         return false;
@@ -87,7 +89,7 @@ function insertStatus($data=[]){
 
 function deleteStatusByID($id){
     $sql = " DELETE FROM tb_debt_schedule_status WHERE debt_schedule_status_id = '$id' ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function deletedStatusByID($id,$user_id){
     $sql = " UPDATE tb_debt_schedule_status SET 
@@ -96,7 +98,7 @@ function deletedStatusByID($id,$user_id){
     delete_date = NOW()  
     WHERE debt_schedule_status_id = $id ";
     echo $sql;
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 function recoverStatusByID($id){
     $sql = " UPDATE tb_debt_schedule_status SET 
@@ -104,7 +106,7 @@ function recoverStatusByID($id){
     delete_by = '', 
     delete_date = ''  
     WHERE debt_schedule_status_id = $id ";
-    $result = mysqli_query($this->db,$sql, MYSQLI_USE_RESULT); 
+    $result = mysqli_query(static::$db,$sql, MYSQLI_USE_RESULT); 
 }
 }
 ?>
